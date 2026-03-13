@@ -53,6 +53,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .toggle-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none}
 .toggle-switch input:checked ~ .toggle-knob{transform:translateX(16px)}
 .section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
+.anchor-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);border-radius:20px;font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.anchor-chip:hover{background:rgba(217,119,6,.25)}
+.anchor-chip.inactive{opacity:.35;background:var(--surface2);border-color:var(--border);color:var(--muted);cursor:default}
+.nav-item-row{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px}
+.nav-drag-handle{color:var(--muted);cursor:grab;font-size:16px;flex-shrink:0;user-select:none}
+.nav-item-row .item-label{flex:1;font-weight:600;font-size:13px}
+.nav-item-row .item-link{font-size:12px;color:var(--muted)}
 .section.active{display:block}
 .section.active{display:block}
 .section-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:4px}
@@ -134,11 +141,15 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <p>Restaurant Template</p>
   </div>
   <nav class="sidebar-nav">
+    <div class="nav-group-label">Navigation</div>
+    <button class="nav-item" data-section="navigation">🔗 Main Menu</button>
     <div class="nav-group-label">Preferences</div>
     <button class="nav-item active" data-section="brand">🎨 Appearance</button>
     <button class="nav-item" data-section="fonts">🔤 Fonts</button>
     <button class="nav-item" data-section="contact">🏢 Business Info</button>
     <button class="nav-item" data-section="social">🌐 Socials</button>
+    <div class="nav-group-label">Navigation</div>
+    <button class="nav-item" data-section="navigation">🔗 Main Menu</button>
     <div class="nav-group-label">Layout</div>
     <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
     <button class="nav-item" data-section="introcards">🃏 Intro Cards</button>
@@ -272,6 +283,18 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Google Maps (footer)</label><input type="url" id="s-gm" placeholder="https://maps.app.goo.gl/..."/></div>
       <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL</span></div>
     </div>
+    </div>
+  </section>
+
+  <section class="section" id="section-navigation">
+    <div class="section-inner">
+      <div class="section-title">Main Menu</div>
+      <div class="section-sub">Edit the header navigation links. Only add links to sections that are visible.</div>
+      <div class="group-title" style="margin-bottom:8px">Active Section Anchors</div>
+      <div id="anchor-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px"></div>
+      <div class="divider"></div>
+      <div class="ilist" id="nav-items-list"></div>
+      <button class="btn-add" id="btn-add-nav">＋ Add Link</button>
     </div>
   </section>
 
@@ -505,6 +528,31 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </div>
 </div>
 
+<!-- NAV ITEM MODAL -->
+<div class="modal-overlay" id="nav-modal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head"><h3 id="nav-modal-title">Add Link</h3><button class="modal-close" id="nav-modal-close">×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="field"><label>Label *</label><input type="text" id="nav-m-label" placeholder="About"/></div>
+        <div class="field">
+          <label>Link / Anchor *</label>
+          <input type="text" id="nav-m-link" placeholder="#about"/>
+          <span class="hint">Use # anchors for sections (e.g. #about) or full URLs for external links</span>
+        </div>
+        <div class="field">
+          <label>Section Anchors (click to insert)</label>
+          <div id="nav-modal-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="nav-modal-cancel">Cancel</button>
+      <button class="btn-primary" id="nav-modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- INTRO CARD MODAL -->
 <div class="modal-overlay" id="ic-modal">
   <div class="modal-box">
@@ -586,7 +634,13 @@ var cfg = {
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
   copy:'', footerLinkText:'', footerLinkUrl:'',
   sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' },
-  sectionVisible:{ hero:true, introcards:true, welcome:true, about:true, menu:true, cta:true, testimonials:true, contactform:true, footer:true }
+  sectionVisible:{ hero:true, introcards:true, welcome:true, about:true, menu:true, cta:true, testimonials:true, contactform:true, footer:true },
+  navItems:[
+    {label:'Home', link:'#hero'},
+    {label:'Menu', link:'#services'},
+    {label:'About', link:'#about'},
+    {label:'Contact', link:'#contact'}
+  ]
 };
 var editIdx = null;
 
@@ -646,6 +700,7 @@ function read() {
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
+  // navItems managed separately via renderNavItems
   if(!cfg.sectionBg) cfg.sectionBg={};
   if(!cfg.sectionVisible) cfg.sectionVisible={};
   cfg.sectionVisible['hero'] = document.getElementById('stog-hero') ? document.getElementById('stog-hero').checked : true;
@@ -703,6 +758,8 @@ function write() {
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
+  renderNavItems();
+  renderAnchorChips();
   if(cfg.sectionVisible){
     var sv2 = cfg.sectionVisible;
     var _thero=document.getElementById('stog-hero'); if(_thero) { _thero.checked = sv2['hero']!==false; applySectionToggle('hero', sv2['hero']!==false); }
@@ -1052,8 +1109,9 @@ function buildHTML() {
   lines.push('<header id="site-header">');
   lines.push('  <div class="header-inner">');
   lines.push('    <a href="#" class="logo"><img src="' + e(c.logo) + '" alt="' + e(name) + '" style="height:48px;width:auto;display:block"/></a>');
+  var navLinks = (c.navItems && c.navItems.length ? c.navItems : [{label:'Home',link:'#hero'},{label:'Menu',link:'#services'},{label:'About',link:'#about'},{label:'Contact',link:'#contact'}]);
   lines.push('    <nav>');
-  lines.push('      <a href="#hero">Home</a><a href="#menu">Our Menus</a><a href="#about">About</a><a href="#services">Our Flavors ToGo</a><a href="#contact">Contact</a>');
+  lines.push('      ' + navLinks.map(function(n){ return '<a href="' + e(n.link) + '">' + e(n.label) + '</a>'; }).join(''));
   lines.push('    </nav>');
   lines.push('    <div style="display:flex;align-items:center;gap:10px;margin-left:auto">');
   lines.push('      <a href="' + e(order) + '" class="btn" style="flex-shrink:0">Order Online</a>');
@@ -1064,7 +1122,7 @@ function buildHTML() {
   lines.push('    </div>');
   lines.push('  </div>');
   lines.push('  <div class="mobile-nav" id="mobile-nav">');
-  lines.push('    <a href="#hero">Home</a><a href="#menu">Our Menus</a><a href="#about">About</a><a href="#services">Our Flavors ToGo</a><a href="#contact">Contact</a>');
+  lines.push('    ' + navLinks.map(function(n){ return '<a href="' + e(n.link) + '">' + e(n.label) + '</a>'; }).join(''));
   lines.push('  </div>');
   lines.push('</header>');
   lines.push('<section class="hero" id="hero">');
@@ -1255,7 +1313,8 @@ function buildHTML() {
   lines.push('      <div><img src="' + e(c.logoF) + '" alt="' + e(name) + '" style="height:52px;margin-bottom:16px"/><p class="footer-desc">' + e(c.tagline) + '</p>');
   lines.push('        <div class="footer-social"><a href="' + e(c.fb) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a><a href="' + e(c.ig) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></div>');
   lines.push('      </div>');
-  lines.push('      <div><div class="footer-heading">Navigate</div><ul class="footer-links"><li><a href="#hero">Home</a></li><li><a href="#menu">Our Menus</a></li><li><a href="#about">About</a></li><li><a href="#services">Our Flavors ToGo</a></li><li><a href="#contact">Contact</a></li></ul></div>');
+  var footerNavLinks = navLinks.map(function(n){ return '<li><a href="' + e(n.link) + '">' + e(n.label) + '</a></li>'; }).join('');
+  lines.push('      <div><div class="footer-heading">Navigate</div><ul class="footer-links">' + footerNavLinks + '</ul></div>');
   lines.push('      <div><div class="footer-heading">Contact</div><a href="tel:' + e(c.phone) + '" class="fci">📞 ' + e(c.phoneD) + '</a><a href="' + e(c.maps) + '" target="_blank" class="fci">📍 ' + e(c.address) + '</a>' + (c.email ? '<a href="mailto:' + e(c.email) + '" class="fci">✉ ' + e(c.email) + '</a>' : '') + '</div>');
   lines.push('      <div><div class="footer-heading">Hours</div>');
   var dayAbbr = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun'};
@@ -1523,6 +1582,147 @@ document.getElementById('btn-add-testimonial').addEventListener('click', functio
 function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 loadSaved();
+
+// ── NAVIGATION EDITOR ────────────────────────────────
+var navEditIdx = null;
+
+// Map of section key → {anchor, label, icon}
+var SECTION_ANCHORS = [
+  {key:'hero',        anchor:'#hero',     label:'Home'},
+  {key:'introcards',  anchor:'#intro',    label:'Intro'},
+  {key:'welcome',     anchor:'#welcome',  label:'Welcome'},
+  {key:'about',       anchor:'#about',    label:'About'},
+  {key:'menu',        anchor:'#services', label:'Menu'},
+  {key:'cta',         anchor:'#cta',      label:'Catering'},
+  {key:'testimonials',anchor:'#reviews',  label:'Reviews'},
+  {key:'contactform', anchor:'#contact',  label:'Contact'},
+];
+
+function isSecVisible(key) {
+  return cfg.sectionVisible && cfg.sectionVisible[key] !== false;
+}
+
+function renderAnchorChips(targetContainerId) {
+  var containers = targetContainerId
+    ? [document.getElementById(targetContainerId)]
+    : [document.getElementById('anchor-chips'), document.getElementById('nav-modal-chips')];
+  containers.forEach(function(container) {
+    if(!container) return;
+    container.innerHTML = '';
+    SECTION_ANCHORS.forEach(function(s) {
+      var active = isSecVisible(s.key);
+      var chip = document.createElement('button');
+      chip.className = 'anchor-chip' + (active ? '' : ' inactive');
+      chip.textContent = (active ? '' : '🚫 ') + s.label + ' ' + s.anchor;
+      chip.title = active ? 'Click to insert ' + s.anchor : 'Section is hidden';
+      chip.disabled = !active;
+      if(active) {
+        chip.addEventListener('click', function() {
+          var inp = document.getElementById('nav-m-link');
+          if(inp) { inp.value = s.anchor; inp.focus(); }
+          if(!document.getElementById('nav-m-label').value) {
+            document.getElementById('nav-m-label').value = s.label;
+          }
+        });
+      }
+      container.appendChild(chip);
+    });
+  });
+}
+
+function renderNavItems() {
+  var list = document.getElementById('nav-items-list');
+  if(!list) return;
+  if(!cfg.navItems || !cfg.navItems.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No nav links. Add the first one.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  cfg.navItems.forEach(function(item, i) {
+    var row = document.createElement('div');
+    row.className = 'nav-item-row';
+    row.draggable = true;
+    row.dataset.idx = i;
+    row.innerHTML =
+      '<span class="nav-drag-handle" title="Drag to reorder">⠿</span>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div class="item-label">' + esc(item.label) + '</div>' +
+        '<div class="item-link">' + esc(item.link) + '</div>' +
+      '</div>' +
+      '<div class="iact">' +
+        '<button class="btn-sm btn-edit" data-ni="'+i+'">Edit</button>' +
+        '<button class="btn-sm btn-del" data-ni="'+i+'">Delete</button>' +
+      '</div>';
+    list.appendChild(row);
+  });
+
+  // Wire edit/delete
+  list.querySelectorAll('.btn-edit').forEach(function(b) {
+    b.addEventListener('click', function() { openNavModal(parseInt(b.dataset.ni)); });
+  });
+  list.querySelectorAll('.btn-del').forEach(function(b) {
+    b.addEventListener('click', function() {
+      if(confirm('Delete this link?')) {
+        cfg.navItems.splice(parseInt(b.dataset.ni), 1);
+        renderNavItems();
+      }
+    });
+  });
+
+  // Drag to reorder
+  var dragging = null;
+  list.querySelectorAll('.nav-item-row').forEach(function(row) {
+    row.addEventListener('dragstart', function() { dragging = row; row.style.opacity='.4'; });
+    row.addEventListener('dragend', function() { row.style.opacity=''; dragging=null; });
+    row.addEventListener('dragover', function(e) { e.preventDefault(); });
+    row.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if(!dragging || dragging===row) return;
+      var fromIdx = parseInt(dragging.dataset.idx);
+      var toIdx = parseInt(row.dataset.idx);
+      var item = cfg.navItems.splice(fromIdx, 1)[0];
+      cfg.navItems.splice(toIdx, 0, item);
+      renderNavItems();
+    });
+  });
+}
+
+function openNavModal(idx) {
+  navEditIdx = (idx !== undefined) ? idx : null;
+  document.getElementById('nav-modal-title').textContent = navEditIdx !== null ? 'Edit Link' : 'Add Link';
+  if(navEditIdx !== null) {
+    var item = cfg.navItems[navEditIdx];
+    sv('nav-m-label', item.label);
+    sv('nav-m-link', item.link);
+  } else {
+    sv('nav-m-label', '');
+    sv('nav-m-link', '');
+  }
+  renderAnchorChips('nav-modal-chips');
+  document.getElementById('nav-modal').classList.add('open');
+  document.getElementById('nav-m-label').focus();
+}
+
+document.getElementById('btn-add-nav').addEventListener('click', function() { openNavModal(); });
+document.getElementById('nav-modal-close').addEventListener('click', function() { document.getElementById('nav-modal').classList.remove('open'); });
+document.getElementById('nav-modal-cancel').addEventListener('click', function() { document.getElementById('nav-modal').classList.remove('open'); });
+document.getElementById('nav-modal-save').addEventListener('click', function() {
+  var lbl = v('nav-m-label'), lnk = v('nav-m-link');
+  if(!lbl || !lnk) { alert('Label and link are required'); return; }
+  var item = {label:lbl, link:lnk};
+  if(!cfg.navItems) cfg.navItems = [];
+  if(navEditIdx !== null) cfg.navItems[navEditIdx] = item;
+  else cfg.navItems.push(item);
+  document.getElementById('nav-modal').classList.remove('open');
+  renderNavItems();
+});
+
+// Refresh anchor chips when toggling section visibility
+var origApplySectionToggle = applySectionToggle;
+applySectionToggle = function(secId, visible) {
+  origApplySectionToggle(secId, visible);
+  renderAnchorChips();
+};
 
 // ── SECTION BG PICKERS ────────────────────────────────
 (function(){ var cp=document.getElementById('sbg-hero'), hp=document.getElementById('sbg-hero-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['hero']=this.value; applySectionBg('hero',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['hero']=this.value; applySectionBg('hero',this.value); } }); })();
