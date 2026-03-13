@@ -106,6 +106,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
     <button class="nav-item" data-section="menu">🍽️ Menú</button>
     <button class="nav-item" data-section="about">ℹ️ Nosotros</button>
+    <button class="nav-item" data-section="welcome">👋 Welcome</button>
+    <button class="nav-item" data-section="testimonials">⭐ Testimonials</button>
     <button class="nav-item" data-section="cta">📣 CTA / Catering</button>
     <button class="nav-item" data-section="export">📤 Exportar</button>
   </nav>
@@ -300,6 +302,40 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
   </section>
 
+  <section class="section" id="section-welcome">
+    <div class="section-title">Welcome</div>
+    <div class="section-sub">Sección de bienvenida / intro del restaurante</div>
+    <div class="form-grid">
+      <div class="field"><label>Label pequeño</label><input type="text" id="wl-label" placeholder="Welcome Ranchero!"/></div>
+      <div class="field"><label>Título</label><input type="text" id="wl-title" placeholder="A Taste of Authentic Mexico"/></div>
+      <div class="field span2"><label>Párrafo 1</label><textarea id="wl-p1" placeholder="Primer párrafo de bienvenida..."></textarea></div>
+      <div class="field span2"><label>Párrafo 2 (opcional)</label><textarea id="wl-p2" placeholder="Segundo párrafo..."></textarea></div>
+      <div class="field span2"><label>Imagen (ruta)</label><input type="text" id="wl-img" placeholder="imagenes/welcome.jpg"/></div>
+    </div>
+    <div class="divider"></div>
+    <div class="group-title">Stats / Números destacados (opcional)</div>
+    <div class="form-grid">
+      <div class="field"><label>Stat 1 Número</label><input type="text" id="wl-s1n" placeholder="25+"/></div>
+      <div class="field"><label>Stat 1 Texto</label><input type="text" id="wl-s1t" placeholder="Years of Experience"/></div>
+      <div class="field"><label>Stat 2 Número</label><input type="text" id="wl-s2n" placeholder="50+"/></div>
+      <div class="field"><label>Stat 2 Texto</label><input type="text" id="wl-s2t" placeholder="Menu Items"/></div>
+      <div class="field"><label>Stat 3 Número</label><input type="text" id="wl-s3n" placeholder="10k+"/></div>
+      <div class="field"><label>Stat 3 Texto</label><input type="text" id="wl-s3t" placeholder="Happy Customers"/></div>
+    </div>
+  </section>
+
+  <section class="section" id="section-testimonials">
+    <div class="section-title">Testimonials</div>
+    <div class="section-sub">Reseñas y testimonios de clientes</div>
+    <div class="form-grid">
+      <div class="field"><label>Label pequeño</label><input type="text" id="tm-label" placeholder="What Our Guests Say"/></div>
+      <div class="field"><label>Título</label><input type="text" id="tm-title" placeholder="Real Reviews from Real Guests"/></div>
+    </div>
+    <div class="divider"></div>
+    <div class="ilist" id="testimonial-list"></div>
+    <button class="btn-add" id="btn-add-testimonial">＋ Agregar Testimonio</button>
+  </section>
+
   <section class="section" id="section-cta">
     <div class="section-title">CTA / Catering</div>
     <div class="section-sub">Banner de llamada a la acción</div>
@@ -373,6 +409,25 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </div>
 </div>
 
+<!-- TESTIMONIAL MODAL -->
+<div class="modal-overlay" id="tm-modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>Testimonio</h3><button class="modal-close" id="tm-modal-close">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid" style="gap:14px">
+        <div class="field"><label>Nombre *</label><input type="text" id="tm-m-name" placeholder="Maria G."/></div>
+        <div class="field"><label>Cargo / Título</label><input type="text" id="tm-m-title" placeholder="Regular Customer"/></div>
+        <div class="field span2"><label>Estrellas (1-5)</label><input type="text" id="tm-m-stars" placeholder="5"/></div>
+        <div class="field span2"><label>Texto del testimonio *</label><textarea id="tm-m-text" placeholder="Amazing food and great service..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="tm-modal-cancel">Cancelar</button>
+      <button class="btn-primary" id="tm-modal-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function() {
 
@@ -390,6 +445,9 @@ var cfg = {
             {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
   menu:[],
   aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap2t:'', ap2l:'',
+  wlLabel:'', wlTitle:'', wlP1:'', wlP2:'', wlImg:'',
+  wlS1n:'', wlS1t:'', wlS2n:'', wlS2t:'', wlS3n:'', wlS3t:'',
+  tmLabel:'', tmTitle:'', testimonials:[],
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
   copy:'', footerLinkText:'', footerLinkUrl:''
 };
@@ -438,6 +496,9 @@ function read() {
     cfg.slides[i-1] = {img:v('s'+i+'-img'),title:v('s'+i+'-title'),sub:v('s'+i+'-sub'),b1:v('s'+i+'-b1'),b1l:v('s'+i+'-b1l'),b2:v('s'+i+'-b2'),b2l:v('s'+i+'-b2l')};
   });
   cfg.aLabel=v('a-label'); cfg.aTitle=v('a-title'); cfg.aP1=v('a-p1'); cfg.aP2=v('a-p2'); cfg.aImg=v('a-img');
+  cfg.wlLabel=v('wl-label'); cfg.wlTitle=v('wl-title'); cfg.wlP1=v('wl-p1'); cfg.wlP2=v('wl-p2'); cfg.wlImg=v('wl-img');
+  cfg.wlS1n=v('wl-s1n'); cfg.wlS1t=v('wl-s1t'); cfg.wlS2n=v('wl-s2n'); cfg.wlS2t=v('wl-s2t'); cfg.wlS3n=v('wl-s3n'); cfg.wlS3t=v('wl-s3t');
+  cfg.tmLabel=v('tm-label'); cfg.tmTitle=v('tm-title');
   cfg.ap1t=v('a-p1t'); cfg.ap1l=v('a-p1l'); cfg.ap2t=v('a-p2t'); cfg.ap2l=v('a-p2l');
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
@@ -466,6 +527,10 @@ function write() {
     sv('s'+i+'-b1',s.b1); sv('s'+i+'-b1l',s.b1l); sv('s'+i+'-b2',s.b2); sv('s'+i+'-b2l',s.b2l);
   });
   sv('a-label',cfg.aLabel); sv('a-title',cfg.aTitle); sv('a-p1',cfg.aP1); sv('a-p2',cfg.aP2); sv('a-img',cfg.aImg);
+  sv('wl-label',cfg.wlLabel); sv('wl-title',cfg.wlTitle); sv('wl-p1',cfg.wlP1); sv('wl-p2',cfg.wlP2); sv('wl-img',cfg.wlImg);
+  sv('wl-s1n',cfg.wlS1n); sv('wl-s1t',cfg.wlS1t); sv('wl-s2n',cfg.wlS2n); sv('wl-s2t',cfg.wlS2t); sv('wl-s3n',cfg.wlS3n); sv('wl-s3t',cfg.wlS3t);
+  sv('tm-label',cfg.tmLabel); sv('tm-title',cfg.tmTitle);
+  renderTestimonials();
   sv('a-p1t',cfg.ap1t); sv('a-p1l',cfg.ap1l); sv('a-p2t',cfg.ap2t); sv('a-p2l',cfg.ap2l);
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
@@ -794,6 +859,55 @@ function buildHTML() {
   if (c.ap2t) lines.push('        <a href="' + e(c.ap2l) + '" class="pill">' + e(c.ap2t) + '</a>');
   lines.push('      </div></div></div></div></div>');
   lines.push('</section>');
+
+  // ── WELCOME SECTION ──
+  if(c.wlTitle || c.wlP1) {
+    lines.push('<section class="section" id="welcome" style="background:#ffffff">');
+    lines.push('  <div class="container">');
+    lines.push('    <div class="about-grid">');
+    if(c.wlImg) lines.push('      <div class="about-img-wrap"><img src="' + e(c.wlImg) + '" alt="' + e(c.wlTitle) + '"/></div>');
+    lines.push('      <div>');
+    if(c.wlLabel) lines.push('        <div class="sec-label" style="color:' + a + '">' + e(c.wlLabel) + '</div>');
+    lines.push('        <h2 class="sec-title" style="font-family:\'' + fh + '\',' + fhType + ';color:' + tx + '">' + e(c.wlTitle) + '</h2>');
+    lines.push('        <div style="width:48px;height:3px;background:' + a + ';border-radius:2px;margin-bottom:28px"></div>');
+    if(c.wlP1) lines.push('        <p style="color:rgba(28,10,0,.65);line-height:1.8;margin-bottom:20px;font-size:15px">' + e(c.wlP1) + '</p>');
+    if(c.wlP2) lines.push('        <p style="color:rgba(28,10,0,.65);line-height:1.8;font-size:15px">' + e(c.wlP2) + '</p>');
+    if(c.wlS1n || c.wlS2n || c.wlS3n) {
+      lines.push('        <div style="display:flex;gap:28px;margin-top:28px;flex-wrap:wrap">');
+      [[c.wlS1n,c.wlS1t],[c.wlS2n,c.wlS2t],[c.wlS3n,c.wlS3t]].forEach(function(s){
+        if(s[0]) lines.push('          <div><div style="font-family:\'' + fh + '\',' + fhType + ';font-size:32px;font-weight:700;color:' + p + '">' + e(s[0]) + '</div><div style="font-size:13px;color:rgba(28,10,0,.5);margin-top:4px">' + e(s[1]) + '</div></div>');
+      });
+      lines.push('        </div>');
+    }
+    lines.push('      </div>');
+    if(!c.wlImg) lines.push('    ');
+    lines.push('    </div>');
+    lines.push('  </div>');
+    lines.push('</section>');
+  }
+
+  // ── TESTIMONIALS SECTION ──
+  if(c.testimonials && c.testimonials.length) {
+    lines.push('<section class="section" style="background:' + bg + '">');
+    lines.push('  <div class="container">');
+    lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">' + e(c.tmLabel || 'What Our Guests Say') + '</div>');
+    lines.push('    <h2 class="sec-title" style="font-family:\'' + fh + '\',' + fhType + ';color:' + tx + '">' + e(c.tmTitle || 'Real Reviews') + '</h2>');
+    lines.push('    <div style="width:48px;height:3px;background:' + a + ';border-radius:2px;margin:0 auto 48px"></div></div>');
+    lines.push('    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">');
+    (c.testimonials || []).forEach(function(tm) {
+      var stars = '★'.repeat(parseInt(tm.stars)||5);
+      lines.push('      <div style="background:#fff;border-radius:20px;padding:28px;border:1px solid rgba(28,10,0,.07)">');
+      lines.push('        <div style="color:#FBBF24;font-size:18px;margin-bottom:12px">' + stars + '</div>');
+      lines.push('        <p style="color:rgba(28,10,0,.7);line-height:1.75;font-size:15px;margin-bottom:20px">\"' + e(tm.text) + '\"</p>');
+      lines.push('        <div style="font-weight:700;color:' + tx + '">' + e(tm.name) + '</div>');
+      if(tm.title) lines.push('        <div style="font-size:12px;color:rgba(28,10,0,.45);margin-top:2px">' + e(tm.title) + '</div>');
+      lines.push('      </div>');
+    });
+    lines.push('    </div>');
+    lines.push('  </div>');
+    lines.push('</section>');
+  }
+
   lines.push('<section class="section" id="services" style="background:' + bg + '">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">Our Flavors ToGo</div><h2 class="sec-title" style="color:' + tx + '">Online Menu</h2><div class="sec-divider"></div></div>');
@@ -922,22 +1036,20 @@ function applyDashboardTheme(sw) {
   r.setProperty('--bg',     sw.dataset.dbg || '#0c0c0e');
   r.setProperty('--surface', sw.dataset.ds || '#141416');
   r.setProperty('--surface2', sw.dataset.ds2 || '#1c1c1f');
-  // Apply the light bg color (data-cb) to main content area
+  // Light bg on main + text color from data-ct
   var mainEl = document.querySelector('.main');
   var lightBg = sw.dataset.cb || '';
-  if(mainEl && lightBg) {
-    mainEl.style.background = lightBg;
-    // Also update text/input colors based on brightness
-    var isDark = sw.dataset.dbg && sw.dataset.dbg < '#555';
-    document.querySelectorAll('.section-title,.section-sub,.group-title,.hint,.field label').forEach(function(el){
-      el.style.color = '';
-    });
+  var textColor = sw.dataset.ct || '';
+  if(mainEl) {
+    if(lightBg) mainEl.style.background = lightBg;
+    if(textColor) {
+      mainEl.style.color = textColor;
+      // Update input/label colors so they remain readable
+      mainEl.querySelectorAll('input,textarea,select').forEach(function(el){
+        el.style.color = textColor;
+      });
+    }
   }
-}
-
-function applyManualColors() {
-  var cb = document.getElementById('b-cb') ? document.getElementById('b-cb').value : '';
-  if(cb) document.querySelector('.main').style.background = cb;
 }
 
 document.querySelectorAll('.theme-swatch').forEach(function(sw) {
@@ -964,7 +1076,6 @@ function syncActiveTheme(cp) {
 }
 
 // ── FONTS ─────────────────────────────────────────────
-// ── FONTS ─────────────────────────────────────────────
 function setHiddenVal(id, val) {
   var el = document.getElementById(id);
   if(el) el.value = val;
@@ -978,8 +1089,7 @@ function syncActiveFont(type, family) {
 }
 
 document.querySelectorAll('.font-card').forEach(function(card) {
-  card.addEventListener('click', function(e) {
-    e.stopPropagation();
+  card.addEventListener('click', function() {
     var type = card.dataset.type;
     var fam = card.dataset.font;
     syncActiveFont(type, fam);
@@ -988,13 +1098,66 @@ document.querySelectorAll('.font-card').forEach(function(card) {
   });
 });
 
+// ── TESTIMONIALS ──────────────────────────────────────
+var tmModal = null; var tmEditIdx = null;
+
+function renderTestimonials() {
+  var list = document.getElementById('testimonial-list');
+  if(!list) return;
+  if(!cfg.testimonials || !cfg.testimonials.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No hay testimonios. Agrega el primero.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  cfg.testimonials.forEach(function(tm, i) {
+    var stars = '★'.repeat(parseInt(tm.stars)||5);
+    var d = document.createElement('div');
+    d.className = 'icard';
+    d.innerHTML = '<div class="iinfo"><div class="iname">'+esc(tm.name)+'<span style="color:#FBBF24;margin-left:8px;font-size:12px">'+stars+'</span></div>'
+      +'<div class="imeta" style="max-width:400px;white-space:normal;margin-top:4px">'+esc(tm.text)+'</div></div>'
+      +'<div class="iact"><button class="btn-sm btn-edit" data-ti="'+i+'">Editar</button><button class="btn-sm btn-del" data-ti="'+i+'">Eliminar</button></div>';
+    list.appendChild(d);
+  });
+  list.querySelectorAll('.btn-edit').forEach(function(b){ b.addEventListener('click', function(){ openTmModal(parseInt(b.dataset.ti)); }); });
+  list.querySelectorAll('.btn-del').forEach(function(b){ b.addEventListener('click', function(){
+    if(confirm('¿Eliminar testimonio?')){ cfg.testimonials.splice(parseInt(b.dataset.ti),1); renderTestimonials(); }
+  }); });
+}
+
+function openTmModal(idx) {
+  tmEditIdx = (idx !== undefined) ? idx : null;
+  var overlay = document.getElementById('tm-modal');
+  if(tmEditIdx !== null) {
+    var t = cfg.testimonials[tmEditIdx];
+    sv('tm-m-name', t.name); sv('tm-m-stars', t.stars||'5'); sv('tm-m-text', t.text); sv('tm-m-title', t.title||'');
+  } else { sv('tm-m-name',''); sv('tm-m-stars','5'); sv('tm-m-text',''); sv('tm-m-title',''); }
+  overlay.classList.add('open');
+}
+
+document.getElementById('btn-add-testimonial').addEventListener('click', function(){ openTmModal(); });
+
+function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 loadSaved();
+
+// ── TESTIMONIAL MODAL WIRING ────────────────────────
+document.getElementById('tm-modal-close').addEventListener('click', function(){ document.getElementById('tm-modal').classList.remove('open'); });
+document.getElementById('tm-modal-cancel').addEventListener('click', function(){ document.getElementById('tm-modal').classList.remove('open'); });
+document.getElementById('tm-modal-save').addEventListener('click', function(){
+  var nm = v('tm-m-name'); var tx = v('tm-m-text');
+  if(!nm || !tx){ alert('Nombre y texto son obligatorios'); return; }
+  var item = {name:nm, stars:v('tm-m-stars')||'5', text:tx, title:v('tm-m-title')};
+  if(!cfg.testimonials) cfg.testimonials = [];
+  if(tmEditIdx !== null) cfg.testimonials[tmEditIdx] = item; else cfg.testimonials.push(item);
+  document.getElementById('tm-modal').classList.remove('open');
+  renderTestimonials();
+});
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
 document.getElementById('btn-export-json').addEventListener('click', function() {
   readFields();
   var name = (cfg.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  var blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+  var blob = new Blob([JSON.stringify(cfg, null, 2)], {type: 'application/json'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = name + '_config.json';
@@ -1012,9 +1175,9 @@ document.getElementById('json-file-input').addEventListener('change', function(e
   reader.onload = function(ev) {
     try {
       var imported = JSON.parse(ev.target.result);
-      config = imported;
+      cfg = imported;
       writeFields();
-      try { localStorage.setItem('landing_config', JSON.stringify(config)); } catch(ex) {}
+      try { localStorage.setItem('landing_config', JSON.stringify(cfg)); } catch(ex) {}
       var b = document.getElementById('saved-badge');
       b.textContent = '✓ Config cargada';
       b.classList.add('show');
