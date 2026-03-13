@@ -44,6 +44,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .section-bg-bar input[type=text]{flex:1;max-width:90px;padding:5px 8px;font-size:12px;border-radius:6px}
 .section-bg-bar .bg-reset{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
 .section-bg-bar .bg-reset:hover{color:var(--text)}
+.sec-toggle{display:flex;align-items:center;gap:7px;margin-left:auto;flex-shrink:0}
+.sec-toggle label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);cursor:pointer;user-select:none}
+.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--border);border-radius:20px;cursor:pointer;transition:background .2s}
+.toggle-switch input:checked + .toggle-track{background:var(--green)}
+.toggle-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none}
+.toggle-switch input:checked ~ .toggle-knob{transform:translateX(16px)}
+.section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
 .section.active{display:block}
 .section.active{display:block}
 .section-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:4px}
@@ -267,7 +276,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-hero">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-hero" value="#ffffff"><input type="text" id="sbg-hero-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="hero">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-hero" value="#ffffff"><input type="text" id="sbg-hero-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="hero">Reset</button><div class="sec-toggle"><label for="stog-hero">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-hero" data-sec="hero" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Hero / Slider</div>
     <div class="section-sub">Hero slider images and text</div>
@@ -308,7 +317,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-menu">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-menu" value="#ffffff"><input type="text" id="sbg-menu-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="menu">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-menu" value="#ffffff"><input type="text" id="sbg-menu-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="menu">Reset</button><div class="sec-toggle"><label for="stog-menu">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-menu" data-sec="menu" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Menu</div>
     <div class="section-sub">Add, edit or remove menu items</div>
@@ -324,7 +333,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-about">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-about" value="#ffffff"><input type="text" id="sbg-about-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="about">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-about" value="#ffffff"><input type="text" id="sbg-about-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="about">Reset</button><div class="sec-toggle"><label for="stog-about">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-about" data-sec="about" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">About</div>
     <div class="section-sub">About section of the landing page</div>
@@ -347,7 +356,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-introcards">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-introcards" value="#ffffff"><input type="text" id="sbg-introcards-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="introcards">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-introcards" value="#ffffff"><input type="text" id="sbg-introcards-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="introcards">Reset</button><div class="sec-toggle"><label for="stog-introcards">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-introcards" data-sec="introcards" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Intro Cards</div>
     <div class="section-sub">Feature cards — e.g. "Browse Our Menu"</div>
@@ -363,7 +372,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-welcome">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-welcome" value="#ffffff"><input type="text" id="sbg-welcome-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="welcome">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-welcome" value="#ffffff"><input type="text" id="sbg-welcome-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="welcome">Reset</button><div class="sec-toggle"><label for="stog-welcome">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-welcome" data-sec="welcome" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Welcome</div>
     <div class="section-sub">Welcome / intro section of the restaurant</div>
@@ -388,7 +397,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-testimonials">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-testimonials" value="#ffffff"><input type="text" id="sbg-testimonials-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="testimonials">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-testimonials" value="#ffffff"><input type="text" id="sbg-testimonials-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="testimonials">Reset</button><div class="sec-toggle"><label for="stog-testimonials">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-testimonials" data-sec="testimonials" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Testimonials</div>
     <div class="section-sub">Customer reviews and testimonials</div>
@@ -403,7 +412,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-cta">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-cta" value="#ffffff"><input type="text" id="sbg-cta-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="cta">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-cta" value="#ffffff"><input type="text" id="sbg-cta-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="cta">Reset</button><div class="sec-toggle"><label for="stog-cta">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-cta" data-sec="cta" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Call to Action</div>
     <div class="section-sub">Banner to drive conversions — catering, ordering, promotions</div>
@@ -419,7 +428,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-contactform">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-contactform" value="#ffffff"><input type="text" id="sbg-contactform-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="contactform">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-contactform" value="#ffffff"><input type="text" id="sbg-contactform-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="contactform">Reset</button><div class="sec-toggle"><label for="stog-contactform">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-contactform" data-sec="contactform" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Contact Form</div>
     <div class="section-sub">Form settings — email destination and subject dropdown options</div>
@@ -435,7 +444,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-footer">
-    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-footer" value="#ffffff"><input type="text" id="sbg-footer-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="footer">Reset</button></div>
+    <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-footer" value="#ffffff"><input type="text" id="sbg-footer-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="footer">Reset</button><div class="sec-toggle"><label for="stog-footer">Visible</label><div class="toggle-switch"><input type="checkbox" id="stog-footer" data-sec="footer" checked><div class="toggle-track"></div><div class="toggle-knob"></div></div></div></div>
     <div class="section-inner">
     <div class="section-title">Footer</div>
     <div class="section-sub">Copyright text and optional footer link</div>
@@ -576,7 +585,8 @@ var cfg = {
   tmLabel:'', tmTitle:'', testimonials:[],
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
   copy:'', footerLinkText:'', footerLinkUrl:'',
-  sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' }
+  sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' },
+  sectionVisible:{ hero:true, introcards:true, welcome:true, about:true, menu:true, cta:true, testimonials:true, contactform:true, footer:true }
 };
 var editIdx = null;
 
@@ -637,6 +647,16 @@ function read() {
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
   if(!cfg.sectionBg) cfg.sectionBg={};
+  if(!cfg.sectionVisible) cfg.sectionVisible={};
+  cfg.sectionVisible['hero'] = document.getElementById('stog-hero') ? document.getElementById('stog-hero').checked : true;
+  cfg.sectionVisible['introcards'] = document.getElementById('stog-introcards') ? document.getElementById('stog-introcards').checked : true;
+  cfg.sectionVisible['welcome'] = document.getElementById('stog-welcome') ? document.getElementById('stog-welcome').checked : true;
+  cfg.sectionVisible['about'] = document.getElementById('stog-about') ? document.getElementById('stog-about').checked : true;
+  cfg.sectionVisible['menu'] = document.getElementById('stog-menu') ? document.getElementById('stog-menu').checked : true;
+  cfg.sectionVisible['cta'] = document.getElementById('stog-cta') ? document.getElementById('stog-cta').checked : true;
+  cfg.sectionVisible['testimonials'] = document.getElementById('stog-testimonials') ? document.getElementById('stog-testimonials').checked : true;
+  cfg.sectionVisible['contactform'] = document.getElementById('stog-contactform') ? document.getElementById('stog-contactform').checked : true;
+  cfg.sectionVisible['footer'] = document.getElementById('stog-footer') ? document.getElementById('stog-footer').checked : true;
   cfg.sectionBg['hero']=v('sbg-hero-hex')||'';
   cfg.sectionBg['introcards']=v('sbg-introcards-hex')||'';
   cfg.sectionBg['welcome']=v('sbg-welcome-hex')||'';
@@ -683,6 +703,18 @@ function write() {
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
+  if(cfg.sectionVisible){
+    var sv2 = cfg.sectionVisible;
+    var _thero=document.getElementById('stog-hero'); if(_thero) { _thero.checked = sv2['hero']!==false; applySectionToggle('hero', sv2['hero']!==false); }
+    var _tintrocards=document.getElementById('stog-introcards'); if(_tintrocards) { _tintrocards.checked = sv2['introcards']!==false; applySectionToggle('introcards', sv2['introcards']!==false); }
+    var _twelcome=document.getElementById('stog-welcome'); if(_twelcome) { _twelcome.checked = sv2['welcome']!==false; applySectionToggle('welcome', sv2['welcome']!==false); }
+    var _tabout=document.getElementById('stog-about'); if(_tabout) { _tabout.checked = sv2['about']!==false; applySectionToggle('about', sv2['about']!==false); }
+    var _tmenu=document.getElementById('stog-menu'); if(_tmenu) { _tmenu.checked = sv2['menu']!==false; applySectionToggle('menu', sv2['menu']!==false); }
+    var _tcta=document.getElementById('stog-cta'); if(_tcta) { _tcta.checked = sv2['cta']!==false; applySectionToggle('cta', sv2['cta']!==false); }
+    var _ttestimonials=document.getElementById('stog-testimonials'); if(_ttestimonials) { _ttestimonials.checked = sv2['testimonials']!==false; applySectionToggle('testimonials', sv2['testimonials']!==false); }
+    var _tcontactform=document.getElementById('stog-contactform'); if(_tcontactform) { _tcontactform.checked = sv2['contactform']!==false; applySectionToggle('contactform', sv2['contactform']!==false); }
+    var _tfooter=document.getElementById('stog-footer'); if(_tfooter) { _tfooter.checked = sv2['footer']!==false; applySectionToggle('footer', sv2['footer']!==false); }
+  }
   if(cfg.sectionBg){
     if(cfg.sectionBg['hero']){ sv('sbg-hero-hex',cfg.sectionBg['hero']); var _chero=document.getElementById('sbg-hero'); if(_chero)_chero.value=cfg.sectionBg['hero']||'#ffffff'; applySectionBg('hero',cfg.sectionBg['hero']); }
     if(cfg.sectionBg['introcards']){ sv('sbg-introcards-hex',cfg.sectionBg['introcards']); var _cintrocards=document.getElementById('sbg-introcards'); if(_cintrocards)_cintrocards.value=cfg.sectionBg['introcards']||'#ffffff'; applySectionBg('introcards',cfg.sectionBg['introcards']); }
@@ -832,6 +864,8 @@ document.getElementById('btn-export').addEventListener('click', function() {
 function buildHTML() {
   var c = cfg;
   var sbg = c.sectionBg || {};
+  var svis = c.sectionVisible || {};
+  function secVisible(key) { return svis[key] !== false; }
   var fh = c.fontHead || 'Playfair Display';
   var fb = c.fontBody || 'DM Sans';
   var serifFonts = ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather'];
@@ -1050,7 +1084,7 @@ function buildHTML() {
   lines.push('  <div class="container"><div class="t-center"><div class="sec-label">Our Menus</div><h2 class="sec-title" style="color:' + tx + '">What We Offer</h2><div class="sec-divider"></div></div></div>');
   lines.push('</section>');
   // ── INTRO CARDS SECTION ──
-  if(c.icCards && c.icCards.length) {
+  if(secVisible('introcards') && c.icCards && c.icCards.length) {
     var icIconMap = {
       menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
       togo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
@@ -1086,6 +1120,7 @@ function buildHTML() {
     lines.push('</section>');
   }
 
+  if(secVisible('about')) {
   lines.push('<section class="section" id="about" style="background:'+(sbg.about||'#ffffff')+'">');
   lines.push('  <div class="container"><div class="about-grid">');
   lines.push('    <div class="about-img-wrap"><img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '"/></div>');
@@ -1100,9 +1135,10 @@ function buildHTML() {
   if (c.ap2t) lines.push('        <a href="' + e(c.ap2l) + '" class="pill">' + e(c.ap2t) + '</a>');
   lines.push('      </div></div></div></div></div>');
   lines.push('</section>');
+  } // end about
 
   // ── WELCOME SECTION ──
-  if(c.wlTitle || c.wlP1) {
+  if(secVisible('welcome') && c.wlTitle || c.wlP1) {
     lines.push('<section class="section" id="welcome" style="background:'+(sbg.welcome||'#ffffff')+'">');
     lines.push('  <div class="container">');
     lines.push('    <div class="about-grid">');
@@ -1128,7 +1164,7 @@ function buildHTML() {
   }
 
   // ── TESTIMONIALS SECTION ──
-  if(c.testimonials && c.testimonials.length) {
+  if(secVisible('testimonials') && c.testimonials && c.testimonials.length) {
     lines.push('<section class="section" style="background:' + (sbg.testimonials||bg) + '">');
     lines.push('  <div class="container">');
     lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">' + e(c.tmLabel || 'What Our Guests Say') + '</div>');
@@ -1149,6 +1185,7 @@ function buildHTML() {
     lines.push('</section>');
   }
 
+  if(secVisible('menu')) {
   lines.push('<section class="section" id="services" style="background:'+(sbg.menu||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">Our Flavors ToGo</div><h2 class="sec-title" style="color:' + tx + '">Online Menu</h2><div class="sec-divider"></div></div>');
@@ -1168,6 +1205,8 @@ function buildHTML() {
   lines.push('    <div class="online-menu-grid" id="menu-items-grid">' + menuCards + '</div>');
   lines.push('  </div>');
   lines.push('</section>');
+  } // end menu
+  if(secVisible('cta')) {
   lines.push('<section class="section" style="background:#fff">');
   lines.push('  <div class="container"><div class="cta-banner">');
   lines.push('    <div class="cta-text"><h2>' + e(c.ctaTitle || 'We Cater Every Occasion') + '</h2><p>' + e(c.ctaSub) + '</p></div>');
@@ -1176,6 +1215,8 @@ function buildHTML() {
   if (c.ctaB2t) lines.push('      <a href="' + e(c.ctaB2l) + '" class="btn btn-outline">' + e(c.ctaB2t) + '</a>');
   lines.push('    </div></div></div>');
   lines.push('</section>');
+  } // end cta
+  if(secVisible('contactform')) {
   lines.push('<section class="section" id="contact" style="background:'+(sbg.contactform||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label">Get In Touch</div><h2 class="sec-title">Contact Us</h2><div class="sec-divider"></div></div>');
@@ -1206,6 +1247,8 @@ function buildHTML() {
   lines.push('      </div>');
   lines.push('    </div></div>');
   lines.push('</section>');
+  } // end contactform
+  if(secVisible('footer')) {
   lines.push('<footer>');
   lines.push('  <div class="container">');
   lines.push('    <div class="footer-grid">');
@@ -1226,6 +1269,7 @@ function buildHTML() {
   lines.push('    <div class="footer-bottom"><span class="footer-copy">' + e(c.copy || '© 2025 ' + name + '. All rights reserved.') + footerLink + '</span></div>');
   lines.push('  </div>');
   lines.push('</footer>');
+  } // end footer
   lines.push('<a href="' + e(order) + '" class="fab-order"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Order Online</a>');
   lines.push('<dialog id="photo-dialog">');
   lines.push('  <div id="pd-wrap">');
@@ -1497,6 +1541,15 @@ document.querySelectorAll('.bg-reset').forEach(function(btn){
     if(cp) cp.value='#ffffff'; if(hp) hp.value='';
     if(cfg.sectionBg) cfg.sectionBg[sec]='';
     applySectionBg(sec,'');
+  });
+});
+
+document.querySelectorAll('.toggle-switch input[data-sec]').forEach(function(tog){
+  tog.addEventListener('change',function(){
+    var sec = tog.dataset.sec;
+    if(!cfg.sectionVisible) cfg.sectionVisible={};
+    cfg.sectionVisible[sec] = tog.checked;
+    applySectionToggle(sec, tog.checked);
   });
 });
 
