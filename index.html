@@ -36,7 +36,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .saved-badge{width:100%;text-align:center;font-size:11px;color:var(--green);margin-top:8px;height:16px;transition:opacity .3s;opacity:0}
 .saved-badge.show{opacity:1}
 .main{flex:1;overflow-y:auto}
-.section{display:none;padding:36px 40px;max-width:820px}
+.section{display:none;padding:0;max-width:820px}
+.section-inner{padding:36px 40px}
+.section-bg-bar{display:flex;align-items:center;gap:10px;padding:10px 40px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.section-bg-bar label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+.section-bg-bar input[type=color]{width:28px;height:28px;padding:2px 4px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--surface)}
+.section-bg-bar input[type=text]{flex:1;max-width:90px;padding:5px 8px;font-size:12px;border-radius:6px}
+.section-bg-bar .bg-reset{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.section-bg-bar .bg-reset:hover{color:var(--text)}
+.section.active{display:block}
 .section.active{display:block}
 .section-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:4px}
 .section-sub{color:var(--muted);font-size:13px;margin-bottom:32px}
@@ -149,6 +157,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 <main class="main">
 
   <section class="section active" id="section-brand">
+    <div class="section-inner">
     <div class="section-title">Appearance</div>
     <div class="section-sub">Restaurant name, logo and color palette</div>
     <div class="form-grid">
@@ -163,7 +172,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field span2"><label>Footer Logo (path)</label><input type="text" id="b-logo-footer" placeholder="imagenes/img_019.png"/></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Tema</div>
+    <div class="group-title">Theme</div>
     <div class="theme-grid" id="theme-grid">
       <div class="theme-swatch" data-theme="default" data-cp="#B91C1C" data-ca="#D97706" data-cb="#FFF8F0" data-ct="#1C0A00" data-dbg="#0c0c0e" data-ds="#141416" data-ds2="#1c1c1f" data-dac="#D97706"><div class="swatch-color" style="background:linear-gradient(145deg,#e5e5e5,#d4d4d4)"></div><span>Default</span></div>
       <div class="theme-swatch" data-theme="sky" data-cp="#0284C7" data-ca="#38BDF8" data-cb="#F0F9FF" data-ct="#0C2340" data-dbg="#080f1a" data-ds="#0d1825" data-ds2="#111e2e" data-dac="#38BDF8"><div class="swatch-color" style="background:linear-gradient(145deg,#60B8F0,#38BDF8)"></div><span>Sky</span></div>
@@ -181,17 +190,19 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="divider"></div>
     <div class="group-title">Colors</div>
     <div class="form-grid">
-      <div class="field"><label>Color Principal</label><div class="color-row"><input type="color" id="b-cp" value="#B91C1C"/><input type="text" id="b-cp-hex" placeholder="#B91C1C" style="flex:1"/></div><span class="hint">Botones, acentos</span></div>
-      <div class="field"><label>Color Acento</label><div class="color-row"><input type="color" id="b-ca" value="#D97706"/><input type="text" id="b-ca-hex" placeholder="#D97706" style="flex:1"/></div><span class="hint">Precios, highlights</span></div>
+      <div class="field"><label>Color Principal</label><div class="color-row"><input type="color" id="b-cp" value="#B91C1C"/><input type="text" id="b-cp-hex" placeholder="#B91C1C" style="flex:1"/></div><span class="hint">Buttons, accents</span></div>
+      <div class="field"><label>Color Acento</label><div class="color-row"><input type="color" id="b-ca" value="#D97706"/><input type="text" id="b-ca-hex" placeholder="#D97706" style="flex:1"/></div><span class="hint">Prices, highlights</span></div>
       <div class="field"><label>Fondo Claro</label><div class="color-row"><input type="color" id="b-cb" value="#FFF8F0"/><input type="text" id="b-cb-hex" placeholder="#FFF8F0" style="flex:1"/></div></div>
       <div class="field"><label>Color de Texto</label><div class="color-row"><input type="color" id="b-ct" value="#1C0A00"/><input type="text" id="b-ct-hex" placeholder="#1C0A00" style="flex:1"/></div></div>
+    </div>
     </div>
   </section>
 
   <section class="section" id="section-fonts">
+    <div class="section-inner">
     <div class="section-title">Fonts</div>
     <div class="section-sub">Heading and body fonts for the landing page</div>
-    <div class="group-title">Fuente para Títulos</div>
+    <div class="group-title">Heading Font</div>
     <div class="font-grid" id="font-head-grid">
       <div class="font-card active" data-font="Playfair Display" data-type="head"><span class="fc-head" style="font-family:'Playfair Display',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Playfair Display',serif">The quick brown fox</span><span class="fc-label">Playfair Display</span></div>
       <div class="font-card" data-font="Cormorant Garamond" data-type="head"><span class="fc-head" style="font-family:'Cormorant Garamond',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Cormorant Garamond',serif">The quick brown fox</span><span class="fc-label">Cormorant Garamond</span></div>
@@ -203,7 +214,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="font-card" data-font="Bebas Neue" data-type="head"><span class="fc-head" style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">Aa Bb Cc</span><span class="fc-body" style="font-family:'Bebas Neue',sans-serif">The quick brown fox</span><span class="fc-label">Bebas Neue</span></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Fuente para Cuerpo de Texto</div>
+    <div class="group-title">Body Font</div>
     <div class="font-grid" id="font-body-grid">
       <div class="font-card active" data-font="DM Sans" data-type="body"><span class="fc-head" style="font-family:'DM Sans',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'DM Sans',sans-serif">The quick brown fox jumps</span><span class="fc-label">DM Sans</span></div>
       <div class="font-card" data-font="Inter" data-type="body"><span class="fc-head" style="font-family:'Inter',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Inter',sans-serif">The quick brown fox jumps</span><span class="fc-label">Inter</span></div>
@@ -214,15 +225,17 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <input type="hidden" id="font-head-val" value="Playfair Display"/>
     <input type="hidden" id="font-body-val" value="DM Sans"/>
+    </div>
   </section>
 
   <section class="section" id="section-contact">
+    <div class="section-inner">
     <div class="section-title">Business Info</div>
     <div class="section-sub">Contact details and opening hours</div>
     <div class="form-grid">
       <div class="field"><label>Phone (href)</label><input type="tel" id="c-phone" placeholder="+12812598701"/></div>
       <div class="field"><label>Phone (display)</label><input type="tel" id="c-phone-d" placeholder="+1 281-259-8701"/></div>
-      <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="info@restaurante.com"/></div>
+      <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="info@restaurant.com"/></div>
       <div class="field"><label>Address</label><input type="text" id="c-address" placeholder="32517 FM2978, Magnolia TX"/></div>
       <div class="field span2"><label>Google Maps Link</label><input type="url" id="c-maps" placeholder="https://maps.google.com/..."/></div>
     </div>
@@ -237,9 +250,11 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="hours-day">Saturday</div><input type="text" id="h-sat-o" placeholder="10:00 AM"/><input type="text" id="h-sat-c" placeholder="10:00 PM"/>
       <div class="hours-day">Sunday</div><input type="text" id="h-sun-o" placeholder="10:00 AM"/><input type="text" id="h-sun-c" placeholder="8:00 PM"/>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-social">
+    <div class="section-inner">
     <div class="section-title">Socials</div>
     <div class="section-sub">Social media links and online ordering platform</div>
     <div class="form-grid one">
@@ -248,9 +263,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Google Maps (footer)</label><input type="url" id="s-gm" placeholder="https://maps.app.goo.gl/..."/></div>
       <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL</span></div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-hero">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-hero" value="#ffffff"><input type="text" id="sbg-hero-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="hero">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Hero / Slider</div>
     <div class="section-sub">Hero slider images and text</div>
     <div class="slide-card"><div class="slide-num">Slide 1</div>
@@ -286,9 +304,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="field"><label>Button 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
       </div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-menu">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-menu" value="#ffffff"><input type="text" id="sbg-menu-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="menu">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Menu</div>
     <div class="section-sub">Add, edit or remove menu items</div>
     <div class="group-title">Categories</div>
@@ -299,29 +320,35 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="divider"></div>
     <div class="items-list" id="items-list"><div style="color:var(--muted);text-align:center;padding:20px">No items yet. Add the first one.</div></div>
     <button class="btn-add" id="btn-add-item">＋ Add Item</button>
+    </div>
   </section>
 
   <section class="section" id="section-about">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-about" value="#ffffff"><input type="text" id="sbg-about-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="about">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">About</div>
     <div class="section-sub">About section of the landing page</div>
     <div class="form-grid one">
-      <div class="field"><label>Label (pequeño)</label><input type="text" id="a-label" placeholder="Our Story"/></div>
+      <div class="field"><label>Small Label</label><input type="text" id="a-label" placeholder="Our Story"/></div>
       <div class="field"><label>Title</label><input type="text" id="a-title" placeholder="A Family Tradition Since 1998"/></div>
-      <div class="field"><label>Paragraph 1</label><textarea id="a-p1" placeholder="Texto..."></textarea></div>
-      <div class="field"><label>Paragraph 2</label><textarea id="a-p2" placeholder="Texto..."></textarea></div>
+      <div class="field"><label>Paragraph 1</label><textarea id="a-p1" placeholder="Enter text here..."></textarea></div>
+      <div class="field"><label>Paragraph 2</label><textarea id="a-p2" placeholder="Enter text here..."></textarea></div>
       <div class="field"><label>Image (path)</label><input type="text" id="a-img" placeholder="imagenes/about.jpg"/></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Links rápidos (Pills)</div>
+    <div class="group-title">Quick Links (Pills)</div>
     <div class="form-grid">
-      <div class="field"><label>Pill 1 Text</label><input type="text" id="a-p1t" placeholder="Llámanos"/></div>
+      <div class="field"><label>Pill 1 Text</label><input type="text" id="a-p1t" placeholder="Call Us"/></div>
       <div class="field"><label>Pill 1 Link</label><input type="text" id="a-p1l" placeholder="tel:+12812598701"/></div>
-      <div class="field"><label>Pill 2 Text</label><input type="text" id="a-p2t" placeholder="Cómo llegar"/></div>
+      <div class="field"><label>Pill 2 Text</label><input type="text" id="a-p2t" placeholder="Get Directions"/></div>
       <div class="field"><label>Pill 2 Link</label><input type="text" id="a-p2l" placeholder="https://maps.google.com/..."/></div>
+    </div>
     </div>
   </section>
 
   <section class="section" id="section-introcards">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-introcards" value="#ffffff"><input type="text" id="sbg-introcards-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="introcards">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Intro Cards</div>
     <div class="section-sub">Feature cards — e.g. "Browse Our Menu"</div>
     <div class="form-grid">
@@ -329,19 +356,22 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Title</label><input type="text" id="ic-title" placeholder="Browse Our Menu"/></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Tarjetas</div>
+    <div class="group-title">Cards</div>
     <div class="ilist" id="ic-list"></div>
     <button class="btn-add" id="btn-add-ic">＋ Add Card</button>
+    </div>
   </section>
 
   <section class="section" id="section-welcome">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-welcome" value="#ffffff"><input type="text" id="sbg-welcome-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="welcome">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Welcome</div>
     <div class="section-sub">Welcome / intro section of the restaurant</div>
     <div class="form-grid">
       <div class="field"><label>Small Label</label><input type="text" id="wl-label" placeholder="Welcome Ranchero!"/></div>
       <div class="field"><label>Title</label><input type="text" id="wl-title" placeholder="A Taste of Authentic Mexico"/></div>
-      <div class="field span2"><label>Paragraph 1</label><textarea id="wl-p1" placeholder="Primer párrafo de bienvenida..."></textarea></div>
-      <div class="field span2"><label>Paragraph 2 (optional)</label><textarea id="wl-p2" placeholder="Segundo párrafo..."></textarea></div>
+      <div class="field span2"><label>Paragraph 1</label><textarea id="wl-p1" placeholder="First welcome paragraph..."></textarea></div>
+      <div class="field span2"><label>Paragraph 2 (optional)</label><textarea id="wl-p2" placeholder="Second paragraph..."></textarea></div>
       <div class="field span2"><label>Image (path)</label><input type="text" id="wl-img" placeholder="imagenes/welcome.jpg"/></div>
     </div>
     <div class="divider"></div>
@@ -354,9 +384,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Stat 3 Number</label><input type="text" id="wl-s3n" placeholder="10k+"/></div>
       <div class="field"><label>Stat 3 Label</label><input type="text" id="wl-s3t" placeholder="Happy Customers"/></div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-testimonials">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-testimonials" value="#ffffff"><input type="text" id="sbg-testimonials-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="testimonials">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Testimonials</div>
     <div class="section-sub">Customer reviews and testimonials</div>
     <div class="form-grid">
@@ -366,9 +399,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="divider"></div>
     <div class="ilist" id="testimonial-list"></div>
     <button class="btn-add" id="btn-add-testimonial">＋ Add Testimonial</button>
+    </div>
   </section>
 
   <section class="section" id="section-cta">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-cta" value="#ffffff"><input type="text" id="sbg-cta-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="cta">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Call to Action</div>
     <div class="section-sub">Banner to drive conversions — catering, ordering, promotions</div>
     <div class="form-grid">
@@ -379,9 +415,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Button 2 Text</label><input type="text" id="cta-b2t" placeholder="Call Us Now"/></div>
       <div class="field"><label>Button 2 Link</label><input type="text" id="cta-b2l" placeholder="tel:+12812598701"/></div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-contactform">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-contactform" value="#ffffff"><input type="text" id="sbg-contactform-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="contactform">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Contact Form</div>
     <div class="section-sub">Form settings — email destination and subject dropdown options</div>
     <div class="form-grid one" style="gap:16px">
@@ -392,9 +431,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <span class="hint">One option per line</span>
       </div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-footer">
+    <div class="section-bg-bar"><label>Section Background</label><input type="color" id="sbg-footer" value="#ffffff"><input type="text" id="sbg-footer-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="footer">Reset</button></div>
+    <div class="section-inner">
     <div class="section-title">Footer</div>
     <div class="section-sub">Copyright text and optional footer link</div>
     <div class="form-grid one">
@@ -404,9 +446,11 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Footer Link Text</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
       <div class="field"><label>Footer Link URL</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
     </div>
+    </div>
   </section>
 
   <section class="section" id="section-export">
+    <div class="section-inner">
     <div class="section-title">Export</div>
     <div class="section-sub">Generate the final HTML ready for your project</div>
     <div class="export-card">
@@ -424,6 +468,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <button class="btn-big" id="btn-export">⬇️ Generate & Download HTML</button>
     <div id="export-status" style="text-align:center;margin-top:12px;font-size:13px;color:var(--green);height:20px"></div>
+    </div>
   </section>
 
 </main>
@@ -431,7 +476,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 <div class="modal-backdrop" id="item-modal">
   <div class="modal">
     <div class="modal-header">
-      <h3 id="modal-title">Agregar Platillo</h3>
+      <h3 id="modal-title">Add Item</h3>
       <button class="modal-close" id="modal-close-btn">×</button>
     </div>
     <div class="modal-body">
@@ -457,22 +502,22 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="modal-head"><h3 id="ic-modal-title">Card</h3><button class="modal-close" id="ic-modal-close">×</button></div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
-        <div class="field span2"><label>Título *</label><input type="text" id="ic-m-title" placeholder="Dinner Menu"/></div>
-        <div class="field span2"><label>Texto</label><textarea id="ic-m-text" placeholder="Savor our full dinner experience..." style="min-height:70px"></textarea></div>
+        <div class="field span2"><label>Title *</label><input type="text" id="ic-m-title" placeholder="Dinner Menu"/></div>
+        <div class="field span2"><label>Text</label><textarea id="ic-m-text" placeholder="Describe this option..." style="min-height:70px"></textarea></div>
         <div class="field"><label>Icon</label>
           <select id="ic-m-icon">
-            <option value="menu">📋 Menú / Libro</option>
-            <option value="togo">📦 ToGo / Caja</option>
-            <option value="catering">🍽️ Catering / Mesa</option>
-            <option value="star">⭐ Estrella</option>
-            <option value="phone">📞 Teléfono</option>
-            <option value="map">📍 Ubicación</option>
-            <option value="clock">🕐 Horario</option>
-            <option value="gift">🎁 Regalo</option>
-            <option value="heart">❤️ Favorito</option>
+            <option value="menu">📋 Menu / Book</option>
+            <option value="togo">📦 ToGo / Box</option>
+            <option value="catering">🍽️ Catering / Table</option>
+            <option value="star">⭐ Star</option>
+            <option value="phone">📞 Phone</option>
+            <option value="map">📍 Location</option>
+            <option value="clock">🕐 Hours</option>
+            <option value="gift">🎁 Gift</option>
+            <option value="heart">❤️ Favorite</option>
           </select>
         </div>
-        <div class="field"><label>Link</label><input type="text" id="ic-m-link" placeholder="#menu o https://..."/></div>
+        <div class="field"><label>Link</label><input type="text" id="ic-m-link" placeholder="#menu or https://..."/></div>
         <div class="field span2"><label>Link Button Text</label><input type="text" id="ic-m-linktxt" placeholder="View Menu →"/></div>
       </div>
     </div>
@@ -530,7 +575,8 @@ var cfg = {
   wlS1n:'', wlS1t:'', wlS2n:'', wlS2t:'', wlS3n:'', wlS3t:'',
   tmLabel:'', tmTitle:'', testimonials:[],
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
-  copy:'', footerLinkText:'', footerLinkUrl:''
+  copy:'', footerLinkText:'', footerLinkUrl:'',
+  sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' }
 };
 var editIdx = null;
 
@@ -590,6 +636,17 @@ function read() {
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
+  if(!cfg.sectionBg) cfg.sectionBg={};
+  cfg.sectionBg['hero']=v('sbg-hero-hex')||'';
+  cfg.sectionBg['introcards']=v('sbg-introcards-hex')||'';
+  cfg.sectionBg['welcome']=v('sbg-welcome-hex')||'';
+  cfg.sectionBg['about']=v('sbg-about-hex')||'';
+  cfg.sectionBg['menu']=v('sbg-menu-hex')||'';
+  cfg.sectionBg['cta']=v('sbg-cta-hex')||'';
+  cfg.sectionBg['testimonials']=v('sbg-testimonials-hex')||'';
+  cfg.sectionBg['contactform']=v('sbg-contactform-hex')||'';
+  cfg.sectionBg['footer']=v('sbg-footer-hex')||'';
+
 }
 
 function write() {
@@ -626,6 +683,18 @@ function write() {
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
+  if(cfg.sectionBg){
+    if(cfg.sectionBg['hero']){ sv('sbg-hero-hex',cfg.sectionBg['hero']); var _chero=document.getElementById('sbg-hero'); if(_chero)_chero.value=cfg.sectionBg['hero']||'#ffffff'; applySectionBg('hero',cfg.sectionBg['hero']); }
+    if(cfg.sectionBg['introcards']){ sv('sbg-introcards-hex',cfg.sectionBg['introcards']); var _cintrocards=document.getElementById('sbg-introcards'); if(_cintrocards)_cintrocards.value=cfg.sectionBg['introcards']||'#ffffff'; applySectionBg('introcards',cfg.sectionBg['introcards']); }
+    if(cfg.sectionBg['welcome']){ sv('sbg-welcome-hex',cfg.sectionBg['welcome']); var _cwelcome=document.getElementById('sbg-welcome'); if(_cwelcome)_cwelcome.value=cfg.sectionBg['welcome']||'#ffffff'; applySectionBg('welcome',cfg.sectionBg['welcome']); }
+    if(cfg.sectionBg['about']){ sv('sbg-about-hex',cfg.sectionBg['about']); var _cabout=document.getElementById('sbg-about'); if(_cabout)_cabout.value=cfg.sectionBg['about']||'#ffffff'; applySectionBg('about',cfg.sectionBg['about']); }
+    if(cfg.sectionBg['menu']){ sv('sbg-menu-hex',cfg.sectionBg['menu']); var _cmenu=document.getElementById('sbg-menu'); if(_cmenu)_cmenu.value=cfg.sectionBg['menu']||'#ffffff'; applySectionBg('menu',cfg.sectionBg['menu']); }
+    if(cfg.sectionBg['cta']){ sv('sbg-cta-hex',cfg.sectionBg['cta']); var _ccta=document.getElementById('sbg-cta'); if(_ccta)_ccta.value=cfg.sectionBg['cta']||'#ffffff'; applySectionBg('cta',cfg.sectionBg['cta']); }
+    if(cfg.sectionBg['testimonials']){ sv('sbg-testimonials-hex',cfg.sectionBg['testimonials']); var _ctestimonials=document.getElementById('sbg-testimonials'); if(_ctestimonials)_ctestimonials.value=cfg.sectionBg['testimonials']||'#ffffff'; applySectionBg('testimonials',cfg.sectionBg['testimonials']); }
+    if(cfg.sectionBg['contactform']){ sv('sbg-contactform-hex',cfg.sectionBg['contactform']); var _ccontactform=document.getElementById('sbg-contactform'); if(_ccontactform)_ccontactform.value=cfg.sectionBg['contactform']||'#ffffff'; applySectionBg('contactform',cfg.sectionBg['contactform']); }
+    if(cfg.sectionBg['footer']){ sv('sbg-footer-hex',cfg.sectionBg['footer']); var _cfooter=document.getElementById('sbg-footer'); if(_cfooter)_cfooter.value=cfg.sectionBg['footer']||'#ffffff'; applySectionBg('footer',cfg.sectionBg['footer']); }
+  }
+
   renderItems();
 }
 
@@ -653,7 +722,7 @@ function capCat(c) { return {appetizers:'Appetizers',plates:'Plates',family:'Fam
 function renderItems() {
   var list = document.getElementById('items-list');
   if (!cfg.menu.length) {
-    list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">No hay platillos.</div>';
+    list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px">No items yet. Add your first one.</div>';
     return;
   }
   list.innerHTML = '';
@@ -719,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function openModal(idx) {
   editIdx = idx;
-  document.getElementById('modal-title').textContent = idx !== null ? 'Editar Platillo' : 'Agregar Platillo';
+  document.getElementById('modal-title').textContent = idx !== null ? 'Edit Item' : 'Add Item';
   var item = idx !== null ? cfg.menu[idx] : {};
   populateCatSelect();
   sv('m-name', item.name); sv('m-price', item.price);
@@ -735,7 +804,7 @@ document.getElementById('modal-close-btn').addEventListener('click', closeModal)
 document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
 document.getElementById('modal-save-btn').addEventListener('click', function() {
   var item = { name:v('m-name'), price:v('m-price'), cat:document.getElementById('m-cat').value, img:v('m-img'), desc:v('m-desc'), link:v('m-link') };
-  if (!item.name) { alert('El nombre es obligatorio'); return; }
+  if (!item.name) { alert('Name is required'); return; }
   if (editIdx !== null) cfg.menu[editIdx] = item;
   else cfg.menu.push(item);
   closeModal();
@@ -762,6 +831,7 @@ document.getElementById('btn-export').addEventListener('click', function() {
 
 function buildHTML() {
   var c = cfg;
+  var sbg = c.sectionBg || {};
   var fh = c.fontHead || 'Playfair Display';
   var fb = c.fontBody || 'DM Sans';
   var serifFonts = ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather'];
@@ -976,7 +1046,7 @@ function buildHTML() {
   lines.push('  </div>');
   lines.push('  <div class="hero-dots" id="hero-dots"></div>');
   lines.push('</section>');
-  lines.push('<section class="section" id="menu" style="background:' + bg + '">');
+  lines.push('<section class="section" id="menu" style="background:' + (sbg.menu||bg) + '">');
   lines.push('  <div class="container"><div class="t-center"><div class="sec-label">Our Menus</div><h2 class="sec-title" style="color:' + tx + '">What We Offer</h2><div class="sec-divider"></div></div></div>');
   lines.push('</section>');
   // ── INTRO CARDS SECTION ──
@@ -992,7 +1062,7 @@ function buildHTML() {
       gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>',
       heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'
     };
-    lines.push('<section class="section" style="background:' + bg + '">');
+    lines.push('<section class="section" style="background:' + (sbg.introcards||bg) + '">');
     lines.push('  <div class="container">');
     if(c.icLabel||c.icTitle) {
       lines.push('    <div class="t-center">');
@@ -1016,7 +1086,7 @@ function buildHTML() {
     lines.push('</section>');
   }
 
-  lines.push('<section class="section" id="about" style="background:#ffffff">');
+  lines.push('<section class="section" id="about" style="background:'+(sbg.about||'#ffffff')+'">');
   lines.push('  <div class="container"><div class="about-grid">');
   lines.push('    <div class="about-img-wrap"><img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '"/></div>');
   lines.push('    <div>');
@@ -1033,7 +1103,7 @@ function buildHTML() {
 
   // ── WELCOME SECTION ──
   if(c.wlTitle || c.wlP1) {
-    lines.push('<section class="section" id="welcome" style="background:#ffffff">');
+    lines.push('<section class="section" id="welcome" style="background:'+(sbg.welcome||'#ffffff')+'">');
     lines.push('  <div class="container">');
     lines.push('    <div class="about-grid">');
     if(c.wlImg) lines.push('      <div class="about-img-wrap"><img src="' + e(c.wlImg) + '" alt="' + e(c.wlTitle) + '"/></div>');
@@ -1059,7 +1129,7 @@ function buildHTML() {
 
   // ── TESTIMONIALS SECTION ──
   if(c.testimonials && c.testimonials.length) {
-    lines.push('<section class="section" style="background:' + bg + '">');
+    lines.push('<section class="section" style="background:' + (sbg.testimonials||bg) + '">');
     lines.push('  <div class="container">');
     lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">' + e(c.tmLabel || 'What Our Guests Say') + '</div>');
     lines.push('    <h2 class="sec-title" style="font-family:\'' + fh + '\',' + fhType + ';color:' + tx + '">' + e(c.tmTitle || 'Real Reviews') + '</h2>');
@@ -1079,7 +1149,7 @@ function buildHTML() {
     lines.push('</section>');
   }
 
-  lines.push('<section class="section" id="services" style="background:' + bg + '">');
+  lines.push('<section class="section" id="services" style="background:'+(sbg.menu||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">Our Flavors ToGo</div><h2 class="sec-title" style="color:' + tx + '">Online Menu</h2><div class="sec-divider"></div></div>');
   // Dynamic tabs from menuCats
@@ -1106,7 +1176,7 @@ function buildHTML() {
   if (c.ctaB2t) lines.push('      <a href="' + e(c.ctaB2l) + '" class="btn btn-outline">' + e(c.ctaB2t) + '</a>');
   lines.push('    </div></div></div>');
   lines.push('</section>');
-  lines.push('<section class="section" id="contact" style="background:' + bg + '">');
+  lines.push('<section class="section" id="contact" style="background:'+(sbg.contactform||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label">Get In Touch</div><h2 class="sec-title">Contact Us</h2><div class="sec-divider"></div></div>');
   lines.push('    <div class="contact-grid">');
@@ -1340,13 +1410,13 @@ function renderIcCards() {
   });
   list.querySelectorAll('.btn-edit').forEach(function(b){ b.addEventListener('click', function(){ openIcModal(parseInt(b.dataset.ic)); }); });
   list.querySelectorAll('.btn-del').forEach(function(b){ b.addEventListener('click', function(){
-    if(confirm('¿Eliminar tarjeta?')){ cfg.icCards.splice(parseInt(b.dataset.ic),1); renderIcCards(); }
+    if(confirm('Delete this card?')){ cfg.icCards.splice(parseInt(b.dataset.ic),1); renderIcCards(); }
   }); });
 }
 
 function openIcModal(idx) {
   icEditIdx = (idx !== undefined) ? idx : null;
-  document.getElementById('ic-modal-title').textContent = icEditIdx !== null ? 'Editar Tarjeta' : 'Nueva Tarjeta';
+  document.getElementById('ic-modal-title').textContent = icEditIdx !== null ? 'Edit Card' : 'New Card';
   if(icEditIdx !== null) {
     var c = cfg.icCards[icEditIdx];
     sv('ic-m-title',c.title); sv('ic-m-text',c.text||''); sv('ic-m-link',c.link||''); sv('ic-m-linktxt',c.linktxt||'');
@@ -1360,7 +1430,7 @@ document.getElementById('ic-modal-close').addEventListener('click', function(){ 
 document.getElementById('ic-modal-cancel').addEventListener('click', function(){ document.getElementById('ic-modal').classList.remove('open'); });
 document.getElementById('ic-modal-save').addEventListener('click', function(){
   var t = v('ic-m-title');
-  if(!t){ alert('El título es obligatorio'); return; }
+  if(!t){ alert('Title is required'); return; }
   var item = {title:t, text:v('ic-m-text'), icon:document.getElementById('ic-m-icon').value, link:v('ic-m-link'), linktxt:v('ic-m-linktxt')};
   if(!cfg.icCards) cfg.icCards = [];
   if(icEditIdx !== null) cfg.icCards[icEditIdx] = item; else cfg.icCards.push(item);
@@ -1375,7 +1445,7 @@ function renderTestimonials() {
   var list = document.getElementById('testimonial-list');
   if(!list) return;
   if(!cfg.testimonials || !cfg.testimonials.length) {
-    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No hay testimonios. Agrega el primero.</div>';
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No testimonials yet. Add the first one.</div>';
     return;
   }
   list.innerHTML = '';
@@ -1390,7 +1460,7 @@ function renderTestimonials() {
   });
   list.querySelectorAll('.btn-edit').forEach(function(b){ b.addEventListener('click', function(){ openTmModal(parseInt(b.dataset.ti)); }); });
   list.querySelectorAll('.btn-del').forEach(function(b){ b.addEventListener('click', function(){
-    if(confirm('¿Eliminar testimonio?')){ cfg.testimonials.splice(parseInt(b.dataset.ti),1); renderTestimonials(); }
+    if(confirm('Delete this testimonial?')){ cfg.testimonials.splice(parseInt(b.dataset.ti),1); renderTestimonials(); }
   }); });
 }
 
@@ -1410,12 +1480,32 @@ function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 loadSaved();
 
+// ── SECTION BG PICKERS ────────────────────────────────
+(function(){ var cp=document.getElementById('sbg-hero'), hp=document.getElementById('sbg-hero-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['hero']=this.value; applySectionBg('hero',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['hero']=this.value; applySectionBg('hero',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-introcards'), hp=document.getElementById('sbg-introcards-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['introcards']=this.value; applySectionBg('introcards',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['introcards']=this.value; applySectionBg('introcards',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-welcome'), hp=document.getElementById('sbg-welcome-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['welcome']=this.value; applySectionBg('welcome',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['welcome']=this.value; applySectionBg('welcome',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-about'), hp=document.getElementById('sbg-about-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['about']=this.value; applySectionBg('about',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['about']=this.value; applySectionBg('about',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-menu'), hp=document.getElementById('sbg-menu-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['menu']=this.value; applySectionBg('menu',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['menu']=this.value; applySectionBg('menu',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-cta'), hp=document.getElementById('sbg-cta-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['cta']=this.value; applySectionBg('cta',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['cta']=this.value; applySectionBg('cta',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-testimonials'), hp=document.getElementById('sbg-testimonials-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['testimonials']=this.value; applySectionBg('testimonials',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['testimonials']=this.value; applySectionBg('testimonials',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-contactform'), hp=document.getElementById('sbg-contactform-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['contactform']=this.value; applySectionBg('contactform',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['contactform']=this.value; applySectionBg('contactform',this.value); } }); })();
+(function(){ var cp=document.getElementById('sbg-footer'), hp=document.getElementById('sbg-footer-hex'); if(!cp||!hp) return; cp.addEventListener('input',function(){ hp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['footer']=this.value; applySectionBg('footer',this.value); }); hp.addEventListener('input',function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)){ cp.value=this.value; if(!cfg.sectionBg)cfg.sectionBg={}; cfg.sectionBg['footer']=this.value; applySectionBg('footer',this.value); } }); })();
+document.querySelectorAll('.bg-reset').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var sec=btn.dataset.sec;
+    var cp=document.getElementById('sbg-'+sec), hp=document.getElementById('sbg-'+sec+'-hex');
+    if(cp) cp.value='#ffffff'; if(hp) hp.value='';
+    if(cfg.sectionBg) cfg.sectionBg[sec]='';
+    applySectionBg(sec,'');
+  });
+});
+
 // ── TESTIMONIAL MODAL WIRING ────────────────────────
 document.getElementById('tm-modal-close').addEventListener('click', function(){ document.getElementById('tm-modal').classList.remove('open'); });
 document.getElementById('tm-modal-cancel').addEventListener('click', function(){ document.getElementById('tm-modal').classList.remove('open'); });
 document.getElementById('tm-modal-save').addEventListener('click', function(){
   var nm = v('tm-m-name'); var tx = v('tm-m-text');
-  if(!nm || !tx){ alert('Nombre y texto son obligatorios'); return; }
+  if(!nm || !tx){ alert('Name and review text are required'); return; }
   var item = {name:nm, stars:v('tm-m-stars')||'5', text:tx, title:v('tm-m-title')};
   if(!cfg.testimonials) cfg.testimonials = [];
   if(tmEditIdx !== null) cfg.testimonials[tmEditIdx] = item; else cfg.testimonials.push(item);
@@ -1425,7 +1515,7 @@ document.getElementById('tm-modal-save').addEventListener('click', function(){
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
 document.getElementById('btn-export-json').addEventListener('click', async function() {
-  readFields();
+  read();
   var name = (cfg.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
   var json = JSON.stringify(cfg, null, 2);
   var blob = new Blob([json], {type: 'application/json'});
@@ -1463,7 +1553,7 @@ document.getElementById('json-file-input').addEventListener('change', function(e
     try {
       var imported = JSON.parse(ev.target.result);
       cfg = imported;
-      writeFields();
+      write();
       try { localStorage.setItem('landing_config', JSON.stringify(cfg)); } catch(ex) {}
       var b = document.getElementById('saved-badge');
       b.textContent = '✓ Config loaded';
