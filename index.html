@@ -23,15 +23,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .btn-export:hover{background:#991b1b}
 .btn-json{flex:1;padding:8px 6px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-json:hover{background:var(--surface);color:var(--text)}
-.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:4px}
-.theme-swatch{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;opacity:.75;transition:all .2s}
-.theme-swatch:hover{opacity:1;transform:translateY(-2px)}
-.theme-swatch.active{opacity:1}
+.theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:4px}
+.theme-swatch{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:all .2s}
+.theme-swatch:hover .swatch-color{transform:scale(1.1);box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.theme-swatch.active{}
 .theme-swatch.active span{color:var(--text);font-weight:700}
-.swatch-color{width:100%;aspect-ratio:1;border-radius:14px;border:2px solid transparent;transition:all .2s;position:relative}
-.theme-swatch.active .swatch-color{border-color:#fff;box-shadow:0 0 0 2px var(--accent)}
-.theme-swatch.active .swatch-color::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.4)}
-.theme-swatch span{font-size:11px;color:var(--muted);text-align:center}
+.swatch-color{width:35px;height:35px;border-radius:10px;border:2px solid transparent;transition:all .25s;position:relative;flex-shrink:0}
+.theme-swatch.active .swatch-color{border-color:rgba(255,255,255,.85);box-shadow:0 0 0 2px var(--accent),0 3px 10px rgba(0,0,0,.3)}
+.theme-swatch.active .swatch-color::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.theme-swatch span{font-size:9px;color:var(--muted);text-align:center;font-weight:500}
 .saved-badge{width:100%;text-align:center;font-size:11px;color:var(--green);margin-top:8px;height:16px;transition:opacity .3s;opacity:0}
 .saved-badge.show{opacity:1}
 .main{flex:1;overflow-y:auto}
@@ -316,6 +316,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="form-grid one">
       <div class="field"><label>Copyright</label><input type="text" id="f-copy" placeholder="© 2025 Restaurant Name. All rights reserved."/></div>
     </div>
+    <div class="form-grid">
+      <div class="field"><label>Texto del link en footer</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
+      <div class="field"><label>URL del link</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
+    </div>
   </section>
 
   <section class="section" id="section-export">
@@ -387,7 +391,7 @@ var cfg = {
   menu:[],
   aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap2t:'', ap2l:'',
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
-  copy:''
+  copy:'', footerLinkText:'', footerLinkUrl:''
 };
 var editIdx = null;
 
@@ -409,6 +413,8 @@ function syncColor(cid, hid) {
   hi.addEventListener('input', function() { if (/^#[0-9a-fA-F]{6}$/.test(hi.value)) ci.value = hi.value; });
 }
 syncColor('b-cp','b-cp-hex'); syncColor('b-ca','b-ca-hex');
+document.getElementById('b-cb').addEventListener('input', function(){ document.querySelector('.main').style.background = this.value; });
+document.getElementById('b-cb-hex').addEventListener('input', function(){ if(/^#[0-9a-fA-F]{6}$/.test(this.value)) document.querySelector('.main').style.background = this.value; });
 syncColor('b-cb','b-cb-hex'); syncColor('b-ct','b-ct-hex');
 
 // ── READ / WRITE FIELDS ──────────────────────────────
@@ -435,7 +441,7 @@ function read() {
   cfg.ap1t=v('a-p1t'); cfg.ap1l=v('a-p1l'); cfg.ap2t=v('a-p2t'); cfg.ap2l=v('a-p2l');
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
-  cfg.copy=v('f-copy');
+  cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
 }
 
 function write() {
@@ -463,7 +469,7 @@ function write() {
   sv('a-p1t',cfg.ap1t); sv('a-p1l',cfg.ap1l); sv('a-p2t',cfg.ap2t); sv('a-p2l',cfg.ap2l);
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
-  sv('f-copy',cfg.copy);
+  sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
   renderItems();
 }
 
@@ -855,7 +861,8 @@ function buildHTML() {
   });
   lines.push('      </div>');
   lines.push('    </div>');
-  lines.push('    <div class="footer-bottom"><span class="footer-copy">' + e(c.copy || '© 2025 ' + name + '. All rights reserved.') + '</span></div>');
+  var footerLink = (c.footerLinkText && c.footerLinkUrl) ? ' · <a href="' + e(c.footerLinkUrl) + '" style="color:rgba(254,243,199,.45);text-decoration:underline;font-size:12px" target="_blank">' + e(c.footerLinkText) + '</a>' : '';
+  lines.push('    <div class="footer-bottom"><span class="footer-copy">' + e(c.copy || '© 2025 ' + name + '. All rights reserved.') + footerLink + '</span></div>');
   lines.push('  </div>');
   lines.push('</footer>');
   lines.push('<a href="' + e(order) + '" class="fab-order"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Order Online</a>');
@@ -915,6 +922,22 @@ function applyDashboardTheme(sw) {
   r.setProperty('--bg',     sw.dataset.dbg || '#0c0c0e');
   r.setProperty('--surface', sw.dataset.ds || '#141416');
   r.setProperty('--surface2', sw.dataset.ds2 || '#1c1c1f');
+  // Apply the light bg color (data-cb) to main content area
+  var mainEl = document.querySelector('.main');
+  var lightBg = sw.dataset.cb || '';
+  if(mainEl && lightBg) {
+    mainEl.style.background = lightBg;
+    // Also update text/input colors based on brightness
+    var isDark = sw.dataset.dbg && sw.dataset.dbg < '#555';
+    document.querySelectorAll('.section-title,.section-sub,.group-title,.hint,.field label').forEach(function(el){
+      el.style.color = '';
+    });
+  }
+}
+
+function applyManualColors() {
+  var cb = document.getElementById('b-cb') ? document.getElementById('b-cb').value : '';
+  if(cb) document.querySelector('.main').style.background = cb;
 }
 
 document.querySelectorAll('.theme-swatch').forEach(function(sw) {
@@ -941,33 +964,7 @@ function syncActiveTheme(cp) {
 }
 
 // ── FONTS ─────────────────────────────────────────────
-var FONT_FAMILIES = {
-  head: ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather','Josefin Sans','Raleway','Montserrat','Bebas Neue'],
-  body: ['DM Sans','Inter','Lato','Nunito','Open Sans','Poppins']
-};
-
-function loadGoogleFont(family) {
-  if(GOOGLE_FONTS_LOADED[family]) return;
-  GOOGLE_FONTS_LOADED[family] = true;
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(family).replace(/%20/g,'+') + ':wght@400;600;700&display=swap';
-  document.head.appendChild(link);
-}
-
-// Pre-load all font cards
-document.querySelectorAll('.font-card').forEach(function(card) {
-  loadGoogleFont(card.dataset.font);
-  card.addEventListener('click', function() {
-    var type = card.dataset.type;
-    document.querySelectorAll('.font-card[data-type="'+type+'"]').forEach(function(c){ c.classList.remove('active'); });
-    card.classList.add('active');
-    var fam = card.dataset.font;
-    if(type === 'head') { cfg.fontHead = fam; setHiddenVal('font-head-val', fam); }
-    else                { cfg.fontBody = fam; setHiddenVal('font-body-val', fam); }
-  });
-});
-
+// ── FONTS ─────────────────────────────────────────────
 function setHiddenVal(id, val) {
   var el = document.getElementById(id);
   if(el) el.value = val;
@@ -977,16 +974,26 @@ function syncActiveFont(type, family) {
   document.querySelectorAll('.font-card[data-type="'+type+'"]').forEach(function(c){
     c.classList.toggle('active', c.dataset.font === family);
   });
-  if(type==='head') setHiddenVal('font-head-val', family);
-  else setHiddenVal('font-body-val', family);
+  setHiddenVal('font-' + type + '-val', family);
 }
+
+document.querySelectorAll('.font-card').forEach(function(card) {
+  card.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var type = card.dataset.type;
+    var fam = card.dataset.font;
+    syncActiveFont(type, fam);
+    if(type === 'head') cfg.fontHead = fam;
+    else cfg.fontBody = fam;
+  });
+});
 
 loadSaved();
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
 document.getElementById('btn-export-json').addEventListener('click', function() {
   readFields();
-  var name = (config.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  var name = (cfg.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
   var blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
