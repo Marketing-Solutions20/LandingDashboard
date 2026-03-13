@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Landing Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Merriweather:wght@400;700&family=Josefin+Sans:wght@400;600;700&family=Raleway:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Nunito:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
@@ -23,6 +23,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .btn-export:hover{background:#991b1b}
 .btn-json{flex:1;padding:8px 6px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-json:hover{background:var(--surface);color:var(--text)}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:4px}
+.theme-swatch{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;opacity:.75;transition:all .2s}
+.theme-swatch:hover{opacity:1;transform:translateY(-2px)}
+.theme-swatch.active{opacity:1}
+.theme-swatch.active span{color:var(--text);font-weight:700}
+.swatch-color{width:100%;aspect-ratio:1;border-radius:14px;border:2px solid transparent;transition:all .2s;position:relative}
+.theme-swatch.active .swatch-color{border-color:#fff;box-shadow:0 0 0 2px var(--accent)}
+.theme-swatch.active .swatch-color::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.theme-swatch span{font-size:11px;color:var(--muted);text-align:center}
 .saved-badge{width:100%;text-align:center;font-size:11px;color:var(--green);margin-top:8px;height:16px;transition:opacity .3s;opacity:0}
 .saved-badge.show{opacity:1}
 .main{flex:1;overflow-y:auto}
@@ -91,6 +100,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </div>
   <nav class="sidebar-nav">
     <button class="nav-item active" data-section="brand">🏠 Marca & Colores</button>
+    <button class="nav-item" data-section="fonts">🔤 Tipografía</button>
     <button class="nav-item" data-section="contact">📞 Contacto & Horarios</button>
     <button class="nav-item" data-section="social">🌐 Redes Sociales</button>
     <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
@@ -128,6 +138,22 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field span2"><label>Logo Footer (ruta)</label><input type="text" id="b-logo-footer" placeholder="imagenes/img_019.png"/></div>
     </div>
     <div class="divider"></div>
+    <div class="group-title">Tema</div>
+    <div class="theme-grid" id="theme-grid">
+      <div class="theme-swatch" data-theme="default" data-cp="#B91C1C" data-ca="#D97706" data-cb="#FFF8F0" data-ct="#1C0A00" data-dbg="#0c0c0e" data-ds="#141416" data-ds2="#1c1c1f" data-dac="#D97706"><div class="swatch-color" style="background:linear-gradient(145deg,#e5e5e5,#d4d4d4)"></div><span>Default</span></div>
+      <div class="theme-swatch" data-theme="sky" data-cp="#0284C7" data-ca="#38BDF8" data-cb="#F0F9FF" data-ct="#0C2340" data-dbg="#080f1a" data-ds="#0d1825" data-ds2="#111e2e" data-dac="#38BDF8"><div class="swatch-color" style="background:linear-gradient(145deg,#60B8F0,#38BDF8)"></div><span>Sky</span></div>
+      <div class="theme-swatch" data-theme="turquoise" data-cp="#0D9488" data-ca="#2DD4BF" data-cb="#F0FDFA" data-ct="#0F2E2B" data-dbg="#05120f" data-ds="#081a17" data-ds2="#0d2420" data-dac="#2DD4BF"><div class="swatch-color" style="background:linear-gradient(145deg,#2DD4BF,#0D9488)"></div><span>Turquoise</span></div>
+      <div class="theme-swatch" data-theme="teal" data-cp="#0F766E" data-ca="#14B8A6" data-cb="#ECFDF5" data-ct="#0D2B27" data-dbg="#041210" data-ds="#071a17" data-ds2="#0c2420" data-dac="#14B8A6"><div class="swatch-color" style="background:linear-gradient(145deg,#14B8A6,#0F766E)"></div><span>Teal</span></div>
+      <div class="theme-swatch" data-theme="matcha" data-cp="#4D7C0F" data-ca="#84CC16" data-cb="#F7FEE7" data-ct="#1A2E05" data-dbg="#0a1002" data-ds="#101805" data-ds2="#162108" data-dac="#84CC16"><div class="swatch-color" style="background:linear-gradient(145deg,#84CC16,#4D7C0F)"></div><span>Matcha</span></div>
+      <div class="theme-swatch" data-theme="sunshine" data-cp="#D97706" data-ca="#FBBF24" data-cb="#FFFBEB" data-ct="#1C1100" data-dbg="#100a00" data-ds="#1a1100" data-ds2="#231800" data-dac="#FBBF24"><div class="swatch-color" style="background:linear-gradient(145deg,#FBBF24,#D97706)"></div><span>Sunshine</span></div>
+      <div class="theme-swatch" data-theme="peach" data-cp="#E05C3A" data-ca="#FB923C" data-cb="#FFF7F5" data-ct="#2C1008" data-dbg="#120603" data-ds="#1c0c06" data-ds2="#25110a" data-dac="#FB923C"><div class="swatch-color" style="background:linear-gradient(145deg,#FB923C,#E05C3A)"></div><span>Peach</span></div>
+      <div class="theme-swatch" data-theme="lilac" data-cp="#7C3AED" data-ca="#A78BFA" data-cb="#F5F3FF" data-ct="#1E0A3C" data-dbg="#0a0414" data-ds="#11071e" data-ds2="#180b29" data-dac="#A78BFA"><div class="swatch-color" style="background:linear-gradient(145deg,#A78BFA,#7C3AED)"></div><span>Lilac</span></div>
+      <div class="theme-swatch" data-theme="rose" data-cp="#BE185D" data-ca="#F472B6" data-cb="#FFF1F7" data-ct="#2D0A1A" data-dbg="#10040a" data-ds="#1a0810" data-ds2="#230b16" data-dac="#F472B6"><div class="swatch-color" style="background:linear-gradient(145deg,#F472B6,#BE185D)"></div><span>Rose</span></div>
+      <div class="theme-swatch" data-theme="ebony" data-cp="#B45309" data-ca="#D4A574" data-cb="#FDF8F0" data-ct="#1C1008" data-dbg="#0c0804" data-ds="#160f07" data-ds2="#1e160a" data-dac="#D4A574"><div class="swatch-color" style="background:linear-gradient(145deg,#D4A574,#92400E)"></div><span>Ebony</span></div>
+      <div class="theme-swatch" data-theme="navy" data-cp="#1E3A5F" data-ca="#3B82F6" data-cb="#EFF6FF" data-ct="#0C1A2E" data-dbg="#050c16" data-ds="#091222" data-ds2="#0e1a2e" data-dac="#3B82F6"><div class="swatch-color" style="background:linear-gradient(145deg,#3B82F6,#1E3A5F)"></div><span>Navy</span></div>
+      <div class="theme-swatch" data-theme="gray" data-cp="#374151" data-ca="#6B7280" data-cb="#F9FAFB" data-ct="#111827" data-dbg="#0a0b0d" data-ds="#111214" data-ds2="#18191c" data-dac="#9CA3AF"><div class="swatch-color" style="background:linear-gradient(145deg,#9CA3AF,#374151)"></div><span>Gray</span></div>
+    </div>
+    <div class="divider"></div>
     <div class="group-title">Colores</div>
     <div class="form-grid">
       <div class="field"><label>Color Principal</label><div class="color-row"><input type="color" id="b-cp" value="#B91C1C"/><input type="text" id="b-cp-hex" placeholder="#B91C1C" style="flex:1"/></div><span class="hint">Botones, acentos</span></div>
@@ -135,6 +161,34 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Fondo Claro</label><div class="color-row"><input type="color" id="b-cb" value="#FFF8F0"/><input type="text" id="b-cb-hex" placeholder="#FFF8F0" style="flex:1"/></div></div>
       <div class="field"><label>Color de Texto</label><div class="color-row"><input type="color" id="b-ct" value="#1C0A00"/><input type="text" id="b-ct-hex" placeholder="#1C0A00" style="flex:1"/></div></div>
     </div>
+  </section>
+
+  <section class="section" id="section-fonts">
+    <div class="section-title">Tipografía</div>
+    <div class="section-sub">Fuentes para títulos y texto del landing</div>
+    <div class="group-title">Fuente para Títulos</div>
+    <div class="font-grid" id="font-head-grid">
+      <div class="font-card active" data-font="Playfair Display" data-type="head"><span class="fc-head" style="font-family:'Playfair Display',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Playfair Display',serif">The quick brown fox</span><span class="fc-label">Playfair Display</span></div>
+      <div class="font-card" data-font="Cormorant Garamond" data-type="head"><span class="fc-head" style="font-family:'Cormorant Garamond',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Cormorant Garamond',serif">The quick brown fox</span><span class="fc-label">Cormorant Garamond</span></div>
+      <div class="font-card" data-font="Libre Baskerville" data-type="head"><span class="fc-head" style="font-family:'Libre Baskerville',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Libre Baskerville',serif">The quick brown fox</span><span class="fc-label">Libre Baskerville</span></div>
+      <div class="font-card" data-font="Merriweather" data-type="head"><span class="fc-head" style="font-family:'Merriweather',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Merriweather',serif">The quick brown fox</span><span class="fc-label">Merriweather</span></div>
+      <div class="font-card" data-font="Josefin Sans" data-type="head"><span class="fc-head" style="font-family:'Josefin Sans',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Josefin Sans',sans-serif">The quick brown fox</span><span class="fc-label">Josefin Sans</span></div>
+      <div class="font-card" data-font="Raleway" data-type="head"><span class="fc-head" style="font-family:'Raleway',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Raleway',sans-serif">The quick brown fox</span><span class="fc-label">Raleway</span></div>
+      <div class="font-card" data-font="Montserrat" data-type="head"><span class="fc-head" style="font-family:'Montserrat',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Montserrat',sans-serif">The quick brown fox</span><span class="fc-label">Montserrat</span></div>
+      <div class="font-card" data-font="Bebas Neue" data-type="head"><span class="fc-head" style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">Aa Bb Cc</span><span class="fc-body" style="font-family:'Bebas Neue',sans-serif">The quick brown fox</span><span class="fc-label">Bebas Neue</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="group-title">Fuente para Cuerpo de Texto</div>
+    <div class="font-grid" id="font-body-grid">
+      <div class="font-card active" data-font="DM Sans" data-type="body"><span class="fc-head" style="font-family:'DM Sans',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'DM Sans',sans-serif">The quick brown fox jumps</span><span class="fc-label">DM Sans</span></div>
+      <div class="font-card" data-font="Inter" data-type="body"><span class="fc-head" style="font-family:'Inter',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Inter',sans-serif">The quick brown fox jumps</span><span class="fc-label">Inter</span></div>
+      <div class="font-card" data-font="Lato" data-type="body"><span class="fc-head" style="font-family:'Lato',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Lato',sans-serif">The quick brown fox jumps</span><span class="fc-label">Lato</span></div>
+      <div class="font-card" data-font="Nunito" data-type="body"><span class="fc-head" style="font-family:'Nunito',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Nunito',sans-serif">The quick brown fox jumps</span><span class="fc-label">Nunito</span></div>
+      <div class="font-card" data-font="Open Sans" data-type="body"><span class="fc-head" style="font-family:'Open Sans',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Open Sans',sans-serif">The quick brown fox jumps</span><span class="fc-label">Open Sans</span></div>
+      <div class="font-card" data-font="Poppins" data-type="body"><span class="fc-head" style="font-family:'Poppins',sans-serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Poppins',sans-serif">The quick brown fox jumps</span><span class="fc-label">Poppins</span></div>
+    </div>
+    <input type="hidden" id="font-head-val" value="Playfair Display"/>
+    <input type="hidden" id="font-body-val" value="DM Sans"/>
   </section>
 
   <section class="section" id="section-contact">
@@ -146,6 +200,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="info@restaurante.com"/></div>
       <div class="field"><label>Dirección</label><input type="text" id="c-address" placeholder="32517 FM2978, Magnolia TX"/></div>
       <div class="field span2"><label>Link Google Maps</label><input type="url" id="c-maps" placeholder="https://maps.google.com/..."/></div>
+    </div>
+    <div class="divider"></div>
+    <div class="group-title">Formulario de Contacto</div>
+    <div class="form-grid">
+      <div class="field span2"><label>Email destino del formulario</label><input type="email" id="c-contact-email" placeholder="reservaciones@restaurante.com"/><span class="hint">A este email llegarán los mensajes del formulario</span></div>
+      <div class="field span2">
+        <label>Opciones del dropdown "Asunto"</label>
+        <textarea id="c-dropdown-opts" placeholder="Reservación&#10;Catering&#10;Información General&#10;Otro" style="min-height:90px"></textarea>
+        <span class="hint">Una opción por línea</span>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Horarios (dejar vacío = Closed)</div>
@@ -179,8 +243,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="field span2"><label>Imagen</label><input type="text" id="s1-img" placeholder="imagenes/hero1.jpg"/></div>
         <div class="field"><label>Título</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
         <div class="field"><label>Subtítulo</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
-        <div class="field"><label>Botón 1</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
-        <div class="field"><label>Botón 2</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
+        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
+        <div class="field"><label>Botón 1 Link</label><input type="text" id="s1-b1l" placeholder="#menu"/></div>
+        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
+        <div class="field"><label>Botón 2 Link</label><input type="text" id="s1-b2l" placeholder="#menu"/></div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 2</div>
@@ -188,8 +254,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="field span2"><label>Imagen</label><input type="text" id="s2-img" placeholder="imagenes/hero2.jpg"/></div>
         <div class="field"><label>Título</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
         <div class="field"><label>Subtítulo</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
-        <div class="field"><label>Botón 1</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
-        <div class="field"><label>Botón 2</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
+        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
+        <div class="field"><label>Botón 1 Link</label><input type="text" id="s2-b1l" placeholder="#contact"/></div>
+        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
+        <div class="field"><label>Botón 2 Link</label><input type="text" id="s2-b2l" placeholder="#about"/></div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 3</div>
@@ -197,8 +265,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="field span2"><label>Imagen</label><input type="text" id="s3-img" placeholder="imagenes/hero3.jpg"/></div>
         <div class="field"><label>Título</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
         <div class="field"><label>Subtítulo</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
-        <div class="field"><label>Botón 1</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
-        <div class="field"><label>Botón 2</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
+        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
+        <div class="field"><label>Botón 1 Link</label><input type="text" id="s3-b1l" placeholder="#menu"/></div>
+        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
+        <div class="field"><label>Botón 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
       </div>
     </div>
   </section>
@@ -306,12 +376,14 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 var cfg = {
   name:'', tagline:'', slogan:'', logo:'imagenes/img_000.png', logoF:'imagenes/img_019.png',
   cp:'#B91C1C', ca:'#D97706', cb:'#FFF8F0', ct:'#1C0A00',
+  fontHead:'Playfair Display', fontBody:'DM Sans',
   phone:'', phoneD:'', email:'', address:'', maps:'',
+  contactEmail:'', dropdownOptions:'Reservación,Catering,Información General,Otro',
   hours:{ mon:['',''], tue:['',''], wed:['',''], thu:['',''], fri:['',''], sat:['',''], sun:['',''] },
   fb:'', ig:'', gm:'', order:'#menu',
-  slides:[ {img:'',title:'',sub:'',b1:'Order Online',b2:'View Menu'},
-            {img:'',title:'',sub:'',b1:'Get a Quote',b2:'Learn More'},
-            {img:'',title:'',sub:'',b1:'Order Now',b2:'See Menu'} ],
+  slides:[ {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b2:'View Menu',b2l:'#menu'},
+            {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b2:'Learn More',b2l:'#about'},
+            {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
   menu:[],
   aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap2t:'', ap2l:'',
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
@@ -347,14 +419,17 @@ function read() {
   cfg.name=v('b-name'); cfg.tagline=v('b-tagline'); cfg.slogan=v('b-slogan');
   cfg.logo=v('b-logo'); cfg.logoF=v('b-logo-footer');
   cfg.cp=v('b-cp'); cfg.ca=v('b-ca'); cfg.cb=v('b-cb'); cfg.ct=v('b-ct');
+  cfg.fontHead=v('font-head-val')||cfg.fontHead||'Playfair Display';
+  cfg.fontBody=v('font-body-val')||cfg.fontBody||'DM Sans';
   cfg.phone=v('c-phone'); cfg.phoneD=v('c-phone-d'); cfg.email=v('c-email');
+  cfg.contactEmail=v('c-contact-email'); cfg.dropdownOptions=v('c-dropdown-opts');
   cfg.address=v('c-address'); cfg.maps=v('c-maps');
   ['mon','tue','wed','thu','fri','sat','sun'].forEach(function(d) {
     cfg.hours[d] = [v('h-'+d+'-o'), v('h-'+d+'-c')];
   });
   cfg.fb=v('s-fb'); cfg.ig=v('s-ig'); cfg.gm=v('s-gm'); cfg.order=v('s-order')||'#menu';
   [1,2,3].forEach(function(i) {
-    cfg.slides[i-1] = {img:v('s'+i+'-img'),title:v('s'+i+'-title'),sub:v('s'+i+'-sub'),b1:v('s'+i+'-b1'),b2:v('s'+i+'-b2')};
+    cfg.slides[i-1] = {img:v('s'+i+'-img'),title:v('s'+i+'-title'),sub:v('s'+i+'-sub'),b1:v('s'+i+'-b1'),b1l:v('s'+i+'-b1l'),b2:v('s'+i+'-b2'),b2l:v('s'+i+'-b2l')};
   });
   cfg.aLabel=v('a-label'); cfg.aTitle=v('a-title'); cfg.aP1=v('a-p1'); cfg.aP2=v('a-p2'); cfg.aImg=v('a-img');
   cfg.ap1t=v('a-p1t'); cfg.ap1l=v('a-p1l'); cfg.ap2t=v('a-p2t'); cfg.ap2l=v('a-p2l');
@@ -368,7 +443,11 @@ function write() {
   sv('b-logo',cfg.logo); sv('b-logo-footer',cfg.logoF);
   sv('b-cp',cfg.cp); sv('b-cp-hex',cfg.cp); sv('b-ca',cfg.ca); sv('b-ca-hex',cfg.ca);
   sv('b-cb',cfg.cb); sv('b-cb-hex',cfg.cb); sv('b-ct',cfg.ct); sv('b-ct-hex',cfg.ct);
+  if(cfg.cp) syncActiveTheme(cfg.cp);
+  if(cfg.fontHead) syncActiveFont('head', cfg.fontHead);
+  if(cfg.fontBody) syncActiveFont('body', cfg.fontBody);
   sv('c-phone',cfg.phone); sv('c-phone-d',cfg.phoneD); sv('c-email',cfg.email);
+  sv('c-contact-email',cfg.contactEmail); sv('c-dropdown-opts',cfg.dropdownOptions);
   sv('c-address',cfg.address); sv('c-maps',cfg.maps);
   ['mon','tue','wed','thu','fri','sat','sun'].forEach(function(d) {
     sv('h-'+d+'-o', cfg.hours[d] ? cfg.hours[d][0] : '');
@@ -378,7 +457,7 @@ function write() {
   [1,2,3].forEach(function(i) {
     var s = cfg.slides[i-1] || {};
     sv('s'+i+'-img',s.img); sv('s'+i+'-title',s.title); sv('s'+i+'-sub',s.sub);
-    sv('s'+i+'-b1',s.b1); sv('s'+i+'-b2',s.b2);
+    sv('s'+i+'-b1',s.b1); sv('s'+i+'-b1l',s.b1l); sv('s'+i+'-b2',s.b2); sv('s'+i+'-b2l',s.b2l);
   });
   sv('a-label',cfg.aLabel); sv('a-title',cfg.aTitle); sv('a-p1',cfg.aP1); sv('a-p2',cfg.aP2); sv('a-img',cfg.aImg);
   sv('a-p1t',cfg.ap1t); sv('a-p1l',cfg.ap1l); sv('a-p2t',cfg.ap2t); sv('a-p2l',cfg.ap2l);
@@ -489,6 +568,12 @@ document.getElementById('btn-export').addEventListener('click', function() {
 
 function buildHTML() {
   var c = cfg;
+  var fh = c.fontHead || 'Playfair Display';
+  var fb = c.fontBody || 'DM Sans';
+  var serifFonts = ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather'];
+  var fhType = serifFonts.indexOf(fh) >= 0 ? 'serif' : 'sans-serif';
+  var fbType = 'sans-serif';
+  var gfQuery = encodeURIComponent(fh).replace(/%20/g,'+') + ':ital,wght@0,400;0,700;1,400' + (fh !== fb ? '&family=' + encodeURIComponent(fb).replace(/%20/g,'+') + ':wght@300;400;500;600;700' : '');
   var name = c.name || 'Restaurant Name';
   var p = c.cp || '#B91C1C';
   var a = c.ca || '#D97706';
@@ -535,15 +620,15 @@ function buildHTML() {
   lines.push('<meta name="viewport" content="width=device-width,initial-scale=1"/>');
   lines.push('<title>' + e(name) + '</title>');
   lines.push('<link rel="preconnect" href="https://fonts.googleapis.com"/>');
-  lines.push('<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>');
+  lines.push('<link href="https://fonts.googleapis.com/css2?family=' + gfQuery + '&display=swap" rel="stylesheet"/>');
   lines.push('<style>');
   lines.push('*{box-sizing:border-box;margin:0;padding:0}');
   lines.push(':root{--red:' + p + ';--amber:' + a + ';--bg:' + bg + ';--txt:' + tx + '}');
-  lines.push('body{font-family:\'DM Sans\',sans-serif;color:var(--txt);background:#fff;overflow-x:hidden}');
+  lines.push('body{font-family:\'' + fb + '\',' + fbType + ';color:var(--txt);background:#fff;overflow-x:hidden}');
   lines.push('.container{max-width:1200px;margin:0 auto;padding:0 24px}');
   lines.push('.section{padding:88px 0}.t-center{text-align:center}');
   lines.push('.sec-label{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}');
-  lines.push('.sec-title{font-family:\'Playfair Display\',serif;font-size:clamp(30px,4vw,44px);line-height:1.2;margin-bottom:14px}');
+  lines.push('.sec-title{font-family:\'' + fh + '\',' + fhType + ';font-size:clamp(30px,4vw,44px);line-height:1.2;margin-bottom:14px}');
   lines.push('.sec-divider{width:48px;height:3px;background:var(--amber);margin:0 auto 40px;border-radius:2px}');
   lines.push('.topbar{background:' + tx + ';color:#FEF3C7;font-size:12px;padding:8px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;transition:max-height .3s,padding .3s,opacity .3s;max-height:60px;opacity:1;overflow:hidden}');
   lines.push('.topbar.hidden{max-height:0;padding-top:0;padding-bottom:0;opacity:0}');
@@ -557,7 +642,7 @@ function buildHTML() {
   lines.push('nav a{font-size:13px;font-weight:500;color:rgba(28,10,0,.75);text-decoration:none;position:relative;transition:color .2s;white-space:nowrap}');
   lines.push('nav a::after{content:\'\';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:' + a + ';transition:width .3s}');
   lines.push('nav a:hover{color:' + p + '} nav a:hover::after{width:100%}');
-  lines.push('.btn{display:inline-flex;align-items:center;gap:6px;background:' + p + ';color:#fff;font-weight:600;font-size:13px;padding:9px 20px;border-radius:50px;text-decoration:none;transition:all .3s;border:none;cursor:pointer;font-family:\'DM Sans\',sans-serif;white-space:nowrap}');
+  lines.push('.btn{display:inline-flex;align-items:center;gap:6px;background:' + p + ';color:#fff;font-weight:600;font-size:13px;padding:9px 20px;border-radius:50px;text-decoration:none;transition:all .3s;border:none;cursor:pointer;font-family:\'' + fb + '\',sans-serif;white-space:nowrap}');
   lines.push('.btn:hover{opacity:.9;transform:translateY(-1px)}');
   lines.push('.btn-outline{background:transparent;border:2px solid #fff;color:#fff}.btn-outline:hover{background:#fff;color:' + p + '}');
   lines.push('.btn-amber{background:' + a + ';color:#fff}.btn-amber:hover{opacity:.9}');
@@ -573,14 +658,14 @@ function buildHTML() {
   lines.push('.hero-slide::after{content:\'\';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.25) 100%)}');
   lines.push('.hero-slide-content{position:absolute;bottom:0;left:0;right:0;padding:80px;z-index:2;max-width:700px}');
   lines.push('.hero-label{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:' + a + ';margin-bottom:12px;display:block}');
-  lines.push('.hero-title{font-family:\'Playfair Display\',serif;font-size:clamp(36px,5.5vw,64px);color:#fff;line-height:1.1;margin-bottom:16px}');
+  lines.push('.hero-title{font-family:\'' + fh + '\',serif;font-size:clamp(36px,5.5vw,64px);color:#fff;line-height:1.1;margin-bottom:16px}');
   lines.push('.hero-desc{font-size:17px;color:rgba(255,255,255,.82);margin-bottom:32px;line-height:1.6;max-width:520px}');
   lines.push('.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}');
   lines.push('.hero-dots{position:absolute;bottom:32px;right:48px;display:flex;gap:10px;z-index:5}');
   lines.push('.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s;border:none;padding:0}');
   lines.push('.hero-dot.active{background:#fff;transform:scale(1.3)}');
   lines.push('.menu-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}');
-  lines.push('.tab-btn{background:rgba(28,10,0,.05);border:1px solid rgba(28,10,0,.1);color:rgba(28,10,0,.6);font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;padding:9px 22px;border-radius:50px;cursor:pointer;transition:all .25s}');
+  lines.push('.tab-btn{background:rgba(28,10,0,.05);border:1px solid rgba(28,10,0,.1);color:rgba(28,10,0,.6);font-family:\'' + fb + '\',sans-serif;font-size:13px;font-weight:500;padding:9px 22px;border-radius:50px;cursor:pointer;transition:all .25s}');
   lines.push('.tab-btn.active{background:' + a + ';border-color:' + a + ';color:#fff;font-weight:600}');
   lines.push('.online-menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-bottom:8px}');
   lines.push('.omi-card{background:#fff;border:1px solid rgba(28,10,0,.08);border-radius:18px;display:flex;flex-direction:column}');
@@ -590,7 +675,7 @@ function buildHTML() {
   lines.push('.omi-img:hover img{transform:scale(1.08)}');
   lines.push('.omi-body{padding:18px 20px;display:flex;flex-direction:column;flex:1}');
   lines.push('.omi-price{font-size:15px;font-weight:700;color:' + a + ';margin-bottom:6px;display:block}');
-  lines.push('.omi-name{font-family:\'Playfair Display\',serif;font-size:17px;color:' + tx + ';margin-bottom:8px}');
+  lines.push('.omi-name{font-family:\'' + fh + '\',serif;font-size:17px;color:' + tx + ';margin-bottom:8px}');
   lines.push('.omi-desc{font-size:12px;color:rgba(28,10,0,.55);line-height:1.65;flex:1}');
   lines.push('.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}');
   lines.push('.about-img-wrap{border-radius:24px;overflow:hidden;aspect-ratio:4/5}');
@@ -599,7 +684,7 @@ function buildHTML() {
   lines.push('.pill{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:' + bg + ';border:1px solid rgba(28,10,0,.1);border-radius:50px;font-size:12px;font-weight:600;color:' + tx + ';text-decoration:none;transition:all .2s}');
   lines.push('.pill:hover{background:' + a + ';color:#fff;border-color:' + a + '}');
   lines.push('.cta-banner{background:' + p + ';border-radius:20px;padding:48px 56px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}');
-  lines.push('.cta-text h2{font-family:\'Playfair Display\',serif;font-size:28px;color:#fff;margin-bottom:6px}');
+  lines.push('.cta-text h2{font-family:\'' + fh + '\',serif;font-size:28px;color:#fff;margin-bottom:6px}');
   lines.push('.cta-text p{color:rgba(255,255,255,.75);font-size:14px}');
   lines.push('.cta-btns{display:flex;gap:12px;flex-wrap:wrap}');
   lines.push('.hour-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(28,10,0,.07);font-size:14px}');
@@ -612,7 +697,7 @@ function buildHTML() {
   lines.push('.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}');
   lines.push('.field-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}');
   lines.push('.field-wrap label{font-size:12px;font-weight:600;color:rgba(28,10,0,.5);text-transform:uppercase;letter-spacing:.06em}');
-  lines.push('.field-wrap input,.field-wrap select,.field-wrap textarea{background:#fff;border:1px solid rgba(28,10,0,.12);border-radius:10px;padding:11px 14px;font-family:\'DM Sans\',sans-serif;font-size:14px;color:' + tx + ';outline:none;transition:border .2s;width:100%}');
+  lines.push('.field-wrap input,.field-wrap select,.field-wrap textarea{background:#fff;border:1px solid rgba(28,10,0,.12);border-radius:10px;padding:11px 14px;font-family:\'' + fb + '\',sans-serif;font-size:14px;color:' + tx + ';outline:none;transition:border .2s;width:100%}');
   lines.push('.field-wrap input:focus,.field-wrap select:focus,.field-wrap textarea:focus{border-color:' + a + '}');
   lines.push('.field-wrap textarea{resize:vertical;min-height:100px}');
   lines.push('footer{background:' + tx + ';color:#FEF3C7;padding:56px 0 0}');
@@ -635,8 +720,8 @@ function buildHTML() {
   lines.push('#pd-close{position:absolute;top:0;right:-40px;background:none;border:none;outline:none;color:#fff;font-size:32px;font-weight:100;cursor:pointer;line-height:1;padding:0;-webkit-appearance:none}');
   lines.push('@media(max-width:768px){#pd-close{top:-40px;right:50%;transform:translateX(50%)}}');
   lines.push('#photo-dialog img{display:block;width:auto;max-width:80vw;max-height:70vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}');
-  lines.push('#photo-dialog p{color:#fff;text-align:center;margin:14px 0 0;font-family:\'Playfair Display\',serif;font-size:17px}');
-  lines.push('.fab-order{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:10px;background:' + a + ';color:#fff;font-family:\'DM Sans\',sans-serif;font-size:14px;font-weight:700;padding:14px 22px;border-radius:50px;text-decoration:none;box-shadow:0 8px 28px rgba(217,119,6,.45);transition:all .3s}');
+  lines.push('#photo-dialog p{color:#fff;text-align:center;margin:14px 0 0;font-family:\'' + fh + '\',serif;font-size:17px}');
+  lines.push('.fab-order{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:10px;background:' + a + ';color:#fff;font-family:\'' + fb + '\',sans-serif;font-size:14px;font-weight:700;padding:14px 22px;border-radius:50px;text-decoration:none;box-shadow:0 8px 28px rgba(217,119,6,.45);transition:all .3s}');
   lines.push('.fab-order:hover{transform:translateY(-2px)}');
   lines.push('@media(max-width:1024px){nav{display:none} .menu-toggle{display:block} .footer-grid{grid-template-columns:1fr 1fr}}');
   lines.push('@media(max-width:768px){.about-grid,.contact-grid{grid-template-columns:1fr}.about-img-wrap{order:2}.cta-banner{padding:28px 24px;flex-direction:column;text-align:center}.cta-btns{justify-content:center}.footer-grid{grid-template-columns:1fr 1fr}.header-inner{padding:0 20px}.btn{font-size:12px;padding:8px 14px}.topbar{display:none}}');
@@ -680,8 +765,8 @@ function buildHTML() {
   lines.push('    <h1 class="hero-title">' + e(slide1.title || name) + '</h1>');
   lines.push('    <p class="hero-desc">' + e(slide1.sub || '') + '</p>');
   lines.push('    <div class="hero-ctas">');
-  lines.push('      <a href="' + e(order) + '" class="btn">' + e(slide1.b1 || 'Order Online') + '</a>');
-  lines.push('      <a href="#menu" class="btn btn-outline">' + e(slide1.b2 || 'View Menu') + '</a>');
+  lines.push('      <a href="' + e(slide1.b1l || order) + '" class="btn">' + e(slide1.b1 || 'Order Online') + '</a>');
+  lines.push('      <a href="' + e(slide1.b2l || '#menu') + '" class="btn btn-outline">' + e(slide1.b2 || 'View Menu') + '</a>');
   lines.push('    </div>');
   lines.push('  </div>');
   lines.push('  <div class="hero-dots" id="hero-dots"></div>');
@@ -736,13 +821,21 @@ function buildHTML() {
   lines.push('        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:' + a + ';margin-bottom:16px">Hours</div>');
   lines.push('        ' + hoursHTML);
   lines.push('      </div></div>');
+  var dropOpts = (c.dropdownOptions || 'Reservación,Catering,Información General,Otro').split(/[,\n]/).map(function(o){return o.trim();}).filter(Boolean);
+  var selectOpts = dropOpts.map(function(o){ return '<option>' + o + '</option>'; }).join('');
+  var formAction = c.contactEmail ? 'https://formsubmit.co/' + e(c.contactEmail) : '#';
   lines.push('      <div class="form-box">');
-  lines.push('        <h3 style="font-family:\'Playfair Display\',serif;font-size:22px;margin-bottom:4px">Send Us a Message</h3>');
-  lines.push('        <span class="form-sub">We\'ll get back to you asap.</span>');
-  lines.push('        <div class="form-row"><div class="field-wrap"><label>Name *</label><input type="text" placeholder="Maria Garcia" required/></div><div class="field-wrap"><label>Phone</label><input type="tel" placeholder="' + e(c.phoneD) + '"/></div></div>');
-  lines.push('        <div class="field-wrap"><label>Email *</label><input type="email" placeholder="hello@example.com" required/></div>');
-  lines.push('        <div class="field-wrap"><label>Message</label><textarea placeholder="How can we help you?"></textarea></div>');
-  lines.push('        <button class="btn" style="width:100%;justify-content:center;padding:13px">Send Message</button>');
+  lines.push('        <h3 style="font-family:\'' + fh + '\',serif;font-size:22px;margin-bottom:4px">Send Us a Message</h3>');
+  lines.push('        <span class="form-sub">We\'ll get back to you shortly.</span>');
+  lines.push('        <form action="' + formAction + '" method="POST">');
+  lines.push('        <input type="hidden" name="_captcha" value="false"/>');
+  lines.push('        <input type="hidden" name="_next" value="' + formAction + '"/>');
+  lines.push('        <div class="form-row"><div class="field-wrap"><label>Name *</label><input type="text" name="name" placeholder="Maria Garcia" required/></div><div class="field-wrap"><label>Phone</label><input type="tel" name="phone" placeholder="' + e(c.phoneD) + '"/></div></div>');
+  lines.push('        <div class="field-wrap"><label>Email *</label><input type="email" name="email" placeholder="hello@example.com" required/></div>');
+  lines.push('        <div class="field-wrap"><label>Subject</label><select name="subject">' + selectOpts + '</select></div>');
+  lines.push('        <div class="field-wrap"><label>Message</label><textarea name="message" placeholder="How can we help you?"></textarea></div>');
+  lines.push('        <button type="submit" class="btn" style="width:100%;justify-content:center;padding:13px">Send Message</button>');
+  lines.push('        </form>');
   lines.push('      </div>');
   lines.push('    </div></div>');
   lines.push('</section>');
@@ -812,6 +905,82 @@ function buildHTML() {
 }
 
 // ── INIT ──────────────────────────────────────────────
+// ── THEMES ────────────────────────────────────────────
+var GOOGLE_FONTS_LOADED = {};
+
+function applyDashboardTheme(sw) {
+  var r = document.documentElement.style;
+  r.setProperty('--accent', sw.dataset.dac || sw.dataset.ca || '#D97706');
+  r.setProperty('--red',    sw.dataset.cp || '#B91C1C');
+  r.setProperty('--bg',     sw.dataset.dbg || '#0c0c0e');
+  r.setProperty('--surface', sw.dataset.ds || '#141416');
+  r.setProperty('--surface2', sw.dataset.ds2 || '#1c1c1f');
+}
+
+document.querySelectorAll('.theme-swatch').forEach(function(sw) {
+  sw.addEventListener('click', function() {
+    document.querySelectorAll('.theme-swatch').forEach(function(s){ s.classList.remove('active'); });
+    sw.classList.add('active');
+    var cp = sw.dataset.cp, ca = sw.dataset.ca, cb = sw.dataset.cb, ct = sw.dataset.ct;
+    document.getElementById('b-cp').value = cp; document.getElementById('b-cp-hex').value = cp;
+    document.getElementById('b-ca').value = ca; document.getElementById('b-ca-hex').value = ca;
+    document.getElementById('b-cb').value = cb; document.getElementById('b-cb-hex').value = cb;
+    document.getElementById('b-ct').value = ct; document.getElementById('b-ct-hex').value = ct;
+    applyDashboardTheme(sw);
+  });
+});
+
+function syncActiveTheme(cp) {
+  document.querySelectorAll('.theme-swatch').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.theme-swatch').forEach(function(s){
+    if(s.dataset.cp && s.dataset.cp.toLowerCase() === cp.toLowerCase()){
+      s.classList.add('active');
+      applyDashboardTheme(s);
+    }
+  });
+}
+
+// ── FONTS ─────────────────────────────────────────────
+var FONT_FAMILIES = {
+  head: ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather','Josefin Sans','Raleway','Montserrat','Bebas Neue'],
+  body: ['DM Sans','Inter','Lato','Nunito','Open Sans','Poppins']
+};
+
+function loadGoogleFont(family) {
+  if(GOOGLE_FONTS_LOADED[family]) return;
+  GOOGLE_FONTS_LOADED[family] = true;
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(family).replace(/%20/g,'+') + ':wght@400;600;700&display=swap';
+  document.head.appendChild(link);
+}
+
+// Pre-load all font cards
+document.querySelectorAll('.font-card').forEach(function(card) {
+  loadGoogleFont(card.dataset.font);
+  card.addEventListener('click', function() {
+    var type = card.dataset.type;
+    document.querySelectorAll('.font-card[data-type="'+type+'"]').forEach(function(c){ c.classList.remove('active'); });
+    card.classList.add('active');
+    var fam = card.dataset.font;
+    if(type === 'head') { cfg.fontHead = fam; setHiddenVal('font-head-val', fam); }
+    else                { cfg.fontBody = fam; setHiddenVal('font-body-val', fam); }
+  });
+});
+
+function setHiddenVal(id, val) {
+  var el = document.getElementById(id);
+  if(el) el.value = val;
+}
+
+function syncActiveFont(type, family) {
+  document.querySelectorAll('.font-card[data-type="'+type+'"]').forEach(function(c){
+    c.classList.toggle('active', c.dataset.font === family);
+  });
+  if(type==='head') setHiddenVal('font-head-val', family);
+  else setHiddenVal('font-body-val', family);
+}
+
 loadSaved();
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
