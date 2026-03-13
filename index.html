@@ -87,9 +87,9 @@ input[type=color]{padding:4px 8px;height:40px;cursor:pointer}
 .font-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
 .font-card{background:var(--surface2);border:2px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:4px}
 .font-card:hover{border-color:var(--accent)}
-.font-card.active{border-color:var(--accent);background:rgba(217,119,6,.08)}
-.fc-head{font-size:20px;font-weight:700;line-height:1.2;color:var(--text)}
-.fc-body{font-size:12px;color:var(--muted);line-height:1.5}
+.font-card.active{border-color:var(--accent);background:rgba(217,119,6,.12)} .font-card.active .fc-head{color:#1a1a1a} .font-card.active .fc-body{color:#555} .font-card{background:#fff}
+.fc-head{font-size:20px;font-weight:700;line-height:1.2;color:#1a1a1a}
+.fc-body{font-size:12px;color:#555;line-height:1.5}
 .fc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-top:4px}
 .btn-save{padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif}
 .btn-cancel{padding:10px 18px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif}
@@ -123,6 +123,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
     <button class="nav-item" data-section="menu">🍽️ Menú</button>
     <button class="nav-item" data-section="about">ℹ️ Nosotros</button>
+    <button class="nav-item" data-section="introcards">🃏 Intro Cards</button>
     <button class="nav-item" data-section="welcome">👋 Welcome</button>
     <button class="nav-item" data-section="testimonials">⭐ Testimonials</button>
     <button class="nav-item" data-section="cta">📣 CTA / Catering</button>
@@ -295,6 +296,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   <section class="section" id="section-menu">
     <div class="section-title">Menú</div>
     <div class="section-sub">Agrega, edita o elimina platillos del menú</div>
+    <div class="group-title">Categorías</div>
+    <div class="field" style="margin-bottom:20px">
+      <textarea id="menu-cats" style="min-height:80px" placeholder="appetizers:Appetizers&#10;plates:Plates&#10;family:Family Packs&#10;kids:Kids"></textarea>
+      <span class="hint">Una por línea — clave:Nombre (ej: <code>tacos:Tacos Especiales</code>)</span>
+    </div>
+    <div class="divider"></div>
     <div class="items-list" id="items-list"><div style="color:var(--muted);text-align:center;padding:20px">No hay platillos. Agrega el primero.</div></div>
     <button class="btn-add" id="btn-add-item">＋ Agregar Platillo</button>
   </section>
@@ -317,6 +324,19 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Pill 2 Texto</label><input type="text" id="a-p2t" placeholder="Cómo llegar"/></div>
       <div class="field"><label>Pill 2 Link</label><input type="text" id="a-p2l" placeholder="https://maps.google.com/..."/></div>
     </div>
+  </section>
+
+  <section class="section" id="section-introcards">
+    <div class="section-title">Intro Cards</div>
+    <div class="section-sub">Tarjetas de presentación — ej: "Browse Our Menu"</div>
+    <div class="form-grid">
+      <div class="field"><label>Label pequeño</label><input type="text" id="ic-label" placeholder="Welcome Ranchero!"/></div>
+      <div class="field"><label>Título</label><input type="text" id="ic-title" placeholder="Browse Our Menu"/></div>
+    </div>
+    <div class="divider"></div>
+    <div class="group-title">Tarjetas</div>
+    <div class="ilist" id="ic-list"></div>
+    <button class="btn-add" id="btn-add-ic">＋ Agregar Tarjeta</button>
   </section>
 
   <section class="section" id="section-welcome">
@@ -404,24 +424,50 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <button class="modal-close" id="modal-close-btn">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-grid one" style="gap:16px">
-        <div class="field"><label>Nombre</label><input type="text" id="m-name" placeholder="Chunky Guacamole"/></div>
+      <div class="form-grid" style="gap:14px">
+        <div class="field span2"><label>Nombre *</label><input type="text" id="m-name" placeholder="Chunky Guacamole"/></div>
         <div class="field"><label>Precio</label><input type="text" id="m-price" placeholder="Full $12.99 | Half $11.99"/></div>
-        <div class="field"><label>Categoría</label>
-          <select id="m-cat">
-            <option value="appetizers">Appetizers</option>
-            <option value="plates">Plates</option>
-            <option value="family">Family Packs</option>
-            <option value="kids">Kids</option>
-          </select>
-        </div>
-        <div class="field"><label>Imagen (ruta)</label><input type="text" id="m-img" placeholder="imagenes/Chunky Guacamole.jpg"/></div>
-        <div class="field"><label>Descripción</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
+        <div class="field"><label>Categoría</label><select id="m-cat"></select></div>
+        <div class="field span2"><label>Imagen (ruta)</label><input type="text" id="m-img" placeholder="imagenes/Chunky Guacamole.jpg"/></div>
+        <div class="field span2"><label>Link del platillo (opcional)</label><input type="text" id="m-link" placeholder="https://... o #menu"/><span class="hint">Si se pone, el nombre del platillo se convierte en link</span></div>
+        <div class="field span2"><label>Descripción</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" id="modal-cancel-btn">Cancelar</button>
       <button class="btn-save" id="modal-save-btn">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO CARD MODAL -->
+<div class="modal-overlay" id="ic-modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="ic-modal-title">Tarjeta</h3><button class="modal-close" id="ic-modal-close">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid" style="gap:14px">
+        <div class="field span2"><label>Título *</label><input type="text" id="ic-m-title" placeholder="Dinner Menu"/></div>
+        <div class="field span2"><label>Texto</label><textarea id="ic-m-text" placeholder="Savor our full dinner experience..." style="min-height:70px"></textarea></div>
+        <div class="field"><label>Icono</label>
+          <select id="ic-m-icon">
+            <option value="menu">📋 Menú / Libro</option>
+            <option value="togo">📦 ToGo / Caja</option>
+            <option value="catering">🍽️ Catering / Mesa</option>
+            <option value="star">⭐ Estrella</option>
+            <option value="phone">📞 Teléfono</option>
+            <option value="map">📍 Ubicación</option>
+            <option value="clock">🕐 Horario</option>
+            <option value="gift">🎁 Regalo</option>
+            <option value="heart">❤️ Favorito</option>
+          </select>
+        </div>
+        <div class="field"><label>Link</label><input type="text" id="ic-m-link" placeholder="#menu o https://..."/></div>
+        <div class="field span2"><label>Texto del botón link</label><input type="text" id="ic-m-linktxt" placeholder="View Menu →"/></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="ic-modal-cancel">Cancelar</button>
+      <button class="btn-primary" id="ic-modal-save">Guardar</button>
     </div>
   </div>
 </div>
@@ -460,8 +506,15 @@ var cfg = {
   slides:[ {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b2:'View Menu',b2l:'#menu'},
             {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b2:'Learn More',b2l:'#about'},
             {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
+  menuCats:"appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids",
   menu:[],
   aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap2t:'', ap2l:'',
+  icLabel:'', icTitle:'',
+  icCards:[
+    {icon:'menu',title:'Dinner Menu',text:'Savor our full dinner experience.',link:'#'},
+    {icon:'togo',title:'ToGo Packages',text:'Enjoy Rancheros wherever you are.',link:'#menu'},
+    {icon:'catering',title:'Online Menu',text:'Order online for pickup or delivery.',link:'#menu'}
+  ],
   wlLabel:'', wlTitle:'', wlP1:'', wlP2:'', wlImg:'',
   wlS1n:'', wlS1t:'', wlS2n:'', wlS2t:'', wlS3n:'', wlS3t:'',
   tmLabel:'', tmTitle:'', testimonials:[],
@@ -516,7 +569,9 @@ function read() {
   [1,2,3].forEach(function(i) {
     cfg.slides[i-1] = {img:v('s'+i+'-img'),title:v('s'+i+'-title'),sub:v('s'+i+'-sub'),b1:v('s'+i+'-b1'),b1l:v('s'+i+'-b1l'),b2:v('s'+i+'-b2'),b2l:v('s'+i+'-b2l')};
   });
+  cfg.menuCats=v('menu-cats');
   cfg.aLabel=v('a-label'); cfg.aTitle=v('a-title'); cfg.aP1=v('a-p1'); cfg.aP2=v('a-p2'); cfg.aImg=v('a-img');
+  cfg.icLabel=v('ic-label'); cfg.icTitle=v('ic-title');
   cfg.wlLabel=v('wl-label'); cfg.wlTitle=v('wl-title'); cfg.wlP1=v('wl-p1'); cfg.wlP2=v('wl-p2'); cfg.wlImg=v('wl-img');
   cfg.wlS1n=v('wl-s1n'); cfg.wlS1t=v('wl-s1t'); cfg.wlS2n=v('wl-s2n'); cfg.wlS2t=v('wl-s2t'); cfg.wlS3n=v('wl-s3n'); cfg.wlS3t=v('wl-s3t');
   cfg.tmLabel=v('tm-label'); cfg.tmTitle=v('tm-title');
@@ -547,7 +602,11 @@ function write() {
     sv('s'+i+'-img',s.img); sv('s'+i+'-title',s.title); sv('s'+i+'-sub',s.sub);
     sv('s'+i+'-b1',s.b1); sv('s'+i+'-b1l',s.b1l); sv('s'+i+'-b2',s.b2); sv('s'+i+'-b2l',s.b2l);
   });
+  sv('menu-cats',cfg.menuCats);
+  populateCatSelect();
   sv('a-label',cfg.aLabel); sv('a-title',cfg.aTitle); sv('a-p1',cfg.aP1); sv('a-p2',cfg.aP2); sv('a-img',cfg.aImg);
+  sv('ic-label',cfg.icLabel); sv('ic-title',cfg.icTitle);
+  renderIcCards();
   sv('wl-label',cfg.wlLabel); sv('wl-title',cfg.wlTitle); sv('wl-p1',cfg.wlP1); sv('wl-p2',cfg.wlP2); sv('wl-img',cfg.wlImg);
   sv('wl-s1n',cfg.wlS1n); sv('wl-s1t',cfg.wlS1t); sv('wl-s2n',cfg.wlS2n); sv('wl-s2t',cfg.wlS2t); sv('wl-s3n',cfg.wlS3n); sv('wl-s3t',cfg.wlS3t);
   sv('tm-label',cfg.tmLabel); sv('tm-title',cfg.tmTitle);
@@ -617,13 +676,45 @@ function renderItems() {
 
 document.getElementById('btn-add-item').addEventListener('click', function() { openModal(null); });
 
+function parseCats() {
+  var raw = v('menu-cats') || cfg.menuCats || 'appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids';
+  var cats = {};
+  raw.split('\n').forEach(function(line){
+    var parts = line.split(':');
+    if(parts.length >= 2) cats[parts[0].trim()] = parts.slice(1).join(':').trim();
+  });
+  return cats;
+}
+
+function populateCatSelect() {
+  var sel = document.getElementById('m-cat');
+  if(!sel) return;
+  var cats = parseCats();
+  var prev = sel.value;
+  sel.innerHTML = '';
+  Object.keys(cats).forEach(function(k){
+    var opt = document.createElement('option');
+    opt.value = k; opt.textContent = cats[k];
+    sel.appendChild(opt);
+  });
+  if(prev) sel.value = prev;
+}
+
+// Rebuild cat select when cats textarea changes
+document.addEventListener('DOMContentLoaded', function(){
+  var mc = document.getElementById('menu-cats');
+  if(mc) mc.addEventListener('input', function(){ cfg.menuCats = this.value; });
+});
+
 function openModal(idx) {
   editIdx = idx;
   document.getElementById('modal-title').textContent = idx !== null ? 'Editar Platillo' : 'Agregar Platillo';
   var item = idx !== null ? cfg.menu[idx] : {};
+  populateCatSelect();
   sv('m-name', item.name); sv('m-price', item.price);
-  sv('m-img', item.img); sv('m-desc', item.desc);
-  document.getElementById('m-cat').value = item.cat || 'appetizers';
+  sv('m-img', item.img); sv('m-desc', item.desc||''); sv('m-link', item.link||'');
+  var catSel = document.getElementById('m-cat');
+  catSel.value = item.cat || (catSel.options[0] ? catSel.options[0].value : '');
   document.getElementById('item-modal').classList.add('open');
 }
 
@@ -632,7 +723,7 @@ function closeModal() { document.getElementById('item-modal').classList.remove('
 document.getElementById('modal-close-btn').addEventListener('click', closeModal);
 document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
 document.getElementById('modal-save-btn').addEventListener('click', function() {
-  var item = { name:v('m-name'), price:v('m-price'), cat:document.getElementById('m-cat').value, img:v('m-img'), desc:v('m-desc') };
+  var item = { name:v('m-name'), price:v('m-price'), cat:document.getElementById('m-cat').value, img:v('m-img'), desc:v('m-desc'), link:v('m-link') };
   if (!item.name) { alert('El nombre es obligatorio'); return; }
   if (editIdx !== null) cfg.menu[editIdx] = item;
   else cfg.menu.push(item);
@@ -674,12 +765,15 @@ function buildHTML() {
 
   var menuCards = '';
   (c.menu || []).forEach(function(item) {
+    var nm = item.link
+      ? '<a href="' + e(item.link) + '" style="color:inherit;text-decoration:none;border-bottom:1px solid ' + a + '">' + e(item.name) + '</a>'
+      : e(item.name);
     menuCards += '<div class="omi-card" data-cat="' + e(item.cat) + '">'
       + '<div class="omi-img" style="padding:0">'
       + '<img src="' + e(item.img) + '" alt="' + e(item.name) + '" style="width:100%;height:140px;object-fit:cover;display:block"/>'
       + '</div><div class="omi-body">'
       + '<span class="omi-price">' + e(item.price) + '</span>'
-      + '<h3 class="omi-name">' + e(item.name) + '</h3>'
+      + '<h3 class="omi-name">' + nm + '</h3>'
       + (item.desc ? '<p class="omi-desc">' + e(item.desc) + '</p>' : '')
       + '</div></div>\n';
   });
@@ -770,6 +864,14 @@ function buildHTML() {
   lines.push('.omi-name{font-family:\'' + fh + '\',serif;font-size:17px;color:' + tx + ';margin-bottom:8px}');
   lines.push('.omi-desc{font-size:12px;color:rgba(28,10,0,.55);line-height:1.65;flex:1}');
   lines.push('.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}');
+  lines.push('.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:0}');
+  lines.push('.menu-card{background:#fff;border:1px solid rgba(28,10,0,.08);border-radius:20px;padding:32px 28px;display:flex;flex-direction:column;align-items:flex-start;gap:16px;transition:box-shadow .25s}');
+  lines.push('.menu-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)}');
+  lines.push('.menu-icon{width:64px;height:64px;background:' + bg + ';border-radius:16px;display:flex;align-items:center;justify-content:center;color:' + p + ';flex-shrink:0}');
+  lines.push('.menu-card h3{font-family:\'' + fh + '\',' + fhType + ';font-size:20px;color:' + tx + '}');
+  lines.push('.menu-card p{font-size:14px;color:rgba(28,10,0,.6);line-height:1.7;flex:1}');
+  lines.push('.link-btn{color:' + p + ';font-weight:700;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:auto}');
+  lines.push('.link-btn:hover{opacity:.75}');
   lines.push('.about-img-wrap{border-radius:24px;overflow:hidden;aspect-ratio:4/5}');
   lines.push('.about-img-wrap img{width:100%;height:100%;object-fit:cover}');
   lines.push('.pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}');
@@ -866,6 +968,43 @@ function buildHTML() {
   lines.push('<section class="section" id="menu" style="background:' + bg + '">');
   lines.push('  <div class="container"><div class="t-center"><div class="sec-label">Our Menus</div><h2 class="sec-title" style="color:' + tx + '">What We Offer</h2><div class="sec-divider"></div></div></div>');
   lines.push('</section>');
+  // ── INTRO CARDS SECTION ──
+  if(c.icCards && c.icCards.length) {
+    var icIconMap = {
+      menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
+      togo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+      catering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>',
+      star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+      phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.8a2 2 0 012-2.18h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.91 14.14a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>',
+      map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+      clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+      gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>',
+      heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'
+    };
+    lines.push('<section class="section" style="background:' + bg + '">');
+    lines.push('  <div class="container">');
+    if(c.icLabel||c.icTitle) {
+      lines.push('    <div class="t-center">');
+      if(c.icLabel) lines.push('      <div class="sec-label" style="color:' + a + '">' + e(c.icLabel) + '</div>');
+      if(c.icTitle) lines.push('      <h2 class="sec-title" style="font-family:\'' + fh + '\',' + fhType + ';color:' + tx + '">' + e(c.icTitle) + '</h2>');
+      lines.push('      <div class="sec-divider"></div>');
+      lines.push('    </div>');
+    }
+    lines.push('    <div class="menu-grid">');
+    c.icCards.forEach(function(card) {
+      var svg = icIconMap[card.icon] || icIconMap['menu'];
+      lines.push('      <div class="menu-card">');
+      lines.push('        <div class="menu-icon">' + svg + '</div>');
+      lines.push('        <h3>' + e(card.title) + '</h3>');
+      if(card.text) lines.push('        <p>' + e(card.text) + '</p>');
+      if(card.link) lines.push('        <a href="' + e(card.link) + '" class="link-btn">' + e(card.linktxt || 'Ver más →') + '</a>');
+      lines.push('      </div>');
+    });
+    lines.push('    </div>');
+    lines.push('  </div>');
+    lines.push('</section>');
+  }
+
   lines.push('<section class="section" id="about" style="background:#ffffff">');
   lines.push('  <div class="container"><div class="about-grid">');
   lines.push('    <div class="about-img-wrap"><img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '"/></div>');
@@ -932,12 +1071,18 @@ function buildHTML() {
   lines.push('<section class="section" id="services" style="background:' + bg + '">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">Our Flavors ToGo</div><h2 class="sec-title" style="color:' + tx + '">Online Menu</h2><div class="sec-divider"></div></div>');
+  // Dynamic tabs from menuCats
+  var rawCats = (c.menuCats || 'appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids');
+  var catEntries = [];
+  rawCats.split('\n').forEach(function(line){
+    var parts = line.split(':');
+    if(parts.length >= 2) catEntries.push({key:parts[0].trim(), label:parts.slice(1).join(':').trim()});
+  });
   lines.push('    <div class="menu-tabs">');
   lines.push('      <button class="tab-btn active" data-filter="all">All</button>');
-  lines.push('      <button class="tab-btn" data-filter="appetizers">Appetizers</button>');
-  lines.push('      <button class="tab-btn" data-filter="plates">Plates</button>');
-  lines.push('      <button class="tab-btn" data-filter="family">Family Packs</button>');
-  lines.push('      <button class="tab-btn" data-filter="kids">Kids</button>');
+  catEntries.forEach(function(cat){
+    lines.push('      <button class="tab-btn" data-filter="' + e(cat.key) + '">' + e(cat.label) + '</button>');
+  });
   lines.push('    </div>');
   lines.push('    <div class="online-menu-grid" id="menu-items-grid">' + menuCards + '</div>');
   lines.push('  </div>');
@@ -1151,6 +1296,67 @@ document.querySelectorAll('.font-card').forEach(function(card) {
   });
 });
 
+// ── INTRO CARDS ────────────────────────────────────────
+var icEditIdx = null;
+var IC_ICONS = {
+  menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
+  togo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+  catering:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>',
+  star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>',
+  map:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'
+};
+
+function renderIcCards() {
+  var list = document.getElementById('ic-list');
+  if(!list) return;
+  if(!cfg.icCards || !cfg.icCards.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No hay tarjetas.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  cfg.icCards.forEach(function(card, i) {
+    var d = document.createElement('div');
+    d.className = 'icard';
+    d.innerHTML = '<div style="width:40px;height:40px;background:rgba(217,119,6,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0">'+(IC_ICONS[card.icon]||IC_ICONS.menu)+'</div>'
+      +'<div class="iinfo"><div class="item-name">'+esc(card.title)+'</div>'
+      +'<div class="item-meta">'+esc(card.text||'')+(card.link?' · '+esc(card.link):'')+'</div></div>'
+      +'<div class="iact"><button class="btn-sm btn-edit" data-ic="'+i+'">Editar</button><button class="btn-sm btn-del" data-ic="'+i+'">Eliminar</button></div>';
+    list.appendChild(d);
+  });
+  list.querySelectorAll('.btn-edit').forEach(function(b){ b.addEventListener('click', function(){ openIcModal(parseInt(b.dataset.ic)); }); });
+  list.querySelectorAll('.btn-del').forEach(function(b){ b.addEventListener('click', function(){
+    if(confirm('¿Eliminar tarjeta?')){ cfg.icCards.splice(parseInt(b.dataset.ic),1); renderIcCards(); }
+  }); });
+}
+
+function openIcModal(idx) {
+  icEditIdx = (idx !== undefined) ? idx : null;
+  document.getElementById('ic-modal-title').textContent = icEditIdx !== null ? 'Editar Tarjeta' : 'Nueva Tarjeta';
+  if(icEditIdx !== null) {
+    var c = cfg.icCards[icEditIdx];
+    sv('ic-m-title',c.title); sv('ic-m-text',c.text||''); sv('ic-m-link',c.link||''); sv('ic-m-linktxt',c.linktxt||'');
+    document.getElementById('ic-m-icon').value = c.icon || 'menu';
+  } else { sv('ic-m-title',''); sv('ic-m-text',''); sv('ic-m-link',''); sv('ic-m-linktxt',''); document.getElementById('ic-m-icon').value='menu'; }
+  document.getElementById('ic-modal').classList.add('open');
+}
+
+document.getElementById('btn-add-ic').addEventListener('click', function(){ openIcModal(); });
+document.getElementById('ic-modal-close').addEventListener('click', function(){ document.getElementById('ic-modal').classList.remove('open'); });
+document.getElementById('ic-modal-cancel').addEventListener('click', function(){ document.getElementById('ic-modal').classList.remove('open'); });
+document.getElementById('ic-modal-save').addEventListener('click', function(){
+  var t = v('ic-m-title');
+  if(!t){ alert('El título es obligatorio'); return; }
+  var item = {title:t, text:v('ic-m-text'), icon:document.getElementById('ic-m-icon').value, link:v('ic-m-link'), linktxt:v('ic-m-linktxt')};
+  if(!cfg.icCards) cfg.icCards = [];
+  if(icEditIdx !== null) cfg.icCards[icEditIdx] = item; else cfg.icCards.push(item);
+  document.getElementById('ic-modal').classList.remove('open');
+  renderIcCards();
+});
+
 // ── TESTIMONIALS ──────────────────────────────────────
 var tmModal = null; var tmEditIdx = null;
 
@@ -1207,10 +1413,27 @@ document.getElementById('tm-modal-save').addEventListener('click', function(){
 });
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
-document.getElementById('btn-export-json').addEventListener('click', function() {
+document.getElementById('btn-export-json').addEventListener('click', async function() {
   readFields();
   var name = (cfg.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  var blob = new Blob([JSON.stringify(cfg, null, 2)], {type: 'application/json'});
+  var json = JSON.stringify(cfg, null, 2);
+  var blob = new Blob([json], {type: 'application/json'});
+  if(window.showSaveFilePicker) {
+    try {
+      var fh = await window.showSaveFilePicker({
+        suggestedName: name + '_config.json',
+        types: [{ description: 'JSON Config', accept: {'application/json': ['.json']} }]
+      });
+      var writable = await fh.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      var b = document.getElementById('saved-badge');
+      b.textContent = '✓ Archivo guardado'; b.classList.add('show');
+      setTimeout(function(){ b.textContent = '✓ Guardado'; b.classList.remove('show'); }, 2500);
+      return;
+    } catch(e) { if(e.name === 'AbortError') return; }
+  }
+  // Fallback
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = name + '_config.json';
