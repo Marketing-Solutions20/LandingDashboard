@@ -17,6 +17,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .2s;font-size:13px;font-weight:500;border:none;background:none;text-align:left;width:100%}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:rgba(217,119,6,.12);color:var(--accent)}
+.nav-group-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:14px 12px 4px;opacity:.6}
 .nav-icon{font-size:16px;flex-shrink:0}
 .sidebar-export{padding:16px}
 .btn-export{width:100%;padding:11px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -116,46 +117,50 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <p>Restaurant Template</p>
   </div>
   <nav class="sidebar-nav">
-    <button class="nav-item active" data-section="brand">🏠 Marca & Colores</button>
-    <button class="nav-item" data-section="fonts">🔤 Tipografía</button>
-    <button class="nav-item" data-section="contact">📞 Contacto & Horarios</button>
-    <button class="nav-item" data-section="social">🌐 Redes Sociales</button>
+    <div class="nav-group-label">Preferences</div>
+    <button class="nav-item active" data-section="brand">🎨 Appearance</button>
+    <button class="nav-item" data-section="fonts">🔤 Fonts</button>
+    <button class="nav-item" data-section="contact">🏢 Business Info</button>
+    <button class="nav-item" data-section="social">🌐 Socials</button>
+    <div class="nav-group-label">Layout</div>
     <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
-    <button class="nav-item" data-section="menu">🍽️ Menú</button>
-    <button class="nav-item" data-section="about">ℹ️ Nosotros</button>
     <button class="nav-item" data-section="introcards">🃏 Intro Cards</button>
     <button class="nav-item" data-section="welcome">👋 Welcome</button>
+    <button class="nav-item" data-section="about">ℹ️ About</button>
+    <button class="nav-item" data-section="menu">🍽️ Menu</button>
+    <button class="nav-item" data-section="cta">📣 Call to Action</button>
     <button class="nav-item" data-section="testimonials">⭐ Testimonials</button>
-    <button class="nav-item" data-section="cta">📣 CTA / Catering</button>
-    <button class="nav-item" data-section="export">📤 Exportar</button>
+    <button class="nav-item" data-section="contactform">📬 Contact Form</button>
+    <button class="nav-item" data-section="footer">🔗 Footer</button>
+    <button class="nav-item" data-section="export">📤 Export</button>
   </nav>
   <div class="sidebar-export">
-    <button class="btn-export" id="btn-save">💾 Guardar</button>
-    <div class="saved-badge" id="saved-badge">✓ Guardado</div>
+    <button class="btn-export" id="btn-save">💾 Save</button>
+    <div class="saved-badge" id="saved-badge">✓ Saved</div>
     <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn-json" id="btn-export-json" title="Exportar config del cliente como JSON">⬇️ JSON</button>
-      <button class="btn-json" id="btn-import-json" title="Importar config de un cliente">📂 JSON</button>
+      <button class="btn-json" id="btn-export-json" title="Export client config as JSON">⬇️ JSON</button>
+      <button class="btn-json" id="btn-import-json" title="Import client config">📂 JSON</button>
     </div>
     <input type="file" id="json-file-input" accept=".json" style="display:none"/>
-    <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.4">Guarda y carga configs por cliente</div>
+    <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.4">Save & load client configs</div>
   </div>
 </aside>
 
 <main class="main">
 
   <section class="section active" id="section-brand">
-    <div class="section-title">Marca & Colores</div>
-    <div class="section-sub">Nombre del restaurante, logo y paleta de colores</div>
+    <div class="section-title">Appearance</div>
+    <div class="section-sub">Restaurant name, logo and color palette</div>
     <div class="form-grid">
-      <div class="field span2"><label>Nombre del Restaurante</label><input type="text" id="b-name" placeholder="Rancheros Mexican Grill"/></div>
+      <div class="field span2"><label>Restaurant Name</label><input type="text" id="b-name" placeholder="Rancheros Mexican Grill"/></div>
       <div class="field"><label>Tagline</label><input type="text" id="b-tagline" placeholder="Mexican Grill & Cantina"/></div>
-      <div class="field"><label>Slogan Hero</label><input type="text" id="b-slogan" placeholder="Authentic Mexican Flavors"/></div>
+      <div class="field"><label>Hero Slogan</label><input type="text" id="b-slogan" placeholder="Authentic Mexican Flavors"/></div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Logo</div>
     <div class="form-grid">
-      <div class="field span2"><label>Logo Header (ruta)</label><input type="text" id="b-logo" placeholder="imagenes/img_000.png"/></div>
-      <div class="field span2"><label>Logo Footer (ruta)</label><input type="text" id="b-logo-footer" placeholder="imagenes/img_019.png"/></div>
+      <div class="field span2"><label>Header Logo (path)</label><input type="text" id="b-logo" placeholder="imagenes/img_000.png"/></div>
+      <div class="field span2"><label>Footer Logo (path)</label><input type="text" id="b-logo-footer" placeholder="imagenes/img_019.png"/></div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Tema</div>
@@ -174,7 +179,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="theme-swatch" data-theme="gray" data-cp="#374151" data-ca="#6B7280" data-cb="#F9FAFB" data-ct="#111827" data-dbg="#0a0b0d" data-ds="#111214" data-ds2="#18191c" data-dac="#9CA3AF"><div class="swatch-color" style="background:linear-gradient(145deg,#9CA3AF,#374151)"></div><span>Gray</span></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Colores</div>
+    <div class="group-title">Colors</div>
     <div class="form-grid">
       <div class="field"><label>Color Principal</label><div class="color-row"><input type="color" id="b-cp" value="#B91C1C"/><input type="text" id="b-cp-hex" placeholder="#B91C1C" style="flex:1"/></div><span class="hint">Botones, acentos</span></div>
       <div class="field"><label>Color Acento</label><div class="color-row"><input type="color" id="b-ca" value="#D97706"/><input type="text" id="b-ca-hex" placeholder="#D97706" style="flex:1"/></div><span class="hint">Precios, highlights</span></div>
@@ -184,8 +189,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-fonts">
-    <div class="section-title">Tipografía</div>
-    <div class="section-sub">Fuentes para títulos y texto del landing</div>
+    <div class="section-title">Fonts</div>
+    <div class="section-sub">Heading and body fonts for the landing page</div>
     <div class="group-title">Fuente para Títulos</div>
     <div class="font-grid" id="font-head-grid">
       <div class="font-card active" data-font="Playfair Display" data-type="head"><span class="fc-head" style="font-family:'Playfair Display',serif">Aa Bb Cc</span><span class="fc-body" style="font-family:'Playfair Display',serif">The quick brown fox</span><span class="fc-label">Playfair Display</span></div>
@@ -212,206 +217,212 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-contact">
-    <div class="section-title">Contacto & Horarios</div>
-    <div class="section-sub">Información de contacto y horarios del restaurante</div>
+    <div class="section-title">Business Info</div>
+    <div class="section-sub">Contact details and opening hours</div>
     <div class="form-grid">
-      <div class="field"><label>Teléfono (href)</label><input type="tel" id="c-phone" placeholder="+12812598701"/></div>
-      <div class="field"><label>Teléfono (display)</label><input type="tel" id="c-phone-d" placeholder="+1 281-259-8701"/></div>
+      <div class="field"><label>Phone (href)</label><input type="tel" id="c-phone" placeholder="+12812598701"/></div>
+      <div class="field"><label>Phone (display)</label><input type="tel" id="c-phone-d" placeholder="+1 281-259-8701"/></div>
       <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="info@restaurante.com"/></div>
-      <div class="field"><label>Dirección</label><input type="text" id="c-address" placeholder="32517 FM2978, Magnolia TX"/></div>
-      <div class="field span2"><label>Link Google Maps</label><input type="url" id="c-maps" placeholder="https://maps.google.com/..."/></div>
+      <div class="field"><label>Address</label><input type="text" id="c-address" placeholder="32517 FM2978, Magnolia TX"/></div>
+      <div class="field span2"><label>Google Maps Link</label><input type="url" id="c-maps" placeholder="https://maps.google.com/..."/></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Formulario de Contacto</div>
-    <div class="form-grid">
-      <div class="field span2"><label>Email destino del formulario</label><input type="email" id="c-contact-email" placeholder="reservaciones@restaurante.com"/><span class="hint">A este email llegarán los mensajes del formulario</span></div>
-      <div class="field span2">
-        <label>Opciones del dropdown "Asunto"</label>
-        <textarea id="c-dropdown-opts" placeholder="Reservación&#10;Catering&#10;Información General&#10;Otro" style="min-height:90px"></textarea>
-        <span class="hint">Una opción por línea</span>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="group-title">Horarios (dejar vacío = Closed)</div>
+    <div class="group-title">Hours (leave blank = Closed)</div>
     <div class="hours-grid">
-      <div class="hours-day">Lunes</div><input type="text" id="h-mon-o" placeholder="11:00 AM"/><input type="text" id="h-mon-c" placeholder="9:00 PM"/>
-      <div class="hours-day">Martes</div><input type="text" id="h-tue-o" placeholder="11:00 AM"/><input type="text" id="h-tue-c" placeholder="9:00 PM"/>
-      <div class="hours-day">Miércoles</div><input type="text" id="h-wed-o" placeholder="11:00 AM"/><input type="text" id="h-wed-c" placeholder="9:00 PM"/>
-      <div class="hours-day">Jueves</div><input type="text" id="h-thu-o" placeholder="11:00 AM"/><input type="text" id="h-thu-c" placeholder="9:00 PM"/>
-      <div class="hours-day">Viernes</div><input type="text" id="h-fri-o" placeholder="11:00 AM"/><input type="text" id="h-fri-c" placeholder="10:00 PM"/>
-      <div class="hours-day">Sábado</div><input type="text" id="h-sat-o" placeholder="10:00 AM"/><input type="text" id="h-sat-c" placeholder="10:00 PM"/>
-      <div class="hours-day">Domingo</div><input type="text" id="h-sun-o" placeholder="10:00 AM"/><input type="text" id="h-sun-c" placeholder="8:00 PM"/>
+      <div class="hours-day">Monday</div><input type="text" id="h-mon-o" placeholder="11:00 AM"/><input type="text" id="h-mon-c" placeholder="9:00 PM"/>
+      <div class="hours-day">Tuesday</div><input type="text" id="h-tue-o" placeholder="11:00 AM"/><input type="text" id="h-tue-c" placeholder="9:00 PM"/>
+      <div class="hours-day">Wednesday</div><input type="text" id="h-wed-o" placeholder="11:00 AM"/><input type="text" id="h-wed-c" placeholder="9:00 PM"/>
+      <div class="hours-day">Thursday</div><input type="text" id="h-thu-o" placeholder="11:00 AM"/><input type="text" id="h-thu-c" placeholder="9:00 PM"/>
+      <div class="hours-day">Friday</div><input type="text" id="h-fri-o" placeholder="11:00 AM"/><input type="text" id="h-fri-c" placeholder="10:00 PM"/>
+      <div class="hours-day">Saturday</div><input type="text" id="h-sat-o" placeholder="10:00 AM"/><input type="text" id="h-sat-c" placeholder="10:00 PM"/>
+      <div class="hours-day">Sunday</div><input type="text" id="h-sun-o" placeholder="10:00 AM"/><input type="text" id="h-sun-c" placeholder="8:00 PM"/>
     </div>
   </section>
 
   <section class="section" id="section-social">
-    <div class="section-title">Redes Sociales</div>
-    <div class="section-sub">Links de redes sociales y plataformas</div>
+    <div class="section-title">Socials</div>
+    <div class="section-sub">Social media links and online ordering platform</div>
     <div class="form-grid one">
       <div class="field"><label>Facebook URL</label><input type="url" id="s-fb" placeholder="https://facebook.com/..."/></div>
       <div class="field"><label>Instagram URL</label><input type="url" id="s-ig" placeholder="https://instagram.com/..."/></div>
       <div class="field"><label>Google Maps (footer)</label><input type="url" id="s-gm" placeholder="https://maps.app.goo.gl/..."/></div>
-      <div class="field"><label>Link "Order Online"</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor #menu o URL de delivery</span></div>
+      <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL</span></div>
     </div>
   </section>
 
   <section class="section" id="section-hero">
     <div class="section-title">Hero / Slider</div>
-    <div class="section-sub">Textos e imágenes del slider principal</div>
+    <div class="section-sub">Hero slider images and text</div>
     <div class="slide-card"><div class="slide-num">Slide 1</div>
       <div class="form-grid">
-        <div class="field span2"><label>Imagen</label><input type="text" id="s1-img" placeholder="imagenes/hero1.jpg"/></div>
-        <div class="field"><label>Título</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
-        <div class="field"><label>Subtítulo</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
-        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
-        <div class="field"><label>Botón 1 Link</label><input type="text" id="s1-b1l" placeholder="#menu"/></div>
-        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
-        <div class="field"><label>Botón 2 Link</label><input type="text" id="s1-b2l" placeholder="#menu"/></div>
+        <div class="field span2"><label>Image</label><input type="text" id="s1-img" placeholder="imagenes/hero1.jpg"/></div>
+        <div class="field"><label>Title</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
+        <div class="field"><label>Subtitle</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
+        <div class="field"><label>Button 1 Text</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
+        <div class="field"><label>Button 1 Link</label><input type="text" id="s1-b1l" placeholder="#menu"/></div>
+        <div class="field"><label>Button 2 Text</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
+        <div class="field"><label>Button 2 Link</label><input type="text" id="s1-b2l" placeholder="#menu"/></div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 2</div>
       <div class="form-grid">
-        <div class="field span2"><label>Imagen</label><input type="text" id="s2-img" placeholder="imagenes/hero2.jpg"/></div>
-        <div class="field"><label>Título</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
-        <div class="field"><label>Subtítulo</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
-        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
-        <div class="field"><label>Botón 1 Link</label><input type="text" id="s2-b1l" placeholder="#contact"/></div>
-        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
-        <div class="field"><label>Botón 2 Link</label><input type="text" id="s2-b2l" placeholder="#about"/></div>
+        <div class="field span2"><label>Image</label><input type="text" id="s2-img" placeholder="imagenes/hero2.jpg"/></div>
+        <div class="field"><label>Title</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
+        <div class="field"><label>Subtitle</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
+        <div class="field"><label>Button 1 Text</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
+        <div class="field"><label>Button 1 Link</label><input type="text" id="s2-b1l" placeholder="#contact"/></div>
+        <div class="field"><label>Button 2 Text</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
+        <div class="field"><label>Button 2 Link</label><input type="text" id="s2-b2l" placeholder="#about"/></div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 3</div>
       <div class="form-grid">
-        <div class="field span2"><label>Imagen</label><input type="text" id="s3-img" placeholder="imagenes/hero3.jpg"/></div>
-        <div class="field"><label>Título</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
-        <div class="field"><label>Subtítulo</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
-        <div class="field"><label>Botón 1 Texto</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
-        <div class="field"><label>Botón 1 Link</label><input type="text" id="s3-b1l" placeholder="#menu"/></div>
-        <div class="field"><label>Botón 2 Texto</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
-        <div class="field"><label>Botón 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
+        <div class="field span2"><label>Image</label><input type="text" id="s3-img" placeholder="imagenes/hero3.jpg"/></div>
+        <div class="field"><label>Title</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
+        <div class="field"><label>Subtitle</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
+        <div class="field"><label>Button 1 Text</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
+        <div class="field"><label>Button 1 Link</label><input type="text" id="s3-b1l" placeholder="#menu"/></div>
+        <div class="field"><label>Button 2 Text</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
+        <div class="field"><label>Button 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
       </div>
     </div>
   </section>
 
   <section class="section" id="section-menu">
-    <div class="section-title">Menú</div>
-    <div class="section-sub">Agrega, edita o elimina platillos del menú</div>
-    <div class="group-title">Categorías</div>
+    <div class="section-title">Menu</div>
+    <div class="section-sub">Add, edit or remove menu items</div>
+    <div class="group-title">Categories</div>
     <div class="field" style="margin-bottom:20px">
       <textarea id="menu-cats" style="min-height:80px" placeholder="appetizers:Appetizers&#10;plates:Plates&#10;family:Family Packs&#10;kids:Kids"></textarea>
-      <span class="hint">Una por línea — clave:Nombre (ej: <code>tacos:Tacos Especiales</code>)</span>
+      <span class="hint">One per line — key:Label (e.g. <code>tacos:Taco Specials</code>)</span>
     </div>
     <div class="divider"></div>
-    <div class="items-list" id="items-list"><div style="color:var(--muted);text-align:center;padding:20px">No hay platillos. Agrega el primero.</div></div>
-    <button class="btn-add" id="btn-add-item">＋ Agregar Platillo</button>
+    <div class="items-list" id="items-list"><div style="color:var(--muted);text-align:center;padding:20px">No items yet. Add the first one.</div></div>
+    <button class="btn-add" id="btn-add-item">＋ Add Item</button>
   </section>
 
   <section class="section" id="section-about">
-    <div class="section-title">Nosotros</div>
-    <div class="section-sub">Sección About del landing</div>
+    <div class="section-title">About</div>
+    <div class="section-sub">About section of the landing page</div>
     <div class="form-grid one">
       <div class="field"><label>Label (pequeño)</label><input type="text" id="a-label" placeholder="Our Story"/></div>
-      <div class="field"><label>Título</label><input type="text" id="a-title" placeholder="A Family Tradition Since 1998"/></div>
-      <div class="field"><label>Párrafo 1</label><textarea id="a-p1" placeholder="Texto..."></textarea></div>
-      <div class="field"><label>Párrafo 2</label><textarea id="a-p2" placeholder="Texto..."></textarea></div>
-      <div class="field"><label>Imagen (ruta)</label><input type="text" id="a-img" placeholder="imagenes/about.jpg"/></div>
+      <div class="field"><label>Title</label><input type="text" id="a-title" placeholder="A Family Tradition Since 1998"/></div>
+      <div class="field"><label>Paragraph 1</label><textarea id="a-p1" placeholder="Texto..."></textarea></div>
+      <div class="field"><label>Paragraph 2</label><textarea id="a-p2" placeholder="Texto..."></textarea></div>
+      <div class="field"><label>Image (path)</label><input type="text" id="a-img" placeholder="imagenes/about.jpg"/></div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Links rápidos (Pills)</div>
     <div class="form-grid">
-      <div class="field"><label>Pill 1 Texto</label><input type="text" id="a-p1t" placeholder="Llámanos"/></div>
+      <div class="field"><label>Pill 1 Text</label><input type="text" id="a-p1t" placeholder="Llámanos"/></div>
       <div class="field"><label>Pill 1 Link</label><input type="text" id="a-p1l" placeholder="tel:+12812598701"/></div>
-      <div class="field"><label>Pill 2 Texto</label><input type="text" id="a-p2t" placeholder="Cómo llegar"/></div>
+      <div class="field"><label>Pill 2 Text</label><input type="text" id="a-p2t" placeholder="Cómo llegar"/></div>
       <div class="field"><label>Pill 2 Link</label><input type="text" id="a-p2l" placeholder="https://maps.google.com/..."/></div>
     </div>
   </section>
 
   <section class="section" id="section-introcards">
     <div class="section-title">Intro Cards</div>
-    <div class="section-sub">Tarjetas de presentación — ej: "Browse Our Menu"</div>
+    <div class="section-sub">Feature cards — e.g. "Browse Our Menu"</div>
     <div class="form-grid">
-      <div class="field"><label>Label pequeño</label><input type="text" id="ic-label" placeholder="Welcome Ranchero!"/></div>
-      <div class="field"><label>Título</label><input type="text" id="ic-title" placeholder="Browse Our Menu"/></div>
+      <div class="field"><label>Small Label</label><input type="text" id="ic-label" placeholder="Welcome Ranchero!"/></div>
+      <div class="field"><label>Title</label><input type="text" id="ic-title" placeholder="Browse Our Menu"/></div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Tarjetas</div>
     <div class="ilist" id="ic-list"></div>
-    <button class="btn-add" id="btn-add-ic">＋ Agregar Tarjeta</button>
+    <button class="btn-add" id="btn-add-ic">＋ Add Card</button>
   </section>
 
   <section class="section" id="section-welcome">
     <div class="section-title">Welcome</div>
-    <div class="section-sub">Sección de bienvenida / intro del restaurante</div>
+    <div class="section-sub">Welcome / intro section of the restaurant</div>
     <div class="form-grid">
-      <div class="field"><label>Label pequeño</label><input type="text" id="wl-label" placeholder="Welcome Ranchero!"/></div>
-      <div class="field"><label>Título</label><input type="text" id="wl-title" placeholder="A Taste of Authentic Mexico"/></div>
-      <div class="field span2"><label>Párrafo 1</label><textarea id="wl-p1" placeholder="Primer párrafo de bienvenida..."></textarea></div>
-      <div class="field span2"><label>Párrafo 2 (opcional)</label><textarea id="wl-p2" placeholder="Segundo párrafo..."></textarea></div>
-      <div class="field span2"><label>Imagen (ruta)</label><input type="text" id="wl-img" placeholder="imagenes/welcome.jpg"/></div>
+      <div class="field"><label>Small Label</label><input type="text" id="wl-label" placeholder="Welcome Ranchero!"/></div>
+      <div class="field"><label>Title</label><input type="text" id="wl-title" placeholder="A Taste of Authentic Mexico"/></div>
+      <div class="field span2"><label>Paragraph 1</label><textarea id="wl-p1" placeholder="Primer párrafo de bienvenida..."></textarea></div>
+      <div class="field span2"><label>Paragraph 2 (optional)</label><textarea id="wl-p2" placeholder="Segundo párrafo..."></textarea></div>
+      <div class="field span2"><label>Image (path)</label><input type="text" id="wl-img" placeholder="imagenes/welcome.jpg"/></div>
     </div>
     <div class="divider"></div>
-    <div class="group-title">Stats / Números destacados (opcional)</div>
+    <div class="group-title">Stats / Highlights (optional)</div>
     <div class="form-grid">
-      <div class="field"><label>Stat 1 Número</label><input type="text" id="wl-s1n" placeholder="25+"/></div>
-      <div class="field"><label>Stat 1 Texto</label><input type="text" id="wl-s1t" placeholder="Years of Experience"/></div>
-      <div class="field"><label>Stat 2 Número</label><input type="text" id="wl-s2n" placeholder="50+"/></div>
-      <div class="field"><label>Stat 2 Texto</label><input type="text" id="wl-s2t" placeholder="Menu Items"/></div>
-      <div class="field"><label>Stat 3 Número</label><input type="text" id="wl-s3n" placeholder="10k+"/></div>
-      <div class="field"><label>Stat 3 Texto</label><input type="text" id="wl-s3t" placeholder="Happy Customers"/></div>
+      <div class="field"><label>Stat 1 Number</label><input type="text" id="wl-s1n" placeholder="25+"/></div>
+      <div class="field"><label>Stat 1 Label</label><input type="text" id="wl-s1t" placeholder="Years of Experience"/></div>
+      <div class="field"><label>Stat 2 Number</label><input type="text" id="wl-s2n" placeholder="50+"/></div>
+      <div class="field"><label>Stat 2 Label</label><input type="text" id="wl-s2t" placeholder="Menu Items"/></div>
+      <div class="field"><label>Stat 3 Number</label><input type="text" id="wl-s3n" placeholder="10k+"/></div>
+      <div class="field"><label>Stat 3 Label</label><input type="text" id="wl-s3t" placeholder="Happy Customers"/></div>
     </div>
   </section>
 
   <section class="section" id="section-testimonials">
     <div class="section-title">Testimonials</div>
-    <div class="section-sub">Reseñas y testimonios de clientes</div>
+    <div class="section-sub">Customer reviews and testimonials</div>
     <div class="form-grid">
-      <div class="field"><label>Label pequeño</label><input type="text" id="tm-label" placeholder="What Our Guests Say"/></div>
-      <div class="field"><label>Título</label><input type="text" id="tm-title" placeholder="Real Reviews from Real Guests"/></div>
+      <div class="field"><label>Small Label</label><input type="text" id="tm-label" placeholder="What Our Guests Say"/></div>
+      <div class="field"><label>Title</label><input type="text" id="tm-title" placeholder="Real Reviews from Real Guests"/></div>
     </div>
     <div class="divider"></div>
     <div class="ilist" id="testimonial-list"></div>
-    <button class="btn-add" id="btn-add-testimonial">＋ Agregar Testimonio</button>
+    <button class="btn-add" id="btn-add-testimonial">＋ Add Testimonial</button>
   </section>
 
   <section class="section" id="section-cta">
-    <div class="section-title">CTA / Catering</div>
-    <div class="section-sub">Banner de llamada a la acción</div>
+    <div class="section-title">Call to Action</div>
+    <div class="section-sub">Banner to drive conversions — catering, ordering, promotions</div>
     <div class="form-grid">
-      <div class="field span2"><label>Título</label><input type="text" id="cta-title" placeholder="We Cater Every Occasion"/></div>
-      <div class="field span2"><label>Subtítulo</label><input type="text" id="cta-sub" placeholder="From intimate gatherings to corporate events..."/></div>
-      <div class="field"><label>Botón 1 Texto</label><input type="text" id="cta-b1t" placeholder="Get a Catering Quote"/></div>
-      <div class="field"><label>Botón 1 Link</label><input type="text" id="cta-b1l" placeholder="#contact"/></div>
-      <div class="field"><label>Botón 2 Texto</label><input type="text" id="cta-b2t" placeholder="Call Us Now"/></div>
-      <div class="field"><label>Botón 2 Link</label><input type="text" id="cta-b2l" placeholder="tel:+12812598701"/></div>
+      <div class="field span2"><label>Title</label><input type="text" id="cta-title" placeholder="We Cater Every Occasion"/></div>
+      <div class="field span2"><label>Subtitle</label><input type="text" id="cta-sub" placeholder="From intimate gatherings to corporate events..."/></div>
+      <div class="field"><label>Button 1 Text</label><input type="text" id="cta-b1t" placeholder="Get a Catering Quote"/></div>
+      <div class="field"><label>Button 1 Link</label><input type="text" id="cta-b1l" placeholder="#contact"/></div>
+      <div class="field"><label>Button 2 Text</label><input type="text" id="cta-b2t" placeholder="Call Us Now"/></div>
+      <div class="field"><label>Button 2 Link</label><input type="text" id="cta-b2l" placeholder="tel:+12812598701"/></div>
     </div>
-    <div class="divider"></div>
-    <div class="group-title">Footer</div>
+  </section>
+
+  <section class="section" id="section-contactform">
+    <div class="section-title">Contact Form</div>
+    <div class="section-sub">Form settings — email destination and subject dropdown options</div>
+    <div class="form-grid one" style="gap:16px">
+      <div class="field"><label>Destination Email</label><input type="email" id="c-contact-email" placeholder="reservations@restaurant.com"/><span class="hint">All form submissions will be sent to this address</span></div>
+      <div class="field">
+        <label>Subject Dropdown Options</label>
+        <textarea id="c-dropdown-opts" placeholder="Reservation&#10;Catering&#10;General Info&#10;Other" style="min-height:90px"></textarea>
+        <span class="hint">One option per line</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="section-footer">
+    <div class="section-title">Footer</div>
+    <div class="section-sub">Copyright text and optional footer link</div>
     <div class="form-grid one">
       <div class="field"><label>Copyright</label><input type="text" id="f-copy" placeholder="© 2025 Restaurant Name. All rights reserved."/></div>
     </div>
     <div class="form-grid">
-      <div class="field"><label>Texto del link en footer</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
-      <div class="field"><label>URL del link</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
+      <div class="field"><label>Footer Link Text</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
+      <div class="field"><label>Footer Link URL</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
     </div>
   </section>
 
   <section class="section" id="section-export">
-    <div class="section-title">Exportar Landing</div>
-    <div class="section-sub">Genera el HTML final listo para usar</div>
+    <div class="section-title">Export</div>
+    <div class="section-sub">Generate the final HTML ready for your project</div>
     <div class="export-card">
-      <h3>📁 Antes de exportar</h3>
-      <p>Asegúrate de tener todas las imágenes en la carpeta <code>imagenes/</code> con los nombres que pusiste en el dashboard.</p>
+      <h3>📁 Before Exporting</h3>
+      <p>Asegúrate de tener todas las imágenes en la carpeta <code>imagenes/</code> folder with the names you set in the dashboard.</p>
     </div>
     <div class="export-card">
       <h3>⚙️ Proceso</h3>
       <div class="export-steps">
-        <div class="step"><div class="step-num">1</div><span>Click en "Generar HTML" — se descarga <code>index_stripped.html</code></span></div>
-        <div class="step"><div class="step-num">2</div><span>Muévelo a tu carpeta del proyecto</span></div>
-        <div class="step"><div class="step-num">3</div><span>Corre: <code>python3 strip_base64.py index_stripped.html --restore --backup index_base64_backup.json -o index_final.html</code></span></div>
-        <div class="step"><div class="step-num">4</div><span>Prueba con <code>python3 -m http.server 8000</code></span></div>
+        <div class="step"><div class="step-num">1</div><span>Click en "Generar HTML" — — downloads <code>index_stripped.html</code></span></div>
+        <div class="step"><div class="step-num">2</div><span>Move it to your project folder</span></div>
+        <div class="step"><div class="step-num">3</div><span>Run: <code>python3 strip_base64.py index_stripped.html --restore --backup index_base64_backup.json -o index_final.html</code></span></div>
+        <div class="step"><div class="step-num">4</div><span>Test with <code>python3 -m http.server 8000</code></span></div>
       </div>
     </div>
-    <button class="btn-big" id="btn-export">⬇️ Generar & Descargar HTML</button>
+    <button class="btn-big" id="btn-export">⬇️ Generate & Download HTML</button>
     <div id="export-status" style="text-align:center;margin-top:12px;font-size:13px;color:var(--green);height:20px"></div>
   </section>
 
@@ -425,17 +436,17 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
-        <div class="field span2"><label>Nombre *</label><input type="text" id="m-name" placeholder="Chunky Guacamole"/></div>
-        <div class="field"><label>Precio</label><input type="text" id="m-price" placeholder="Full $12.99 | Half $11.99"/></div>
-        <div class="field"><label>Categoría</label><select id="m-cat"></select></div>
-        <div class="field span2"><label>Imagen (ruta)</label><input type="text" id="m-img" placeholder="imagenes/Chunky Guacamole.jpg"/></div>
-        <div class="field span2"><label>Link del platillo (opcional)</label><input type="text" id="m-link" placeholder="https://... o #menu"/><span class="hint">Si se pone, el nombre del platillo se convierte en link</span></div>
-        <div class="field span2"><label>Descripción</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
+        <div class="field span2"><label>Name *</label><input type="text" id="m-name" placeholder="Chunky Guacamole"/></div>
+        <div class="field"><label>Price</label><input type="text" id="m-price" placeholder="Full $12.99 | Half $11.99"/></div>
+        <div class="field"><label>Category</label><select id="m-cat"></select></div>
+        <div class="field span2"><label>Image (path)</label><input type="text" id="m-img" placeholder="imagenes/Chunky Guacamole.jpg"/></div>
+        <div class="field span2"><label>Item Link (optional)</label><input type="text" id="m-link" placeholder="https://... o #menu"/><span class="hint">If set, the item name becomes a clickable link</span></div>
+        <div class="field span2"><label>Description</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" id="modal-cancel-btn">Cancelar</button>
-      <button class="btn-save" id="modal-save-btn">Guardar</button>
+      <button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+      <button class="btn-save" id="modal-save-btn">Save</button>
     </div>
   </div>
 </div>
@@ -443,12 +454,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 <!-- INTRO CARD MODAL -->
 <div class="modal-overlay" id="ic-modal">
   <div class="modal-box">
-    <div class="modal-head"><h3 id="ic-modal-title">Tarjeta</h3><button class="modal-close" id="ic-modal-close">×</button></div>
+    <div class="modal-head"><h3 id="ic-modal-title">Card</h3><button class="modal-close" id="ic-modal-close">×</button></div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
         <div class="field span2"><label>Título *</label><input type="text" id="ic-m-title" placeholder="Dinner Menu"/></div>
         <div class="field span2"><label>Texto</label><textarea id="ic-m-text" placeholder="Savor our full dinner experience..." style="min-height:70px"></textarea></div>
-        <div class="field"><label>Icono</label>
+        <div class="field"><label>Icon</label>
           <select id="ic-m-icon">
             <option value="menu">📋 Menú / Libro</option>
             <option value="togo">📦 ToGo / Caja</option>
@@ -462,12 +473,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           </select>
         </div>
         <div class="field"><label>Link</label><input type="text" id="ic-m-link" placeholder="#menu o https://..."/></div>
-        <div class="field span2"><label>Texto del botón link</label><input type="text" id="ic-m-linktxt" placeholder="View Menu →"/></div>
+        <div class="field span2"><label>Link Button Text</label><input type="text" id="ic-m-linktxt" placeholder="View Menu →"/></div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="ic-modal-cancel">Cancelar</button>
-      <button class="btn-primary" id="ic-modal-save">Guardar</button>
+      <button class="btn-secondary" id="ic-modal-cancel">Cancel</button>
+      <button class="btn-primary" id="ic-modal-save">Save</button>
     </div>
   </div>
 </div>
@@ -475,18 +486,18 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 <!-- TESTIMONIAL MODAL -->
 <div class="modal-overlay" id="tm-modal">
   <div class="modal-box">
-    <div class="modal-head"><h3>Testimonio</h3><button class="modal-close" id="tm-modal-close">×</button></div>
+    <div class="modal-head"><h3>Testimonial</h3><button class="modal-close" id="tm-modal-close">×</button></div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
-        <div class="field"><label>Nombre *</label><input type="text" id="tm-m-name" placeholder="Maria G."/></div>
-        <div class="field"><label>Cargo / Título</label><input type="text" id="tm-m-title" placeholder="Regular Customer"/></div>
-        <div class="field span2"><label>Estrellas (1-5)</label><input type="text" id="tm-m-stars" placeholder="5"/></div>
-        <div class="field span2"><label>Texto del testimonio *</label><textarea id="tm-m-text" placeholder="Amazing food and great service..."></textarea></div>
+        <div class="field"><label>Name *</label><input type="text" id="tm-m-name" placeholder="Maria G."/></div>
+        <div class="field"><label>Role / Title</label><input type="text" id="tm-m-title" placeholder="Regular Customer"/></div>
+        <div class="field span2"><label>Stars (1-5)</label><input type="text" id="tm-m-stars" placeholder="5"/></div>
+        <div class="field span2"><label>Review Text *</label><textarea id="tm-m-text" placeholder="Amazing food and great service..."></textarea></div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="tm-modal-cancel">Cancelar</button>
-      <button class="btn-primary" id="tm-modal-save">Guardar</button>
+      <button class="btn-secondary" id="tm-modal-cancel">Cancel</button>
+      <button class="btn-primary" id="tm-modal-save">Save</button>
     </div>
   </div>
 </div>
@@ -1314,7 +1325,7 @@ function renderIcCards() {
   var list = document.getElementById('ic-list');
   if(!list) return;
   if(!cfg.icCards || !cfg.icCards.length) {
-    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No hay tarjetas.</div>';
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No cards yet.</div>';
     return;
   }
   list.innerHTML = '';
@@ -1428,8 +1439,8 @@ document.getElementById('btn-export-json').addEventListener('click', async funct
       await writable.write(blob);
       await writable.close();
       var b = document.getElementById('saved-badge');
-      b.textContent = '✓ Archivo guardado'; b.classList.add('show');
-      setTimeout(function(){ b.textContent = '✓ Guardado'; b.classList.remove('show'); }, 2500);
+      b.textContent = '✓ File saved'; b.classList.add('show');
+      setTimeout(function(){ b.textContent = '✓ Saved'; b.classList.remove('show'); }, 2500);
       return;
     } catch(e) { if(e.name === 'AbortError') return; }
   }
@@ -1455,9 +1466,9 @@ document.getElementById('json-file-input').addEventListener('change', function(e
       writeFields();
       try { localStorage.setItem('landing_config', JSON.stringify(cfg)); } catch(ex) {}
       var b = document.getElementById('saved-badge');
-      b.textContent = '✓ Config cargada';
+      b.textContent = '✓ Config loaded';
       b.classList.add('show');
-      setTimeout(function() { b.textContent = '✓ Guardado'; b.classList.remove('show'); }, 2500);
+      setTimeout(function() { b.textContent = '✓ Saved'; b.classList.remove('show'); }, 2500);
     } catch(ex) {
       alert('Error al leer el JSON. Asegúrate de que sea un archivo válido.');
     }
