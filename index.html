@@ -87,7 +87,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .drop-zone-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .drop-zone-hint{font-size:10px;color:var(--muted);opacity:.7}
 .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.drop-zone-preview{width:100%;max-height:80px;object-fit:cover;border-radius:8px;display:none;margin-top:6px}
+.drop-zone-preview{height:40px;max-width:100px;width:auto;object-fit:contain;border-radius:6px;display:none;margin-top:6px;border:1px solid var(--border);background:var(--surface2);padding:2px}
 .drop-zone-preview.show{display:block}
 .drop-zone-uploading{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;border-radius:8px}
 .drop-zone-uploading.show{display:flex}
@@ -246,8 +246,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-b-logo">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">PNG or SVG · transparent bg</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG</span>
+            <span class="drop-zone-hint">PNG or SVG · transparent bg · ~300px wide</span>
           </div>
           <input type="file" id="dz-file-b-logo" accept="image/png,image/svg+xml"/>
           <div class="drop-zone-uploading" id="dz-uploading-b-logo">
@@ -255,16 +255,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-b-logo" src="" alt=""/>
         <input type="text" class="dz-path" id="b-logo" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-b-logo" src="" alt=""/>
       </div>
       <div class="dz-field span2" id="dz-wrap-b-logo-footer">
         <label>Footer Logo</label>
         <div class="drop-zone" id="dz-b-logo-footer">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">PNG or SVG · transparent bg</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG</span>
+            <span class="drop-zone-hint">PNG or SVG · transparent bg · ~300px wide</span>
           </div>
           <input type="file" id="dz-file-b-logo-footer" accept="image/png,image/svg+xml"/>
           <div class="drop-zone-uploading" id="dz-uploading-b-logo-footer">
@@ -272,8 +272,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-b-logo-footer" src="" alt=""/>
         <input type="text" class="dz-path" id="b-logo-footer" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-b-logo-footer" src="" alt=""/>
       </div>
     </div>
     <div class="divider"></div>
@@ -343,16 +343,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Email</label><input type="email" id="c-email" placeholder="info@restaurant.com"/></div>
       <div class="field"><label>Address</label><input type="text" id="c-address" placeholder="32517 FM2978, Magnolia TX"/></div>
       <div class="field span2"><label>Google Maps Link</label><input type="url" id="c-maps" placeholder="https://maps.google.com/..."/></div>
-      <div class="field span2">
-        <label>Site URL (base URL on your server)</label>
-        <input type="url" id="c-siteurl" placeholder="https://yourdomain.com/clientes/restaurant-name"/>
-        <span class="hint">Used to preview images — e.g. https://mkthelp.net/clientes/rancheros</span>
-      </div>
-      <div class="field span2">
-        <label>Upload URL</label>
-        <input type="url" id="c-uploadurl" placeholder="https://mkthelp.net/upload.php"/>
-        <span class="hint">PHP upload script on your server</span>
-      </div>
+      <input type="hidden" id="c-siteurl"/>
+      <input type="hidden" id="c-uploadurl"/>
     </div>
     <div class="divider"></div>
     <div class="group-title">Hours (leave blank = Closed)</div>
@@ -420,8 +412,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-s1-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 1920×1080px min · max 10MB</span>
           </div>
           <input type="file" id="dz-file-s1-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-s1-img">
@@ -429,8 +421,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-s1-img" src="" alt=""/>
         <input type="text" class="dz-path" id="s1-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-s1-img" src="" alt=""/>
       </div>
         <div class="field"><label>Title</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
@@ -447,8 +439,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-s2-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 1920×1080px min · max 10MB</span>
           </div>
           <input type="file" id="dz-file-s2-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-s2-img">
@@ -456,8 +448,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-s2-img" src="" alt=""/>
         <input type="text" class="dz-path" id="s2-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-s2-img" src="" alt=""/>
       </div>
         <div class="field"><label>Title</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
@@ -474,8 +466,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-s3-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 1920×1080px min · max 10MB</span>
           </div>
           <input type="file" id="dz-file-s3-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-s3-img">
@@ -483,8 +475,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-s3-img" src="" alt=""/>
         <input type="text" class="dz-path" id="s3-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-s3-img" src="" alt=""/>
       </div>
         <div class="field"><label>Title</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
@@ -528,8 +520,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-a-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">800×1000px · portrait</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 800×1000px · portrait · max 10MB</span>
           </div>
           <input type="file" id="dz-file-a-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-a-img">
@@ -537,8 +529,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-a-img" src="" alt=""/>
         <input type="text" class="dz-path" id="a-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-a-img" src="" alt=""/>
       </div>
     </div>
     <div class="divider"></div>
@@ -583,8 +575,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-wl-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">800×1000px · portrait</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 800×1000px · portrait · max 10MB</span>
           </div>
           <input type="file" id="dz-file-wl-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-wl-img">
@@ -592,8 +584,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-wl-img" src="" alt=""/>
         <input type="text" class="dz-path" id="wl-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-wl-img" src="" alt=""/>
       </div>
     </div>
     <div class="divider"></div>
@@ -711,8 +703,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="drop-zone" id="dz-m-img">
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop image or click to browse</span>
-            <span class="drop-zone-hint">600×400px · landscape</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
+            <span class="drop-zone-hint">JPG or WEBP · 600×400px · landscape · max 5MB</span>
           </div>
           <input type="file" id="dz-file-m-img" accept="image/jpeg,image/webp,image/png"/>
           <div class="drop-zone-uploading" id="dz-uploading-m-img">
@@ -720,8 +712,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
             <span class="drop-zone-status">Uploading...</span>
           </div>
         </div>
-        <img class="drop-zone-preview" id="dz-preview-m-img" src="" alt=""/>
         <input type="text" class="dz-path" id="m-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-m-img" src="" alt=""/>
       </div>
         <div class="field span2"><label>Item Link (optional)</label><input type="text" id="m-link" placeholder="https://... o #menu"/><span class="hint">If set, the item name becomes a clickable link</span></div>
         <div class="field span2"><label>Description</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
@@ -760,8 +752,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           <input type="email" id="ec-email" placeholder="john@restaurant.com"/>
         </div>
         <div class="field span2">
-          <label>Domain</label>
+          <label>Domain / Site URL</label>
           <input type="url" id="ec-domain" placeholder="https://rancherosmagnolia.com"/>
+        </div>
+        <div class="field span2">
+          <label>Upload URL</label>
+          <input type="url" id="ec-uploadurl" placeholder="https://mkthelp.net/upload.php"/>
         </div>
       </div>
     </div>
@@ -799,12 +795,17 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           <input type="email" id="nc-email" placeholder="john@restaurant.com"/>
         </div>
         <div class="field span2">
-          <label>Domain</label>
+          <label>Domain / Site URL</label>
           <input type="url" id="nc-domain" placeholder="https://rancherosmagnolia.com"/>
-          <span class="hint">The final domain where the landing will be published</span>
-        <div id="nc-slug-preview" style="font-size:11px;color:var(--accent);margin-top:4px;display:none">
-          📁 Folder will be created at: <code id="nc-slug-text"></code>
+          <span class="hint">Client's final domain — leave blank to auto-generate from business name</span>
+          <div id="nc-slug-preview" style="font-size:11px;color:var(--accent);margin-top:4px;display:none">
+            📁 Folder: <code id="nc-slug-text"></code>
+          </div>
         </div>
+        <div class="field span2">
+          <label>Upload URL</label>
+          <input type="url" id="nc-uploadurl" placeholder="https://mkthelp.net/upload.php" value="https://mkthelp.net/upload.php"/>
+          <span class="hint">PHP upload script — pre-filled for mkthelp.net</span>
         </div>
       </div>
     </div>
@@ -2125,11 +2126,11 @@ function uploadFile(file, fieldId, onSuccess, onError) {
   var destPath  = getDestPath();
 
   if(!uploadUrl) {
-    onError('Upload URL not set. Add it in Business Info.');
+    onError('Upload URL not set. Edit the client and fill in Upload URL.');
     return;
   }
   if(!destPath) {
-    onError('Site URL not set. Add it in Business Info first.');
+    onError('Site URL not set. Edit the client and fill in Domain / Site URL first.');
     return;
   }
 
@@ -2249,7 +2250,7 @@ function initAllDropZones() {
   DZ_FIELDS.forEach(initDropZone);
 }
 
-// ── IMAGE PREVIEW ─────────────────────────────────────────────────────────────
+// ── IMAGE PREVIEW URL HELPER ──────────────────────────────────────────────────
 function getImgPreviewUrl(path) {
   if(!path) return '';
   if(path.startsWith('http')) return path;
@@ -2257,28 +2258,8 @@ function getImgPreviewUrl(path) {
   return base ? base + '/' + path.replace(/^\//, '') : '';
 }
 
-function addImgPreview(inputEl) {
-  if(!inputEl || inputEl.dataset.previewAdded) return;
-  inputEl.dataset.previewAdded = '1';
-  var prev = document.createElement('img');
-  prev.style.cssText = 'display:none;margin-top:6px;max-height:60px;max-width:120px;border-radius:6px;border:1px solid var(--border);object-fit:cover';
-  inputEl.parentNode.insertBefore(prev, inputEl.nextSibling);
-  function update() {
-    var url = getImgPreviewUrl(inputEl.value.trim());
-    if(url){ prev.src=url; prev.style.display='block'; prev.onerror=function(){ prev.style.display='none'; }; }
-    else prev.style.display='none';
-  }
-  inputEl.addEventListener('input', update);
-  // Also re-run when siteUrl changes
-  document.getElementById('c-siteurl') && document.getElementById('c-siteurl').addEventListener('input', update);
-  update();
-}
-
 function initImgPreviews() {
-  ['b-logo','b-logo-footer','a-img','wl-img','s1-img','s2-img','s3-img'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) addImgPreview(el);
-  });
+  // Preview is handled by initDropZone — nothing to do here
 }
 
 // Init: ensure fresh load has correct theme (dark dashboard, no preview style)
@@ -2295,14 +2276,15 @@ window._db = {
     if(navEditIdx !== null) cfg.navItems[navEditIdx] = {label:lbl, link:lnk};
     else cfg.navItems.push({label:lbl, link:lnk});
     navEditIdx = null;
+    closeModalById('nav-modal');
     renderNavItems();
     setUnsaved(true);
   },
-  createClient: function(name, clientName, phone, email, domain) {
+  createClient: function(name, clientName, phone, email, domain, uploadUrl) {
     // Auto-generate slug and siteUrl from business name if domain not provided
     var slug     = nameToSlug(name);
     var siteUrl  = domain || ('https://mkthelp.net/clientes/' + slug);
-    var uploadUrl = 'https://mkthelp.net/upload.php';
+    var uploadUrl = uploadUrl || 'https://mkthelp.net/upload.php';
 
     // Create the folder on the server, then save client
     var badge = document.getElementById('saved-badge');
@@ -2337,7 +2319,7 @@ window._db = {
       }
     );
   },
-  saveEditClient: function(clientName, name, phone, email, domain) {
+  saveEditClient: function(clientName, name, phone, email, domain, uploadUrl) {
     // replicate ec-modal-save logic
     var existingData = {};
     try { existingData = JSON.parse(localStorage.getItem(clientKey(editingClientId)) || '{}'); } catch(e) {}
@@ -2347,6 +2329,7 @@ window._db = {
     existingData.clientEmail = email;
     existingData.clientDomain = domain;
     existingData.siteUrl = domain;
+    if(uploadUrl) existingData.uploadUrl = uploadUrl;
     try { localStorage.setItem(clientKey(editingClientId), JSON.stringify(existingData)); } catch(e) {}
     var clients = getAllClients();
     var idx = clients.findIndex(function(c){ return c.id === editingClientId; });
@@ -2651,6 +2634,7 @@ function openEditClientModal(id) {
   document.getElementById('ec-phone').value = clientData.clientPhone || '';
   document.getElementById('ec-email').value = clientData.clientEmail || '';
   document.getElementById('ec-domain').value = clientData.clientDomain || clientData.siteUrl || '';
+  document.getElementById('ec-uploadurl').value = clientData.uploadUrl || 'https://mkthelp.net/upload.php';
   document.getElementById('edit-client-modal').classList.add('open');
   setTimeout(function(){ document.getElementById('ec-clientname').focus(); }, 50);
 }
@@ -2769,11 +2753,12 @@ function saveNewClient() {
   if(!name) { document.getElementById('nc-name').style.borderColor='var(--red)'; ok=false; }
   else document.getElementById('nc-name').style.borderColor='';
   if(!ok) return;
-  var phone  = document.getElementById('nc-phone').value.trim();
-  var email  = document.getElementById('nc-email').value.trim();
-  var domain = document.getElementById('nc-domain').value.trim();
+  var phone     = document.getElementById('nc-phone').value.trim();
+  var email     = document.getElementById('nc-email').value.trim();
+  var domain    = document.getElementById('nc-domain').value.trim();
+  var uploadUrl = document.getElementById('nc-uploadurl').value.trim();
   closeModalById('new-client-modal');
-  if(window._db) window._db.createClient(name, clientName, phone, email, domain);
+  if(window._db) window._db.createClient(name, clientName, phone, email, domain, uploadUrl);
 }
 
 function saveEditClient() {
@@ -2786,7 +2771,8 @@ function saveEditClient() {
   if(window._db) window._db.saveEditClient(clientName, name,
     document.getElementById('ec-phone').value.trim(),
     document.getElementById('ec-email').value.trim(),
-    document.getElementById('ec-domain').value.trim()
+    document.getElementById('ec-domain').value.trim(),
+    document.getElementById('ec-uploadurl').value.trim()
   );
 }
 
