@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
 .client-switcher{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--surface)}
 .client-current{display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 10px;border-radius:8px;transition:background .2s;border:1px solid var(--border);background:var(--surface2)}
@@ -70,6 +70,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .toggle-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none}
 .toggle-switch input:checked ~ .toggle-knob{transform:translateX(16px)}
 .section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
+.clients-table{width:100%;border-collapse:collapse;font-size:13px}
+.clients-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.clients-table tr:last-child td{border-bottom:none}
+.clients-table tr.client-row{cursor:pointer;transition:background .15s}
+.clients-table tr.client-row:hover td{background:rgba(255,255,255,.03)}
+.clients-table tr.client-row.client-active td{background:rgba(217,119,6,.07)}
+.client-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);background:rgba(22,163,74,.12);padding:2px 7px;border-radius:20px;white-space:nowrap}
+.client-cell-name{font-weight:600;color:var(--text);white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.client-cell-biz{color:var(--muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.client-cell-domain{color:var(--muted);font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.client-cell-date{color:var(--muted);font-size:11px;white-space:nowrap}
+.client-actions{display:flex;gap:4px;justify-content:flex-end}
+.client-action-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:3px 7px;cursor:pointer;font-size:12px;transition:all .2s;font-family:'DM Sans',sans-serif}
+.client-action-btn:hover{color:var(--text);border-color:var(--muted)}
+.client-action-btn.del:hover{color:#f87171;border-color:#f87171;background:rgba(185,28,28,.1)}
+.clients-empty{text-align:center;color:var(--muted);font-size:13px;padding:32px 0}
+.clients-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.btn-new-sm{display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;transition:opacity .2s}
+.btn-new-sm:hover{opacity:.85}
 .anchor-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);border-radius:20px;font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .anchor-chip:hover{background:rgba(217,119,6,.25)}
 .anchor-chip.inactive{opacity:.35;background:var(--surface2);border-color:var(--border);color:var(--muted);cursor:default}
@@ -116,7 +136,7 @@ input[type=color]{padding:4px 8px;height:40px;cursor:pointer}
 .modal-close:hover{color:var(--text)}
 .modal-body{padding:24px}
 .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto}
 .modal-head{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -173,6 +193,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
   </div>
   <nav class="sidebar-nav">
+    <button class="nav-item" data-section="clients" style="background:rgba(217,119,6,.08);color:var(--accent);font-weight:700;margin-bottom:4px">👥 Clients</button>
     <div class="nav-group-label">Navigation</div>
     <button class="nav-item" data-section="navigation">🔗 Main Menu</button>
     <div class="nav-group-label">Preferences</div>
@@ -318,6 +339,21 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Google Maps (footer)</label><input type="url" id="s-gm" placeholder="https://maps.app.goo.gl/..."/></div>
       <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL</span></div>
     </div>
+    </div>
+  </section>
+
+  <section class="section" id="section-clients">
+    <div class="section-inner">
+      <div class="clients-header">
+        <div>
+          <div class="section-title">Clients</div>
+          <div class="section-sub">All your clients — click a row to load</div>
+        </div>
+        <button class="btn-new-sm" id="btn-clients-new">＋ New Client</button>
+      </div>
+      <div id="clients-table-wrap">
+        <div class="clients-empty">No clients yet. Click + New Client to get started.</div>
+      </div>
     </div>
   </section>
 
@@ -563,6 +599,44 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </div>
 </div>
 
+<!-- EDIT CLIENT MODAL -->
+<div class="modal-overlay" id="edit-client-modal">
+  <div class="modal-box" style="max-width:460px">
+    <div class="modal-head">
+      <h3>Edit Client Info</h3>
+      <button class="modal-close" id="ec-modal-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field span2">
+          <label>Client Name *</label>
+          <input type="text" id="ec-clientname" placeholder="John Smith" autocomplete="off"/>
+        </div>
+        <div class="field span2">
+          <label>Restaurant / Business Name *</label>
+          <input type="text" id="ec-name" placeholder="Rancheros Mexican Grill" autocomplete="off"/>
+        </div>
+        <div class="field">
+          <label>Client Phone</label>
+          <input type="tel" id="ec-phone" placeholder="+1 281-259-8701"/>
+        </div>
+        <div class="field">
+          <label>Client Email</label>
+          <input type="email" id="ec-email" placeholder="john@restaurant.com"/>
+        </div>
+        <div class="field span2">
+          <label>Domain</label>
+          <input type="url" id="ec-domain" placeholder="https://rancherosmagnolia.com"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="ec-modal-cancel">Cancel</button>
+      <button class="btn-primary" id="ec-modal-save">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- NEW CLIENT MODAL -->
 <div class="modal-overlay" id="new-client-modal">
   <div class="modal-box" style="max-width:460px">
@@ -571,7 +645,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <button class="modal-close" id="nc-modal-close">×</button>
     </div>
     <div class="modal-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="form-grid">
         <div class="field span2">
           <label>Client Name *</label>
           <input type="text" id="nc-clientname" placeholder="John Smith" autocomplete="off"/>
@@ -1020,7 +1094,7 @@ function deleteClient(id) {
   saveIndex(clients);
   try { localStorage.removeItem(clientKey(id)); } catch(e) {}
   if(currentClientId === id) newClient();
-  else renderClientList();
+  else { renderClientList(); renderClientsTable(); }
 }
 
 function setUnsaved(val) {
@@ -1112,6 +1186,7 @@ function loadSaved() {
   } catch(e) {}
   write();
   renderClientList();
+  renderClientsTable();
 }
 
 // Save last active client ID when saving
@@ -2122,6 +2197,171 @@ document.querySelectorAll('.toggle-switch input[data-sec]').forEach(function(tog
 });
 
 // ── TESTIMONIAL MODAL WIRING ────────────────────────
+// ── CLIENTS TABLE ─────────────────────────────────────
+function renderClientsTable() {
+  var wrap = document.getElementById('clients-table-wrap');
+  if(!wrap) return;
+  var clients = getAllClients();
+  clients.sort(function(a,b){ return new Date(b.updatedAt)-new Date(a.updatedAt); });
+
+  if(!clients.length) {
+    wrap.innerHTML = '<div class="clients-empty">No clients yet. Click + New Client to get started.</div>';
+    return;
+  }
+
+  var html = '<table class="clients-table"><thead><tr>'
+    + '<th>Client</th><th>Business</th><th>Domain</th><th>Updated</th><th></th>'
+    + '</tr></thead><tbody>';
+
+  clients.forEach(function(c) {
+    var isActive = c.id === currentClientId;
+    var clientData = {};
+    try { clientData = JSON.parse(localStorage.getItem(clientKey(c.id)) || '{}'); } catch(e) {}
+    var phone = clientData.clientPhone || '';
+    var domain = clientData.clientDomain || clientData.siteUrl || '';
+    var shortDomain = domain.replace(/^https?:\/\/(www\.)?/,'').replace(/\/.*$/,'');
+    var clientPersonName = clientData.clientName || '';
+    var biz = c.name || '';
+    var dateStr = formatDate(c.updatedAt);
+
+    html += '<tr class="client-row' + (isActive ? ' client-active' : '') + '" data-id="' + c.id + '">'
+      + '<td><div class="client-cell-name">' + esc(clientPersonName || biz) + '</div>'
+      + (isActive ? '<div class="client-badge">✓ Active</div>' : '')
+      + '</td>'
+      + '<td><div class="client-cell-biz">' + esc(biz) + '</div>'
+      + (phone ? '<div style="font-size:11px;color:var(--muted)">' + esc(phone) + '</div>' : '')
+      + '</td>'
+      + '<td><div class="client-cell-domain" title="' + esc(domain) + '">' + esc(shortDomain || '—') + '</div></td>'
+      + '<td class="client-cell-date">' + dateStr + '</td>'
+      + '<td><div class="client-actions">'
+      + '<button class="client-action-btn edit-client-btn" data-id="' + c.id + '" title="Edit client info">✏️</button>'
+      + '<button class="client-action-btn del del-client-btn" data-id="' + c.id + '" title="Delete client">🗑️</button>'
+      + '</div></td>'
+      + '</tr>';
+  });
+
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  // Row click → load client
+  wrap.querySelectorAll('.client-row').forEach(function(row) {
+    row.addEventListener('click', function(e) {
+      if(e.target.closest('.client-actions')) return;
+      var id = row.dataset.id;
+      if(id === currentClientId) return;
+      if(hasUnsavedChanges && !confirm('You have unsaved changes. Load this client anyway?')) return;
+      loadClient(id);
+      // Navigate to Appearance after loading
+      document.querySelectorAll('.nav-item').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+      document.querySelector('.nav-item[data-section="brand"]').classList.add('active');
+      document.getElementById('section-brand').classList.add('active');
+    });
+  });
+
+  // Edit buttons
+  wrap.querySelectorAll('.edit-client-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openEditClientModal(btn.dataset.id);
+    });
+  });
+
+  // Delete buttons
+  wrap.querySelectorAll('.del-client-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      deleteClient(btn.dataset.id);
+    });
+  });
+}
+
+// ── EDIT CLIENT MODAL ──────────────────────────────────
+var editingClientId = null;
+
+function openEditClientModal(id) {
+  editingClientId = id;
+  var clientData = {};
+  try { clientData = JSON.parse(localStorage.getItem(clientKey(id)) || '{}'); } catch(e) {}
+  document.getElementById('ec-clientname').value = clientData.clientName || '';
+  document.getElementById('ec-name').value = clientData.name || '';
+  document.getElementById('ec-phone').value = clientData.clientPhone || '';
+  document.getElementById('ec-email').value = clientData.clientEmail || '';
+  document.getElementById('ec-domain').value = clientData.clientDomain || clientData.siteUrl || '';
+  document.getElementById('edit-client-modal').classList.add('open');
+  setTimeout(function(){ document.getElementById('ec-clientname').focus(); }, 50);
+}
+
+document.getElementById('ec-modal-close').addEventListener('click', function(e){
+  e.stopPropagation();
+  document.getElementById('edit-client-modal').classList.remove('open');
+});
+document.getElementById('ec-modal-cancel').addEventListener('click', function(e){
+  e.stopPropagation();
+  document.getElementById('edit-client-modal').classList.remove('open');
+});
+document.getElementById('edit-client-modal').addEventListener('click', function(e){
+  if(e.target === this) this.classList.remove('open');
+});
+document.getElementById('ec-modal-save').addEventListener('click', function(e) {
+  e.stopPropagation();
+  var clientName = document.getElementById('ec-clientname').value.trim();
+  var name = document.getElementById('ec-name').value.trim();
+  if(!clientName || !name) {
+    if(!clientName) document.getElementById('ec-clientname').style.borderColor='var(--red)';
+    if(!name) document.getElementById('ec-name').style.borderColor='var(--red)';
+    return;
+  }
+  document.getElementById('ec-clientname').style.borderColor='';
+  document.getElementById('ec-name').style.borderColor='';
+
+  // Load existing config, update fields, save back
+  var existingData = {};
+  try { existingData = JSON.parse(localStorage.getItem(clientKey(editingClientId)) || '{}'); } catch(e) {}
+  existingData.clientName = clientName;
+  existingData.name = name;
+  existingData.clientPhone = document.getElementById('ec-phone').value.trim();
+  existingData.clientEmail = document.getElementById('ec-email').value.trim();
+  existingData.clientDomain = document.getElementById('ec-domain').value.trim();
+  existingData.siteUrl = existingData.clientDomain;
+  try { localStorage.setItem(clientKey(editingClientId), JSON.stringify(existingData)); } catch(e) {}
+
+  // Update index
+  var clients = getAllClients();
+  var idx = clients.findIndex(function(c){ return c.id === editingClientId; });
+  if(idx >= 0) { clients[idx].name = name; clients[idx].updatedAt = new Date().toISOString(); }
+  saveIndex(clients);
+
+  // If editing the active client, refresh current cfg display
+  if(editingClientId === currentClientId) {
+    cfg.clientName = clientName;
+    cfg.name = name;
+    cfg.clientPhone = existingData.clientPhone;
+    cfg.clientEmail = existingData.clientEmail;
+    cfg.clientDomain = existingData.clientDomain;
+    cfg.siteUrl = existingData.siteUrl;
+    document.getElementById('client-name-display').textContent = name;
+    var nameEl = document.getElementById('b-name');
+    if(nameEl) nameEl.value = name;
+  }
+
+  document.getElementById('edit-client-modal').classList.remove('open');
+  renderClientsTable();
+});
+
+// Wire New Client button in clients section
+document.getElementById('btn-clients-new').addEventListener('click', function(e) {
+  e.stopPropagation();
+  newClient();
+});
+
+// Refresh clients table when section becomes active
+document.querySelectorAll('.nav-item[data-section]').forEach(function(btn) {
+  if(btn.dataset.section === 'clients') {
+    btn.addEventListener('click', function(){ setTimeout(renderClientsTable, 50); });
+  }
+});
+
 // ── NEW CLIENT MODAL ──────────────────────────────────
 document.getElementById('nc-modal-close').addEventListener('click', function(e){
   e.stopPropagation();
@@ -2149,6 +2389,17 @@ document.getElementById('nc-modal-create').addEventListener('click', function(e)
   var clientDomain = document.getElementById('nc-domain').value.trim();
   document.getElementById('new-client-modal').classList.remove('open');
   createClientFromModal(name, clientName, clientPhone, clientEmail, clientDomain, clientDomain);
+});
+
+// Close any open modal on Escape
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Escape') return;
+  ['new-client-modal','edit-client-modal','tm-modal','ic-modal','nav-modal','item-modal'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.classList.remove('open');
+  });
+  var backdrop = document.getElementById('item-modal');
+  if(backdrop) backdrop.classList.remove('open');
 });
 
 document.getElementById('tm-modal-close').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('tm-modal').classList.remove('open'); });
