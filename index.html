@@ -20,7 +20,7 @@ html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .client-unsaved.show{display:block}
 .sidebar-logo h1{font-family:'Playfair Display',serif;font-size:16px;color:var(--accent);line-height:1.2}
 .sidebar-logo p{font-size:11px;color:var(--muted);margin-top:2px}
-.sidebar-nav{padding:8px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;overflow-x:hidden}
+.sidebar-nav{padding:8px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;overflow-x:hidden;height:100%}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .2s;font-size:13px;font-weight:500;border:none;background:none;text-align:left;width:100%}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:rgba(217,119,6,.12);color:var(--accent)}
@@ -68,7 +68,7 @@ html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .clients-table tr.client-row:hover td{background:rgba(255,255,255,.03)}
 .clients-table tr.client-row.client-active td{background:rgba(217,119,6,.07)}
 .client-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);background:rgba(22,163,74,.12);padding:2px 7px;border-radius:20px;white-space:nowrap}
-.client-cell-name{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.client-cell-name{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
 .client-cell-biz{color:var(--muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-domain{color:var(--muted);font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-date{color:var(--muted);font-size:11px;white-space:nowrap}
@@ -282,17 +282,17 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <input type="text" class="dz-path" id="b-logo-footer" placeholder="imagenes/filename.jpg" autocomplete="off"/>
         <img class="drop-zone-preview" id="dz-preview-b-logo-footer" src="" alt=""/>
       </div>
-      <div class="dz-field span2" id="dz-wrap-b-favicon">
+      <div class="dz-field" id="dz-wrap-b-favicon" style="grid-column:span 1">
         <label>Favicon</label>
-        <div class="drop-zone" id="dz-b-favicon">
+        <div class="drop-zone" id="dz-b-favicon" style="height:80px;aspect-ratio:1/1;width:80px">
           <img class="drop-zone-img-preview" id="dz-img-b-favicon" src="" alt=""/>
           <button class="drop-zone-clear" id="dz-clear-b-favicon" onclick="clearDropZone('b-favicon');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
-            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG · ICO</span>
-            <span class="drop-zone-hint">PNG or ICO · 32×32px or 64×64px</span>
+            <span class="drop-zone-label">PNG · SVG</span>
+            <span class="drop-zone-hint">PNG · 32×32 or 64×64px</span>
           </div>
-          <input type="file" id="dz-file-b-favicon" accept="image/png,image/x-icon,image/svg+xml"/>
+          <input type="file" id="dz-file-b-favicon" accept="image/png,image/svg+xml"/>
           <div class="drop-zone-uploading" id="dz-uploading-b-favicon">
             <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-b-favicon"></div></div>
             <span class="drop-zone-status">Uploading...</span>
@@ -400,7 +400,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-clients">
-    <div class="section-inner">
+    <div class="section-inner" style="background:var(--surface2);border-radius:0">
       <div class="clients-header">
         <div>
           <div class="section-title">Clients</div>
