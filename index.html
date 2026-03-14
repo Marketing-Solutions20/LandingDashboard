@@ -802,6 +802,9 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           <label>Domain</label>
           <input type="url" id="nc-domain" placeholder="https://rancherosmagnolia.com"/>
           <span class="hint">The final domain where the landing will be published</span>
+        <div id="nc-slug-preview" style="font-size:11px;color:var(--accent);margin-top:4px;display:none">
+          📁 Folder will be created at: <code id="nc-slug-text"></code>
+        </div>
         </div>
       </div>
     </div>
@@ -2071,8 +2074,38 @@ function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 // ── DROP ZONE UPLOADER ────────────────────────────────────────────────────────
 var DZ_FIELDS = ['b-logo','b-logo-footer','s1-img','s2-img','s3-img','a-img','wl-img','m-img'];
 
+function nameToSlug(name) {
+  return (name||'').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')  // remove accents
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function getClientFolderSlug() {
+  return nameToSlug(cfg.name || '');
+}
+
 function getUploadUrl() {
   return cfg.uploadUrl || v('c-uploadurl') || '';
+}
+
+function createClientFolder(name, onSuccess, onError) {
+  var uploadUrl = cfg.uploadUrl || 'https://mkthelp.net/upload.php';
+  var formData  = new FormData();
+  formData.append('action', 'mkdir');
+  formData.append('name', name);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', uploadUrl);
+  xhr.onload = function() {
+    try {
+      var res = JSON.parse(xhr.responseText);
+      if(res.success) onSuccess(res);
+      else onError(res.error || 'Could not create folder');
+    } catch(e) { onError('Server error'); }
+  };
+  xhr.onerror = function() { onError('Network error'); };
+  xhr.send(formData);
 }
 
 function getDestPath() {
@@ -2266,7 +2299,43 @@ window._db = {
     setUnsaved(true);
   },
   createClient: function(name, clientName, phone, email, domain) {
-    createClientFromModal(name, clientName, phone, email, domain, domain);
+    // Auto-generate slug and siteUrl from business name if domain not provided
+    var slug     = nameToSlug(name);
+    var siteUrl  = domain || ('https://mkthelp.net/clientes/' + slug);
+    var uploadUrl = 'https://mkthelp.net/upload.php';
+
+    // Create the folder on the server, then save client
+    var badge = document.getElementById('saved-badge');
+    if(badge){ badge.textContent = '⏳ Creating folder...'; badge.classList.add('show'); }
+
+    createClientFromModal(name, clientName, phone, email, siteUrl, siteUrl);
+
+    // Auto-fill siteUrl and uploadUrl fields
+    setTimeout(function(){
+      var su = document.getElementById('c-siteurl');
+      var uu = document.getElementById('c-uploadurl');
+      if(su) { su.value = siteUrl; cfg.siteUrl = siteUrl; }
+      if(uu) { uu.value = uploadUrl; cfg.uploadUrl = uploadUrl; }
+    }, 100);
+
+    // Create folder on server
+    createClientFolder(name,
+      function(res) {
+        // Success — update siteUrl with actual slug from server
+        var finalUrl = res.siteUrl || siteUrl;
+        cfg.siteUrl = finalUrl;
+        var su = document.getElementById('c-siteurl');
+        if(su) su.value = finalUrl;
+        if(badge){ badge.textContent = '✓ Client & folder created'; badge.classList.add('show'); setTimeout(function(){ badge.classList.remove('show'); }, 3000); }
+        // Auto-save
+        saveCurrentClient();
+      },
+      function(err) {
+        if(badge){ badge.textContent = '⚠️ Folder error: ' + err; badge.classList.add('show'); setTimeout(function(){ badge.classList.remove('show'); }, 4000); }
+        // Still save client even if folder creation fails
+        saveCurrentClient();
+      }
+    );
   },
   saveEditClient: function(clientName, name, phone, email, domain) {
     // replicate ec-modal-save logic
