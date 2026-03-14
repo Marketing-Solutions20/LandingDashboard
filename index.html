@@ -8,8 +8,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
-html,body{height:100%;overflow:hidden}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
+html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;max-height:100vh;overflow:hidden;font-size:14px}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;max-height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0}
 .client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
@@ -62,13 +62,13 @@ html,body{height:100%;overflow:hidden}body{font-family:'DM Sans',sans-serif;back
 .section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
 .clients-table{width:100%;border-collapse:collapse;font-size:13px}
 .clients-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
-.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:var(--text)}
+.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:#f0f0f0}
 .clients-table tr:last-child td{border-bottom:none}
 .clients-table tr.client-row{cursor:pointer;transition:background .15s}
 .clients-table tr.client-row:hover td{background:rgba(255,255,255,.03)}
 .clients-table tr.client-row.client-active td{background:rgba(217,119,6,.07)}
 .client-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);background:rgba(22,163,74,.12);padding:2px 7px;border-radius:20px;white-space:nowrap}
-.client-cell-name{font-weight:600;color:var(--text)!important;white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.client-cell-name{font-weight:600;color:#f0f0f0!important;white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
 .client-cell-biz{color:var(--muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-domain{color:var(--muted);font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-date{color:var(--muted);font-size:11px;white-space:nowrap}
@@ -241,8 +241,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-sub">Restaurant name, logo and color palette</div>
     <div class="form-grid">
       <div class="field span2"><label>Restaurant Name</label><input type="text" id="b-name" placeholder="Rancheros Mexican Grill"/></div>
-      <div class="field"><label>Footer Title</label><input type="text" id="b-tagline" placeholder="Mexican Grill &amp; Cantina"/><span class="hint">Shown in footer below logo</span></div>
-      <div class="field"><label>Footer Paragraph</label><input type="text" id="b-slogan" placeholder="Authentic flavors since 1998."/><span class="hint">Short text below footer title</span></div>
+      <!-- Footer Title and Paragraph are in the Footer section -->
     </div>
     <div class="divider"></div>
     <div class="group-title">Logo</div>
@@ -544,7 +543,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="group-title" style="font-size:10px;opacity:.6;margin-bottom:6px">Active sections — click to insert anchor</div>
       <div id="anchor-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
       <div class="ilist" id="nav-items-list"></div>
-      <button class="btn-add" id="btn-add-nav">＋ Add Link</button>
+      <button class="btn-add" id="btn-add-nav" onclick="if(window._db)window._db.openNavModal()">＋ Add Link</button>
     </div>
   </section>
 
@@ -941,6 +940,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
 
       <div class="divider"></div>
+      <div class="group-title">Footer Text</div>
+      <div class="form-grid">
+        <div class="field span2"><label>Footer Title</label><input type="text" id="b-tagline" placeholder="Mexican Grill &amp; Cantina"/></div>
+        <div class="field span2"><label>Footer Paragraph</label><input type="text" id="b-slogan" placeholder="Authentic flavors since 1998."/></div>
+      </div>
+      <div class="divider"></div>
       <div class="group-title">Footer Navigation Menu</div>
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
         <label class="toggle-switch"><input type="checkbox" id="footer-menu-same" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
@@ -965,33 +970,53 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 
   <section class="section" id="section-export">
     <div class="section-inner">
-    <div class="section-title">Export & Publish</div>
-    <div class="section-sub">Preview, download, or publish directly to the client's cPanel</div>
+    <div class="section-title">Export &amp; Publish</div>
+    <div class="section-sub">Preview, download, or publish to the client's server</div>
 
-    <div class="export-card">
-      <h3>📋 How to Publish</h3>
-      <div class="export-steps">
-        <div class="step"><div class="step-num">1</div><span>Upload all images using the drag &amp; drop fields in each section</span></div>
-        <div class="step"><div class="step-num">2</div><span>In <strong>Clients</strong>, edit the client (✏️) and set the <strong>cPanel Username</strong> — find it in WHM → List Accounts</span></div>
-        <div class="step"><div class="step-num">3</div><span><strong>Option A — Client's own domain:</strong> Click 🚀 Publish → uploads <code>index.html</code> to the client's <code>public_html/</code> via WHM API</span></div>
-        <div class="step"><div class="step-num">4</div><span><strong>Option B — Demo subdomain:</strong> Enter a subdomain (e.g. <code>rancheros</code>) → Click 🌐 Create &amp; Publish → creates <code>rancheros.mkthelp.net</code> pointing to your server</span></div>
-        <div class="step"><div class="step-num">5</div><span>To make it live on the client's final domain: in Reseller Club, point the domain's nameservers to your server, then use Option A</span></div>
+    <div style="display:flex;gap:0;margin-bottom:20px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+      <button id="pub-tab-own" onclick="switchPubTab('own')" style="flex:1;padding:10px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">🌐 Client Domain</button>
+      <button id="pub-tab-demo" onclick="switchPubTab('demo')" style="flex:1;padding:10px;border:none;background:var(--surface2);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">🧪 Demo Subdomain</button>
+    </div>
+
+    <div id="pub-panel-own">
+      <div class="export-card"><h3>🌐 Publish to Client's Domain</h3>
+        <div class="export-steps">
+          <div class="step"><div class="step-num">1</div><span>Upload all images via drag &amp; drop in each section</span></div>
+          <div class="step"><div class="step-num">2</div><span>Edit the client (✏️) → set <strong>cPanel Username</strong> — find it in WHM → List Accounts</span></div>
+          <div class="step"><div class="step-num">3</div><span>Make sure the client's domain nameservers point to your server in Reseller Club</span></div>
+          <div class="step"><div class="step-num">4</div><span>Click <strong>🚀 Publish</strong> — uploads <code>index.html</code> to the client's <code>public_html/</code></span></div>
+        </div></div>
+      <div class="export-card" style="background:rgba(22,163,74,.06);border-color:rgba(22,163,74,.2)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+          <span style="font-size:12px;color:var(--muted)">cPanel User:</span>
+          <span id="publish-cpanel-display" style="font-size:13px;font-weight:700;color:var(--text)">—</span>
+          <span style="font-size:12px;color:var(--muted)">Domain:</span>
+          <span id="publish-domain-display" style="font-size:13px;font-weight:700;color:var(--accent)">—</span>
+        </div>
+        <div id="publish-status" style="font-size:12px;color:var(--muted);min-height:16px;margin-bottom:10px"></div>
+        <button class="btn-big" id="btn-publish" style="background:var(--green)">🚀 Publish to Client cPanel</button>
       </div>
     </div>
 
-    <div class="export-card" style="background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)">
-      <h3>📡 Publish Status</h3>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <span style="font-size:13px;color:var(--muted)">cPanel User:</span>
-        <span id="publish-cpanel-display" style="font-size:13px;font-weight:600;color:var(--text)">—</span>
-        <span style="font-size:13px;color:var(--muted)">Domain:</span>
-        <span id="publish-domain-display" style="font-size:13px;font-weight:600;color:var(--accent)">—</span>
+    <div id="pub-panel-demo" style="display:none">
+      <div class="export-card"><h3>🧪 Demo on mkthelp.net</h3>
+        <div class="export-steps">
+          <div class="step"><div class="step-num">1</div><span>Enter a subdomain name below (e.g. <code>rancheros</code>)</span></div>
+          <div class="step"><div class="step-num">2</div><span>Click <strong>🌐 Create &amp; Publish</strong> — creates subdomain and uploads the landing</span></div>
+          <div class="step"><div class="step-num">3</div><span>Share <code>[subdomain].mkthelp.net</code> with the client for review — temporary</span></div>
+          <div class="step"><div class="step-num">4</div><span>When ready to go live, switch to <strong>Client Domain</strong> tab</span></div>
+        </div></div>
+      <div class="export-card" style="background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <input type="text" id="demo-subdomain" placeholder="rancheros" style="flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif"/>
+          <span style="font-size:13px;color:var(--muted);white-space:nowrap">.mkthelp.net</span>
+        </div>
+        <div id="demo-status" style="font-size:12px;color:var(--muted);min-height:16px;margin-bottom:10px"></div>
+        <button class="btn-big" id="btn-demo-publish" style="background:var(--accent)">🌐 Create &amp; Publish Demo</button>
       </div>
-      <div id="publish-status" style="font-size:12px;color:var(--muted);min-height:18px;margin-bottom:12px"></div>
-      <button class="btn-big" id="btn-publish" style="background:var(--green)">🚀 Publish to Client cPanel</button>
     </div>
 
-    <div style="display:flex;gap:10px;margin-top:12px">
+    <div style="display:flex;gap:10px;margin-top:16px">
       <button class="btn-big" id="btn-preview" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);flex:1;font-size:13px;padding:10px">👁️ Preview</button>
       <button class="btn-big" id="btn-export" style="flex:2;font-size:13px;padding:10px">⬇️ Download HTML</button>
     </div>
@@ -1865,6 +1890,25 @@ document.getElementById('btn-preview-sidebar').addEventListener('click', functio
   else alert('Pop-up blocked — please allow pop-ups for this site.');
 });
 
+// ── PUBLISH TABS ─────────────────────────────────────────────────────────────
+function switchPubTab(tab) {
+  var ownPanel  = document.getElementById('pub-panel-own');
+  var demoPanel = document.getElementById('pub-panel-demo');
+  var ownTab    = document.getElementById('pub-tab-own');
+  var demoTab   = document.getElementById('pub-tab-demo');
+  if(tab === 'own') {
+    ownPanel.style.display  = 'block';
+    demoPanel.style.display = 'none';
+    ownTab.style.background  = 'var(--accent)'; ownTab.style.color  = '#fff';
+    demoTab.style.background = 'var(--surface2)'; demoTab.style.color = 'var(--muted)';
+  } else {
+    ownPanel.style.display  = 'none';
+    demoPanel.style.display = 'block';
+    demoTab.style.background  = 'var(--accent)'; demoTab.style.color  = '#fff';
+    ownTab.style.background   = 'var(--surface2)'; ownTab.style.color = 'var(--muted)';
+  }
+}
+
 // ── PUBLISH TO CLIENT CPANEL ─────────────────────────────────────────────────
 function updatePublishDisplay() {
   var cpuEl  = document.getElementById('publish-cpanel-display');
@@ -1927,6 +1971,44 @@ document.getElementById('btn-publish').addEventListener('click', function() {
     status.textContent = '✗ Network error — check publish.php is on server';
   };
   xhr.send(formData);
+});
+
+document.getElementById('btn-demo-publish').addEventListener('click', function() {
+  var sub = (document.getElementById('demo-subdomain').value || '').trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
+  if(!sub) { document.getElementById('demo-status').textContent = 'Enter a subdomain name first.'; return; }
+  var status = document.getElementById('demo-status');
+  var btn    = document.getElementById('btn-demo-publish');
+  btn.disabled = true; btn.textContent = '⏳ Creating...';
+  status.style.color = 'var(--muted)';
+  status.textContent = 'Creating subdomain + publishing...';
+  read();
+  var html = buildHTML();
+  var uploadUrl = cfg.uploadUrl || 'https://mkthelp.net/upload.php';
+  var publishUrl = uploadUrl.replace('upload.php', 'publish.php');
+  var fd = new FormData();
+  fd.append('action', 'publish_demo');
+  fd.append('subdomain', sub);
+  fd.append('html', html);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', publishUrl);
+  xhr.onload = function() {
+    btn.disabled = false; btn.textContent = '🌐 Create & Publish Demo';
+    try {
+      var res = JSON.parse(xhr.responseText);
+      if(res.success) {
+        status.style.color = 'var(--green)';
+        status.textContent = '✓ Live at: ' + sub + '.mkthelp.net';
+      } else {
+        status.style.color = '#f87171';
+        status.textContent = '✗ ' + (res.error || 'Failed');
+      }
+    } catch(e) { status.style.color='#f87171'; status.textContent='✗ Server error'; }
+  };
+  xhr.onerror = function() {
+    btn.disabled=false; btn.textContent='🌐 Create & Publish Demo';
+    status.style.color='#f87171'; status.textContent='✗ Network error';
+  };
+  xhr.send(fd);
 });
 
 // Update publish display when navigating to Export section
@@ -3052,6 +3134,7 @@ window._db = {
   initDropZone: function(fieldId) {
     if(typeof initDropZone === 'function') initDropZone(fieldId);
   },
+  openNavModal: function(idx) { openNavModal(idx); },
   saveNavItem: function(lbl, lnk) {
     if(!cfg.navItems) cfg.navItems = [];
     if(navEditIdx !== null) cfg.navItems[navEditIdx] = {label:lbl, link:lnk};
