@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
 html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;max-height:100vh;overflow:hidden;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;flex-shrink:0;z-index:10;overflow:hidden}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:grid;grid-template-rows:auto auto 1fr auto;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0}
 .client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
@@ -20,7 +20,7 @@ html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .client-unsaved.show{display:block}
 .sidebar-logo h1{font-family:'Playfair Display',serif;font-size:16px;color:var(--accent);line-height:1.2}
 .sidebar-logo p{font-size:11px;color:var(--muted);margin-top:2px}
-.sidebar-nav{flex:1;padding:8px 10px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;min-height:0;overflow-x:hidden}
+.sidebar-nav{padding:8px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;overflow-x:hidden}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .2s;font-size:13px;font-weight:500;border:none;background:none;text-align:left;width:100%}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:rgba(217,119,6,.12);color:var(--accent)}
@@ -62,13 +62,13 @@ html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
 .clients-table{width:100%;border-collapse:collapse;font-size:13px}
 .clients-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
-.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:#f0f0f0!important}
+.clients-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
 .clients-table tr:last-child td{border-bottom:none}
 .clients-table tr.client-row{cursor:pointer;transition:background .15s}
 .clients-table tr.client-row:hover td{background:rgba(255,255,255,.03)}
 .clients-table tr.client-row.client-active td{background:rgba(217,119,6,.07)}
 .client-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);background:rgba(22,163,74,.12);padding:2px 7px;border-radius:20px;white-space:nowrap}
-.client-cell-name{font-weight:600;color:#f0f0f0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.client-cell-name{font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .client-cell-biz{color:var(--muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-domain{color:var(--muted);font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-date{color:var(--muted);font-size:11px;white-space:nowrap}
@@ -282,6 +282,25 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <input type="text" class="dz-path" id="b-logo-footer" placeholder="imagenes/filename.jpg" autocomplete="off"/>
         <img class="drop-zone-preview" id="dz-preview-b-logo-footer" src="" alt=""/>
       </div>
+      <div class="dz-field span2" id="dz-wrap-b-favicon">
+        <label>Favicon</label>
+        <div class="drop-zone" id="dz-b-favicon">
+          <img class="drop-zone-img-preview" id="dz-img-b-favicon" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-b-favicon" onclick="clearDropZone('b-favicon');event.stopPropagation()">×</button>
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG · ICO</span>
+            <span class="drop-zone-hint">PNG or ICO · 32×32px or 64×64px</span>
+          </div>
+          <input type="file" id="dz-file-b-favicon" accept="image/png,image/x-icon,image/svg+xml"/>
+          <div class="drop-zone-uploading" id="dz-uploading-b-favicon">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-b-favicon"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <input type="text" class="dz-path" id="b-favicon" placeholder="imagenes/favicon.png" autocomplete="off"/>
+        <img class="drop-zone-preview" id="dz-preview-b-favicon" src="" alt=""/>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Theme</div>
@@ -381,7 +400,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-clients">
-    <div class="section-inner" style="background:var(--bg)">
+    <div class="section-inner">
       <div class="clients-header">
         <div>
           <div class="section-title">Clients</div>
@@ -541,7 +560,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="group-title" style="font-size:10px;opacity:.6;margin-bottom:6px">Active sections — click to insert anchor</div>
       <div id="anchor-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
       <div class="ilist" id="nav-items-list"></div>
-      <button class="btn-add" id="btn-add-nav" onclick="if(window._db)window._db.openNavModal()">＋ Add Link</button>
+      <button class="btn-add" id="btn-add-nav" onclick="openNavModalGlobal()">＋ Add Link</button>
     </div>
   </section>
 
@@ -1246,7 +1265,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 // ── STATE ──────────────────────────────────────────────
 var cfg = {
   clientName:'', clientPhone:'', clientEmail:'', clientDomain:'',
-  name:'', tagline:'', slogan:'', logo:'imagenes/img_000.png', logoF:'imagenes/img_019.png',
+  name:'', tagline:'', slogan:'', logo:'imagenes/img_000.png', logoF:'imagenes/img_019.png', favicon:'',
   cp:'#B91C1C', ca:'#D97706', cb:'#FFF8F0', ct:'#1C0A00',
   fontHead:'Playfair Display', fontBody:'DM Sans',
   phone:'', phoneD:'', email:'', address:'', maps:'',
@@ -1323,7 +1342,7 @@ function sv(id, val) { var e = document.getElementById(id); if (e) e.value = val
 
 function read() {
   cfg.name=v('b-name'); cfg.tagline=v('b-tagline'); cfg.slogan=v('b-slogan');
-  cfg.logo=v('b-logo'); cfg.logoF=v('b-logo-footer');
+  cfg.logo=v('b-logo'); cfg.logoF=v('b-logo-footer'); cfg.favicon=v('b-favicon')||'';
   cfg.cp=v('b-cp'); cfg.ca=v('b-ca'); cfg.cb=v('b-cb'); cfg.ct=v('b-ct');
   cfg.fontHead=v('font-head-val')||cfg.fontHead||'Playfair Display';
   cfg.fontBody=v('font-body-val')||cfg.fontBody||'DM Sans';
@@ -1449,7 +1468,7 @@ function applySectionToggle(secId, visible) {
 function write() {
   try {
   sv('b-name',cfg.name); sv('b-tagline',cfg.tagline); sv('b-slogan',cfg.slogan);
-  sv('b-logo',cfg.logo); sv('b-logo-footer',cfg.logoF);
+  sv('b-logo',cfg.logo); sv('b-logo-footer',cfg.logoF); sv('b-favicon',cfg.favicon||'');
   sv('b-cp',cfg.cp); sv('b-cp-hex',cfg.cp); sv('b-ca',cfg.ca); sv('b-ca-hex',cfg.ca);
   sv('b-cb',cfg.cb); sv('b-cb-hex',cfg.cb); sv('b-ct',cfg.ct); sv('b-ct-hex',cfg.ct);
   if(cfg.cp) syncActiveTheme(cfg.cp);
@@ -1635,7 +1654,7 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
   // Reset cfg to defaults
   cfg = {
     clientName:'', clientPhone:'', clientEmail:'', clientDomain:'',
-    name:'', tagline:'', slogan:'', logo:'imagenes/img_000.png', logoF:'imagenes/img_019.png',
+    name:'', tagline:'', slogan:'', logo:'imagenes/img_000.png', logoF:'imagenes/img_019.png', favicon:'',
     cp:'#B91C1C', ca:'#D97706', cb:'#FFF8F0', ct:'#1C0A00',
     fontHead:'Playfair Display', fontBody:'DM Sans',
     phone:'', phoneD:'', email:'', address:'', maps:'',
@@ -2097,6 +2116,7 @@ function buildHTML() {
   lines.push('<html lang="en">');
   lines.push('<head>');
   lines.push('<meta charset="UTF-8"/>');
+  if(c.favicon) lines.push('<link rel="icon" href="' + e(c.favicon) + '" type="image/png"/>');
   lines.push('<meta name="viewport" content="width=device-width,initial-scale=1"/>');
   lines.push('<title>' + e(name) + '</title>');
   lines.push('<link rel="preconnect" href="https://fonts.googleapis.com"/>');
@@ -2903,7 +2923,7 @@ document.getElementById('btn-add-testimonial').addEventListener('click', functio
 function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ── DROP ZONE UPLOADER ────────────────────────────────────────────────────────
-var DZ_FIELDS = ['b-logo','b-logo-footer','s1-img','s2-img','s3-img','a-img','wl-img','m-img'];
+var DZ_FIELDS = ['b-logo','b-logo-footer','b-favicon','s1-img','s2-img','s3-img','a-img','wl-img','m-img'];
 
 function nameToSlug(name) {
   return (name||'').toLowerCase()
@@ -3504,7 +3524,7 @@ function renderClientsTable() {
     return;
   }
 
-  var html = '<table class="clients-table"><thead><tr>'
+  var html = '<table class="clients-table" style="border-radius:8px;overflow:hidden"><thead><tr>'
     + '<th>Client</th><th>Business</th><th>Domain</th><th>Updated</th><th></th>'
     + '</tr></thead><tbody>';
 
@@ -3520,7 +3540,7 @@ function renderClientsTable() {
     var dateStr = formatDate(c.updatedAt);
 
     html += '<tr class="client-row' + (isActive ? ' client-active' : '') + '" data-id="' + c.id + '">'
-      + '<td><div class="client-cell-name">' + esc(clientPersonName || biz) + '</div>'
+      + '<td><div class="client-cell-name" style="color:var(--text);font-weight:600">' + esc(clientPersonName || biz) + '</div>'
       + (isActive ? '<div class="client-badge">✓ Active</div>' : '')
       + '</td>'
       + '<td><div class="client-cell-biz">' + esc(biz) + '</div>'
@@ -3671,6 +3691,21 @@ function switchPubTab(tab) {
 function closeModalById(id) {
   var el = document.getElementById(id);
   if(el) el.classList.remove('open');
+}
+
+// Open nav modal globally
+function openNavModalGlobal() {
+  if(window._db && window._db.openNavModal) { window._db.openNavModal(); return; }
+  var modal = document.getElementById('nav-modal');
+  var title = document.getElementById('nav-modal-title');
+  var lbl   = document.getElementById('nav-m-label');
+  var lnk   = document.getElementById('nav-m-link');
+  if(!modal) return;
+  if(title) title.textContent = 'Add Link';
+  if(lbl) lbl.value = '';
+  if(lnk) lnk.value = '';
+  modal.classList.add('open');
+  if(lbl) setTimeout(function(){ lbl.focus(); }, 50);
 }
 
 function clearDropZone(fieldId) {
