@@ -82,7 +82,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .btn-new-sm:hover{opacity:.85}
 .drop-zone{position:relative;border:2px dashed var(--border);border-radius:10px;background:var(--surface2);transition:all .2s;cursor:pointer;overflow:hidden}
 .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:rgba(217,119,6,.06)}
-.drop-zone-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 12px;text-align:center;pointer-events:none}
+.drop-zone-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 12px;text-align:center;pointer-events:none;transition:opacity .2s}
+.drop-zone.has-preview .drop-zone-inner{opacity:0;position:absolute;pointer-events:none}
+.drop-zone-img-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:8px;display:none;pointer-events:none}
+.drop-zone.has-preview .drop-zone-img-preview{display:block}
+.drop-zone.has-preview{border-style:solid;border-color:var(--accent)}
+.drop-zone-clear{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:22px;height:22px;font-size:13px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1;z-index:2}
+.drop-zone.has-preview .drop-zone-clear{display:flex}
 .drop-zone-icon{font-size:22px;opacity:.5}
 .drop-zone-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .drop-zone-hint{font-size:10px;color:var(--muted);opacity:.7}
@@ -126,6 +132,9 @@ input[type=color]{padding:4px 8px;height:40px;cursor:pointer}
 .item-info{flex:1;min-width:0}
 .item-name{font-weight:600;font-size:14px;color:var(--text)!important}
 .item-meta{font-size:12px;color:var(--muted)!important;margin-top:2px}
+.icard{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.icard:last-child{border-bottom:none}
+.ilist{padding:4px 0}
 .item-actions{display:flex;gap:6px;flex-shrink:0}
 .btn-sm{padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-edit{background:rgba(217,119,6,.15);color:var(--accent)}
@@ -244,6 +253,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="dz-field span2" id="dz-wrap-b-logo">
         <label>Header Logo</label>
         <div class="drop-zone" id="dz-b-logo">
+          <img class="drop-zone-img-preview" id="dz-img-b-logo" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-b-logo" onclick="clearDropZone('b-logo');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG</span>
@@ -261,6 +272,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="dz-field span2" id="dz-wrap-b-logo-footer">
         <label>Footer Logo</label>
         <div class="drop-zone" id="dz-b-logo-footer">
+          <img class="drop-zone-img-preview" id="dz-img-b-logo-footer" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-b-logo-footer" onclick="clearDropZone('b-logo-footer');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; PNG · SVG</span>
@@ -410,6 +423,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="dz-field span2" id="dz-wrap-s1-img">
         <label>Image</label>
         <div class="drop-zone" id="dz-s1-img">
+          <img class="drop-zone-img-preview" id="dz-img-s1-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-s1-img" onclick="clearDropZone('s1-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -437,6 +452,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="dz-field span2" id="dz-wrap-s2-img">
         <label>Image</label>
         <div class="drop-zone" id="dz-s2-img">
+          <img class="drop-zone-img-preview" id="dz-img-s2-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-s2-img" onclick="clearDropZone('s2-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -464,6 +481,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="dz-field span2" id="dz-wrap-s3-img">
         <label>Image</label>
         <div class="drop-zone" id="dz-s3-img">
+          <img class="drop-zone-img-preview" id="dz-img-s3-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-s3-img" onclick="clearDropZone('s3-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -518,6 +537,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="dz-field " id="dz-wrap-a-img">
         <label>Image</label>
         <div class="drop-zone" id="dz-a-img">
+          <img class="drop-zone-img-preview" id="dz-img-a-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-a-img" onclick="clearDropZone('a-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -573,6 +594,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="dz-field span2" id="dz-wrap-wl-img">
         <label>Image</label>
         <div class="drop-zone" id="dz-wl-img">
+          <img class="drop-zone-img-preview" id="dz-img-wl-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-wl-img" onclick="clearDropZone('wl-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -680,7 +703,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="step"><div class="step-num">4</div><span>Test with <code>python3 -m http.server 8000</code></span></div>
       </div>
     </div>
-    <button class="btn-big" id="btn-export">⬇️ Generate & Download HTML</button>
+    <div style="display:flex;gap:12px;margin-bottom:0">
+      <button class="btn-big" id="btn-preview" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);flex:1">👁️ Preview</button>
+      <button class="btn-big" id="btn-export" style="flex:2">⬇️ Generate & Download HTML</button>
+    </div>
     <div id="export-status" style="text-align:center;margin-top:12px;font-size:13px;color:var(--green);height:20px"></div>
     </div>
   </section>
@@ -701,6 +727,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="dz-field span2" id="dz-wrap-m-img">
         <label>Item Image</label>
         <div class="drop-zone" id="dz-m-img">
+          <img class="drop-zone-img-preview" id="dz-img-m-img" src="" alt=""/>
+          <button class="drop-zone-clear" id="dz-clear-m-img" onclick="clearDropZone('m-img');event.stopPropagation()">×</button>
           <div class="drop-zone-inner">
             <span class="drop-zone-icon">🖼️</span>
             <span class="drop-zone-label">Drop or click &nbsp;·&nbsp; JPG · WEBP · PNG</span>
@@ -1392,6 +1420,17 @@ document.getElementById('modal-cancel-btn').addEventListener('click', closeModal
 // modal-save-btn handled by onclick->saveMenuItem()
 
 // ── EXPORT ────────────────────────────────────────────
+document.getElementById('btn-preview').addEventListener('click', function() {
+  read();
+  var html = buildHTML();
+  var blob = new Blob([html], {type: 'text/html'});
+  var url  = URL.createObjectURL(blob);
+  var win  = window.open(url, '_blank');
+  // Clean up blob URL after window opens
+  if(win) setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+  else alert('Pop-up blocked — please allow pop-ups for this site.');
+});
+
 document.getElementById('btn-export').addEventListener('click', function() {
   read();
   setUnsaved(true);
@@ -1432,7 +1471,7 @@ function buildHTML() {
       : e(item.name);
     menuCards += '<div class="omi-card" data-cat="' + e(item.cat) + '">'
       + '<div class="omi-img" style="padding:0">'
-      + '<img src="' + e(item.img) + '" alt="' + e(item.name) + '" style="width:100%;height:140px;object-fit:cover;display:block"/>'
+      + (item.img ? '<img src="' + e(item.img) + '" alt="' + e(item.name) + '" style="width:100%;height:140px;object-fit:cover;display:block"/>' : '<div class="img-ph" style="height:140px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Photo</span></div>')
       + '</div><div class="omi-body">'
       + '<span class="omi-price">' + e(item.price) + '</span>'
       + '<h3 class="omi-name">' + nm + '</h3>'
@@ -1442,8 +1481,9 @@ function buildHTML() {
 
   var heroSlides = '';
   (c.slides || []).forEach(function(s, i) {
-    if (!s.img) return;
-    heroSlides += '<div class="hero-slide' + (i === 0 ? ' active' : '') + '" style="background-image:url(\'' + e(s.img) + '\')"></div>\n';
+    var slideBgStyle = s.img ? 'background-image:url(\'' + e(s.img) + '\')' : 'background:#1a1a2e';
+    var slidePhHtml = s.img ? '' : '<div class="img-ph" style="position:absolute;inset:0;height:auto;border-radius:0"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Hero Image</span></div>';
+    heroSlides += '<div class="hero-slide' + (i === 0 ? ' active' : '') + '" style="' + slideBgStyle + '">' + slidePhHtml + '</div>\n';
   });
 
   var dayNames = {mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday',sat:'Saturday',sun:'Sunday'};
@@ -1519,6 +1559,9 @@ function buildHTML() {
   lines.push('.omi-card{background:#fff;border:1px solid rgba(28,10,0,.08);border-radius:18px;display:flex;flex-direction:column}');
   lines.push('.omi-card.hidden{display:none}');
   lines.push('.omi-img{height:140px;background:' + bg + ';overflow:hidden;cursor:pointer;border-radius:18px 18px 0 0}');
+  lines.push('.img-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;background:rgba(0,0,0,.04);color:rgba(0,0,0,.2)}');
+  lines.push('.img-ph svg{opacity:.4}');
+  lines.push('.img-ph span{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.5}');
   lines.push('.omi-img img{transition:transform .35s ease;display:block;width:100%;height:140px;object-fit:cover}');
   lines.push('.omi-img:hover img{transform:scale(1.08)}');
   lines.push('.omi-body{padding:18px 20px;display:flex;flex-direction:column;flex:1}');
@@ -1598,7 +1641,7 @@ function buildHTML() {
   lines.push('</div>');
   lines.push('<header id="site-header">');
   lines.push('  <div class="header-inner">');
-  lines.push('    <a href="#" class="logo"><img src="' + e(c.logo) + '" alt="' + e(name) + '" style="height:48px;width:auto;display:block"/></a>');
+  lines.push('    <a href="#" class="logo">' + (c.logo ? '<img src="' + e(c.logo) + '" alt="' + e(name) + '" style="height:48px;width:auto;display:block"/>' : '<div style="height:48px;display:flex;align-items:center;gap:8px;font-family:\'' + fh + '\',' + fhType + ';font-size:18px;font-weight:700;color:' + p + '">' + e(name) + '</div>') + '</a>');
   var navLinks = (c.navItems && c.navItems.length ? c.navItems : [{label:'Home',link:'#hero'},{label:'Menu',link:'#services'},{label:'About',link:'#about'},{label:'Contact',link:'#contact'}]);
   lines.push('    <nav>');
   lines.push('      ' + navLinks.map(function(n){ return '<a href="' + e(n.link) + '">' + e(n.label) + '</a>'; }).join(''));
@@ -1671,7 +1714,7 @@ function buildHTML() {
   if(secVisible('about')) {
   lines.push('<section class="section" id="about" style="background:'+(sbg.about||'#ffffff')+'">');
   lines.push('  <div class="container"><div class="about-grid">');
-  lines.push('    <div class="about-img-wrap"><img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '"/></div>');
+  lines.push('    <div class="about-img-wrap">' + (c.aImg ? '<img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div class="img-ph"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>About Photo</span></div>') + '</div>');
   lines.push('    <div>');
   lines.push('      <div class="sec-label">' + e(c.aLabel || 'Our Story') + '</div>');
   lines.push('      <h2 class="sec-title">' + e(c.aTitle || 'About Us') + '</h2>');
@@ -1690,7 +1733,7 @@ function buildHTML() {
     lines.push('<section class="section" id="welcome" style="background:'+(sbg.welcome||'#ffffff')+'">');
     lines.push('  <div class="container">');
     lines.push('    <div class="about-grid">');
-    if(c.wlImg) lines.push('      <div class="about-img-wrap"><img src="' + e(c.wlImg) + '" alt="' + e(c.wlTitle) + '"/></div>');
+    lines.push('      <div class="about-img-wrap">' + (c.wlImg ? '<img src="' + e(c.wlImg) + '" alt="' + e(c.wlTitle) + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div class="img-ph"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Welcome Photo</span></div>') + '</div>');
     lines.push('      <div>');
     if(c.wlLabel) lines.push('        <div class="sec-label" style="color:' + a + '">' + e(c.wlLabel) + '</div>');
     lines.push('        <h2 class="sec-title" style="font-family:\'' + fh + '\',' + fhType + ';color:' + tx + '">' + e(c.wlTitle) + '</h2>');
@@ -2005,10 +2048,14 @@ function renderIcCards() {
   cfg.icCards.forEach(function(card, i) {
     var d = document.createElement('div');
     d.className = 'icard';
-    d.innerHTML = '<div style="width:40px;height:40px;background:rgba(217,119,6,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0">'+(IC_ICONS[card.icon]||IC_ICONS.menu)+'</div>'
-      +'<div class="iinfo"><div class="item-name">'+esc(card.title)+'</div>'
-      +'<div class="item-meta">'+esc(card.text||'')+(card.link?' · '+esc(card.link):'')+'</div></div>'
-      +'<div class="iact"><button class="btn-sm btn-edit" data-ic="'+i+'">Editar</button><button class="btn-sm btn-del" data-ic="'+i+'">Eliminar</button></div>';
+    d.innerHTML = '<div style="width:32px;height:32px;background:rgba(217,119,6,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0">'
+      +(IC_ICONS[card.icon]||IC_ICONS.menu)
+      +'</div><div style="flex:1;min-width:0">'
+      +'<div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(card.title)+'</div>'
+      +(card.linktxt||card.link ? '<div style="font-size:11px;color:var(--accent);margin-top:2px">'+esc(card.linktxt||card.link||'')+'</div>' : '')
+      +'</div><div style="display:flex;gap:4px;flex-shrink:0">'
+      +'<button class="client-action-btn btn-edit" data-ic="'+i+'" title="Edit">✏️</button>'
+      +'<button class="client-action-btn del btn-del" data-ic="'+i+'" title="Delete">🗑️</button></div>';
     list.appendChild(d);
   });
   list.querySelectorAll('.btn-edit').forEach(function(b){ b.addEventListener('click', function(){ openIcModal(parseInt(b.dataset.ic)); }); });
@@ -2180,9 +2227,22 @@ function initDropZone(fieldId) {
   if(!zone || !fileInput || !pathInput) return;
 
   function showPreview(src) {
-    if(!preview) return;
-    if(src) { preview.src = src; preview.classList.add('show'); }
-    else { preview.classList.remove('show'); }
+    // Small thumbnail below path input
+    if(preview) {
+      if(src) { preview.src = src; preview.classList.add('show'); }
+      else { preview.classList.remove('show'); }
+    }
+    // Large preview inside the drop zone
+    var imgEl = document.getElementById('dz-img-' + fieldId);
+    if(imgEl) {
+      if(src) {
+        imgEl.src = src;
+        zone.classList.add('has-preview');
+      } else {
+        imgEl.src = '';
+        zone.classList.remove('has-preview');
+      }
+    }
   }
 
   function handleFile(file) {
@@ -2242,7 +2302,8 @@ function initDropZone(fieldId) {
   }
   pathInput.addEventListener('input', function() {
     var url = getImgPreviewUrl(pathInput.value);
-    showPreview(url);
+    if(url) showPreview(url);
+    else showPreview('');
   });
 }
 
@@ -2732,6 +2793,19 @@ document.getElementById('json-file-input').addEventListener('change', function(e
 function closeModalById(id) {
   var el = document.getElementById(id);
   if(el) el.classList.remove('open');
+}
+
+function clearDropZone(fieldId) {
+  var zone    = document.getElementById('dz-' + fieldId);
+  var imgEl   = document.getElementById('dz-img-' + fieldId);
+  var prevEl  = document.getElementById('dz-preview-' + fieldId);
+  var pathEl  = document.getElementById(fieldId);
+  var fileInp = document.getElementById('dz-file-' + fieldId);
+  if(zone)    zone.classList.remove('has-preview');
+  if(imgEl)   { imgEl.src = ''; }
+  if(prevEl)  { prevEl.src = ''; prevEl.classList.remove('show'); }
+  if(pathEl)  { pathEl.value = ''; }
+  if(fileInp) { fileInp.value = ''; }
 }
 
 function saveNavItem() {
