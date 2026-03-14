@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface)}
 .client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
@@ -53,7 +53,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .section-bg-bar .bg-reset:hover{color:var(--text)}
 .sec-toggle{display:flex;align-items:center;gap:7px;margin-left:auto;flex-shrink:0}
 .sec-toggle label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);cursor:pointer;user-select:none}
-.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0;cursor:pointer;display:block}
+.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0;cursor:pointer;display:block;margin-top:0}
 .toggle-switch input{opacity:0;width:0;height:0;position:absolute}
 .toggle-track{position:absolute;inset:0;background:var(--border);border-radius:20px;cursor:pointer;transition:background .2s}
 .toggle-switch input:checked + .toggle-track{background:var(--green)}
@@ -132,6 +132,9 @@ input[type=color]{padding:4px 8px;height:40px;cursor:pointer}
 .item-info{flex:1;min-width:0}
 .item-name{font-weight:600;font-size:14px;color:var(--text)!important}
 .item-meta{font-size:12px;color:var(--muted)!important;margin-top:2px}
+.toggle-row{display:flex;align-items:center;gap:10px;padding:5px 0;min-height:30px}
+.toggle-label{font-size:13px;color:var(--muted)}
+.subfields{padding-left:8px;border-left:2px solid rgba(255,255,255,.06);margin-left:4px}
 .icard{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 .icard:last-child{border-bottom:none}
 .ilist{padding:4px 0}
@@ -398,31 +401,111 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   <section class="section" id="section-header-config">
     <div class="section-inner">
       <div class="section-title">Header</div>
-      <div class="section-sub">Top bar and main header controls</div>
+      <div class="section-sub">Top bar, news ticker and main header controls</div>
 
-      <div class="group-title">Top Bar</div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
-          <span style="font-size:13px;color:var(--muted)">Show Top Bar</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding-left:8px">
-          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-phone" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
-          <span style="font-size:13px;color:var(--muted)">Show Phone Number</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding-left:8px">
-          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-socials" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
-          <span style="font-size:13px;color:var(--muted)">Show Social Icons</span>
+      <!-- ─ NEWS TICKER ─────────────────────────────── -->
+      <div class="group-title">News Ticker</div>
+      <div class="toggle-row">
+        <label class="toggle-switch"><input type="checkbox" id="ticker-on"><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        <span class="toggle-label">Show News Ticker</span>
+      </div>
+      <div id="ticker-fields" class="subfields">
+        <div class="form-grid" style="margin-top:10px">
+          <div class="field span2"><label>Ticker Text</label><input type="text" id="ticker-text" placeholder="🔥 Special this week: Family Pack only $49.99 · Order now and save!"/></div>
+          <div class="field"><label>Icon</label><select id="ticker-icon"><option value="none">No icon</option><option value="megaphone">📣 Megaphone</option><option value="star">⭐ Star</option><option value="fire">🔥 Fire</option><option value="bell">🔔 Bell</option><option value="gift">🎁 Gift</option><option value="check">✅ Check</option></select></div>
+          <div class="field"><label>Link (optional)</label><input type="text" id="ticker-link" placeholder="#menu"/></div>
+          <div class="field"><label>Speed</label>
+            <select id="ticker-speed">
+              <option value="slow">🐢 Slow</option>
+              <option value="normal" selected>▶️ Normal</option>
+              <option value="fast">⚡ Fast</option>
+            </select>
+          </div>
+          <div class="field"><label>Direction</label>
+            <select id="ticker-dir">
+              <option value="left" selected>← Left</option>
+              <option value="right">→ Right</option>
+            </select>
+          </div>
+          <div class="field"><label>Text Color</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="color" id="ticker-color" value="#ffffff" style="width:36px;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px 4px"/>
+              <input type="text" id="ticker-color-hex" value="#ffffff" style="flex:1;padding:6px 8px;font-size:12px"/>
+            </div>
+          </div>
+          <div class="field"><label>Background Color</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="color" id="ticker-bg" value="#B91C1C" style="width:36px;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px 4px"/>
+              <input type="text" id="ticker-bg-hex" value="#B91C1C" style="flex:1;padding:6px 8px;font-size:12px"/>
+            </div>
+          </div>
+          <div class="field span2"><label>Font (leave blank to use Body font)</label>
+            <select id="ticker-font">
+              <option value="">Same as Body font</option>
+              <option value="DM Sans">DM Sans</option>
+              <option value="Inter">Inter</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Raleway">Raleway</option>
+              <option value="Playfair Display">Playfair Display</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div class="divider"></div>
-      <div class="group-title">Main Header</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <label class="toggle-switch"><input type="checkbox" id="hdr-sticky" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
-          <span style="font-size:13px;color:var(--muted)">Sticky (stays at top while scrolling)</span>
+
+      <!-- ─ TOP BAR ──────────────────────────────────── -->
+      <div class="group-title">Top Bar</div>
+      <div class="toggle-row">
+        <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        <span class="toggle-label">Show Top Bar</span>
+      </div>
+      <div id="topbar-fields" class="subfields">
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;padding-left:4px">
+          <!-- Phone -->
+          <div class="toggle-row">
+            <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-phone" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            <span class="toggle-label">📞 Phone number</span>
+          </div>
+          <!-- Address -->
+          <div class="toggle-row">
+            <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-address"><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            <span class="toggle-label">📍 Address</span>
+          </div>
+          <div id="topbar-address-fields" class="subfields" style="padding-left:0">
+            <div class="form-grid" style="margin-top:6px">
+              <div class="field"><label>Address Text</label><input type="text" id="topbar-address-text" placeholder="32517 FM2978, Magnolia TX"/></div>
+              <div class="field"><label>Address Link</label><input type="text" id="topbar-address-link" placeholder="https://maps.google.com/..."/></div>
+            </div>
+          </div>
+          <!-- Custom item -->
+          <div class="toggle-row">
+            <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-custom"><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            <span class="toggle-label">Custom item</span>
+          </div>
+          <div id="topbar-custom-fields" class="subfields" style="padding-left:0">
+            <div class="form-grid" style="margin-top:6px">
+              <div class="field"><label>Icon</label><select id="topbar-custom-icon"><option value="none">No icon</option><option value="phone">📞 Phone</option><option value="mail">✉️ Mail</option><option value="map">📍 Pin</option><option value="star">⭐ Star</option><option value="info">ℹ️ Info</option><option value="clock">🕐 Clock</option></select></div>
+              <div class="field"><label>Text</label><input type="text" id="topbar-custom-text" placeholder="Open today 11am–9pm"/></div>
+              <div class="field span2"><label>Link (optional)</label><input type="text" id="topbar-custom-link" placeholder="#contact"/></div>
+            </div>
+          </div>
+          <!-- Socials -->
+          <div class="toggle-row">
+            <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-socials" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            <span class="toggle-label">Social icons</span>
+          </div>
         </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ─ MAIN HEADER ─────────────────────────────── -->
+      <div class="group-title">Main Header</div>
+      <div class="toggle-row">
+        <label class="toggle-switch"><input type="checkbox" id="hdr-sticky" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        <span class="toggle-label">Sticky (stays at top while scrolling)</span>
       </div>
     </div>
   </section>
@@ -665,6 +748,15 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-inner">
     <div class="section-title">About</div>
     <div class="section-sub">About section of the landing page</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <span style="font-size:13px;color:var(--muted)">Layout:</span>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer">
+        <input type="radio" name="a-img-pos" id="a-img-left" value="left" checked/> 🖼️ Image left · Text right
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer">
+        <input type="radio" name="a-img-pos" id="a-img-right" value="right"/> Text left · Image right 🖼️
+      </label>
+    </div>
     <div class="form-grid one">
       <div class="field"><label>Small Label</label><input type="text" id="a-label" placeholder="Our Story"/></div>
       <div class="field"><label>Title</label><input type="text" id="a-title" placeholder="A Family Tradition Since 1998"/></div>
@@ -1116,7 +1208,7 @@ var cfg = {
             {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
   menuCats:"appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids",
   menu:[],
-  aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap1on:true, ap2t:'', ap2l:'', ap2on:true, ap3t:'', ap3l:'', ap3on:false,
+  aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', aImgLeft:true, ap1t:'', ap1l:'', ap1on:true, ap2t:'', ap2l:'', ap2on:true, ap3t:'', ap3l:'', ap3on:false,
   icLabel:'', icTitle:'',
   icCards:[
     {icon:'menu',title:'Dinner Menu',text:'Savor our full dinner experience.',link:'#'},
@@ -1129,6 +1221,11 @@ var cfg = {
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
   copy:'', footerLinkText:'', footerLinkUrl:'', siteUrl:'',
   topBarOn:true, topBarPhone:true, topBarSocials:true,
+  topBarAddress:true, topBarAddressText:'', topBarAddressLink:'',
+  topBarCustomOn:false, topBarCustomText:'', topBarCustomLink:'', topBarCustomIcon:'none',
+  tickerOn:false, tickerText:'', tickerIcon:'none', tickerLink:'',
+  tickerFont:'', tickerColor:'#ffffff', tickerBg:'#B91C1C',
+  tickerSpeed:'normal', tickerDir:'left',
   headerSticky:true,
   footerMenuSameAsHeader:true, footerNavItems:[],
   footerShowMenu:true, footerShowHours:true, footerShowContact:true,
@@ -1209,6 +1306,8 @@ function read() {
   });
   cfg.menuCats=v('menu-cats');
   cfg.aLabel=v('a-label'); cfg.aTitle=v('a-title'); cfg.aP1=v('a-p1'); cfg.aP2=v('a-p2'); cfg.aImg=v('a-img');
+  var _aimgpos = document.querySelector('input[name="a-img-pos"]:checked');
+  cfg.aImgLeft = !_aimgpos || _aimgpos.value === 'left';
   cfg.icLabel=v('ic-label'); cfg.icTitle=v('ic-title');
   cfg.wlLabel=v('wl-label'); cfg.wlTitle=v('wl-title'); cfg.wlP1=v('wl-p1'); cfg.wlP2=v('wl-p2'); cfg.wlImg=v('wl-img');
   cfg.wlS1n=v('wl-s1n'); cfg.wlS1t=v('wl-s1t'); cfg.wlS2n=v('wl-s2n'); cfg.wlS2t=v('wl-s2t'); cfg.wlS3n=v('wl-s3n'); cfg.wlS3t=v('wl-s3t');
@@ -1222,10 +1321,26 @@ function read() {
   cfg.siteUrl=v('c-siteurl');
   // Header toggles
   function getChk(id, def) { var el=document.getElementById(id); return el ? el.checked : def; }
-  cfg.topBarOn      = getChk('hdr-topbar-on', true);
-  cfg.topBarPhone   = getChk('hdr-topbar-phone', true);
-  cfg.topBarSocials = getChk('hdr-topbar-socials', true);
-  cfg.headerSticky  = getChk('hdr-sticky', true);
+  cfg.topBarOn        = getChk('hdr-topbar-on', true);
+  cfg.topBarPhone     = getChk('hdr-topbar-phone', true);
+  cfg.topBarSocials   = getChk('hdr-topbar-socials', true);
+  cfg.topBarAddress   = getChk('hdr-topbar-address', false);
+  cfg.topBarAddressText = v('topbar-address-text');
+  cfg.topBarAddressLink = v('topbar-address-link');
+  cfg.topBarCustomOn  = getChk('hdr-topbar-custom', false);
+  cfg.topBarCustomText= v('topbar-custom-text');
+  cfg.topBarCustomLink= v('topbar-custom-link');
+  cfg.topBarCustomIcon= (document.getElementById('topbar-custom-icon')||{}).value||'none';
+  cfg.headerSticky    = getChk('hdr-sticky', true);
+  cfg.tickerOn        = getChk('ticker-on', false);
+  cfg.tickerText      = v('ticker-text');
+  cfg.tickerIcon      = (document.getElementById('ticker-icon')||{}).value||'none';
+  cfg.tickerLink      = v('ticker-link');
+  cfg.tickerSpeed     = (document.getElementById('ticker-speed')||{value:'normal'}).value;
+  cfg.tickerDir       = (document.getElementById('ticker-dir')||{value:'left'}).value;
+  cfg.tickerColor     = v('ticker-color-hex')||'#ffffff';
+  cfg.tickerBg        = v('ticker-bg-hex')||'#B91C1C';
+  cfg.tickerFont      = (document.getElementById('ticker-font')||{value:''}).value;
   // Footer toggles
   cfg.footerShowMenu    = getChk('footer-show-menu', true);
   cfg.footerShowHours   = getChk('footer-show-hours', true);
@@ -1313,6 +1428,8 @@ function write() {
   sv('menu-cats',cfg.menuCats);
   populateCatSelect();
   sv('a-label',cfg.aLabel); sv('a-title',cfg.aTitle); sv('a-p1',cfg.aP1); sv('a-p2',cfg.aP2); sv('a-img',cfg.aImg);
+  var _aleft = document.getElementById('a-img-left'), _aright = document.getElementById('a-img-right');
+  if(_aleft && _aright) { _aleft.checked = cfg.aImgLeft !== false; _aright.checked = cfg.aImgLeft === false; }
   sv('ic-label',cfg.icLabel); sv('ic-title',cfg.icTitle);
   renderIcCards();
   sv('wl-label',cfg.wlLabel); sv('wl-title',cfg.wlTitle); sv('wl-p1',cfg.wlP1); sv('wl-p2',cfg.wlP2); sv('wl-img',cfg.wlImg);
@@ -1329,10 +1446,29 @@ function write() {
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
   sv('c-siteurl',cfg.siteUrl);
   function setChk(id, val, def) { var el=document.getElementById(id); if(el) el.checked = val===undefined ? def : val; }
-  setChk('hdr-topbar-on',   cfg.topBarOn,      true);
-  setChk('hdr-topbar-phone', cfg.topBarPhone,   true);
+  setChk('hdr-topbar-on',      cfg.topBarOn,      true);
+  setChk('hdr-topbar-phone',   cfg.topBarPhone,   true);
   setChk('hdr-topbar-socials', cfg.topBarSocials, true);
-  setChk('hdr-sticky',      cfg.headerSticky,  true);
+  setChk('hdr-topbar-address', cfg.topBarAddress, false);
+  setChk('hdr-topbar-custom',  cfg.topBarCustomOn, false);
+  setChk('hdr-sticky',         cfg.headerSticky,  true);
+  sv('topbar-address-text', cfg.topBarAddressText||'');
+  sv('topbar-address-link', cfg.topBarAddressLink||'');
+  sv('topbar-custom-text',  cfg.topBarCustomText||'');
+  sv('topbar-custom-link',  cfg.topBarCustomLink||'');
+  var _tci=document.getElementById('topbar-custom-icon'); if(_tci) _tci.value=cfg.topBarCustomIcon||'none';
+  setChk('ticker-on', cfg.tickerOn, false);
+  sv('ticker-text', cfg.tickerText||'');
+  sv('ticker-link', cfg.tickerLink||'');
+  var _tic=document.getElementById('ticker-icon');    if(_tic) _tic.value=cfg.tickerIcon||'none';
+  var _tsp=document.getElementById('ticker-speed');   if(_tsp) _tsp.value=cfg.tickerSpeed||'normal';
+  var _tdr=document.getElementById('ticker-dir');     if(_tdr) _tdr.value=cfg.tickerDir||'left';
+  var _tco=document.getElementById('ticker-color');   if(_tco) _tco.value=cfg.tickerColor||'#ffffff';
+  sv('ticker-color-hex', cfg.tickerColor||'#ffffff');
+  var _tbo=document.getElementById('ticker-bg');      if(_tbo) _tbo.value=cfg.tickerBg||'#B91C1C';
+  sv('ticker-bg-hex', cfg.tickerBg||'#B91C1C');
+  var _tft=document.getElementById('ticker-font');    if(_tft) _tft.value=cfg.tickerFont||'';
+  syncHeaderToggles();
   setChk('footer-show-menu',    cfg.footerShowMenu,    true);
   setChk('footer-show-hours',   cfg.footerShowHours,   true);
   setChk('footer-show-contact', cfg.footerShowContact, true);
@@ -1467,10 +1603,15 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     wlLabel:'', wlTitle:'', wlP1:'', wlP2:'', wlImg:'',
     wlS1n:'', wlS1t:'', wlS2n:'', wlS2t:'', wlS3n:'', wlS3t:'',
     tmLabel:'', tmTitle:'', testimonials:[],
-    aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap1on:true, ap2t:'', ap2l:'', ap2on:true, ap3t:'', ap3l:'', ap3on:false,
+    aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', aImgLeft:true, ap1t:'', ap1l:'', ap1on:true, ap2t:'', ap2l:'', ap2on:true, ap3t:'', ap3l:'', ap3on:false,
     ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
     copy:'', footerLinkText:'', footerLinkUrl:'', siteUrl:'',
     topBarOn:true, topBarPhone:true, topBarSocials:true,
+    topBarAddress:true, topBarAddressText:'', topBarAddressLink:'',
+    topBarCustomOn:false, topBarCustomText:'', topBarCustomLink:'', topBarCustomIcon:'none',
+    tickerOn:false, tickerText:'', tickerIcon:'none', tickerLink:'',
+    tickerFont:'', tickerColor:'#ffffff', tickerBg:'#B91C1C',
+    tickerSpeed:'normal', tickerDir:'left',
     headerSticky:true,
     footerMenuSameAsHeader:true, footerNavItems:[],
     footerShowMenu:true, footerShowHours:true, footerShowContact:true,
@@ -1916,10 +2057,36 @@ function buildHTML() {
   lines.push('</style>');
   lines.push('</head>');
   lines.push('<body>');
-  if(c.topBarOn !== false) {
+  // News Ticker
+if(c.tickerOn && c.tickerText) {
+  var TICKER_ICONS = {megaphone:'📣',star:'⭐',fire:'🔥',bell:'🔔',gift:'🎁',check:'✅',none:''};
+  var tickIcon = TICKER_ICONS[c.tickerIcon||'none'] || '';
+  var tickSpeedMap = {slow:'40s', normal:'20s', fast:'10s'};
+  var tickDur = tickSpeedMap[c.tickerSpeed||'normal'];
+  var tickDir = c.tickerDir === 'right' ? 'reverse' : 'normal';
+  var tickFont = c.tickerFont || (c.fontBody||'DM Sans');
+  var tickContent = (tickIcon ? tickIcon + ' ' : '') + e(c.tickerText);
+  var tickLink = c.tickerLink ? ' href="' + e(c.tickerLink) + '"' : '';
+  var tickTag = c.tickerLink ? 'a' : 'span';
+  lines.push('<style>.news-ticker{background:' + e(c.tickerBg||p) + ';color:' + e(c.tickerColor||'#fff') + ';font-family:\'' + tickFont + '\',sans-serif;font-size:13px;font-weight:600;padding:6px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:101}.ticker-track{display:inline-block;animation:ticker-scroll ' + tickDur + ' linear infinite ' + tickDir + '}.ticker-track span{padding:0 40px}@keyframes ticker-scroll{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}.news-ticker:hover .ticker-track{animation-play-state:paused}</style>');
+  lines.push('<div class="news-ticker"><div class="ticker-track"><' + tickTag + tickLink + ' style="color:inherit;text-decoration:none"><span>' + tickContent + '</span><span>' + tickContent + '</span><span>' + tickContent + '</span></' + tickTag + '></div></div>');
+}
+if(c.topBarOn !== false) {
 lines.push('<div class="topbar">');
   lines.push('  <div class="topbar-left">');
   if(c.topBarPhone !== false) lines.push('    <a href="tel:' + e(c.phone) + '"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg> ' + e(c.phoneD) + '</a>');
+  if(c.topBarAddress && c.topBarAddressText) {
+    var addrHtml = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
+    if(c.topBarAddressLink) lines.push('    <a href="' + e(c.topBarAddressLink) + '" target="_blank" style="display:flex;align-items:center;gap:4px">' + addrHtml + e(c.topBarAddressText) + '</a>');
+    else lines.push('    <span style="display:flex;align-items:center;gap:4px">' + addrHtml + e(c.topBarAddressText) + '</span>');
+  }
+  if(c.topBarCustomOn && c.topBarCustomText) {
+    var TOPBAR_ICONS = {phone:'📞',mail:'✉️',map:'📍',star:'⭐',info:'ℹ️',clock:'🕐',none:''};
+    var custIcon = TOPBAR_ICONS[c.topBarCustomIcon||'none'] || '';
+    var custContent = (custIcon ? '<span style="margin-right:4px">' + custIcon + '</span>' : '') + e(c.topBarCustomText);
+    if(c.topBarCustomLink) lines.push('    <a href="' + e(c.topBarCustomLink) + '" style="display:flex;align-items:center">' + custContent + '</a>');
+    else lines.push('    <span style="display:flex;align-items:center">' + custContent + '</span>');
+  }
   lines.push('  </div>');
   if(c.topBarSocials !== false) {
     lines.push('  <div class="social-row">');
@@ -2007,9 +2174,11 @@ if(secVisible('introcards') && c.icCards && c.icCards.length) {
   function buildSec_about() {
 if(secVisible('about')) {
   lines.push('<section class="section" id="about" style="background:'+(sbg.about||'#ffffff')+'">');
-  lines.push('  <div class="container"><div class="about-grid">');
-  lines.push('    <div class="about-img-wrap">' + (c.aImg ? '<img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div class="img-ph"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>About Photo</span></div>') + '</div>');
-  lines.push('    <div>');
+  var aboutRtl = c.aImgLeft === false ? ' style="direction:rtl"' : '';
+  var aboutLtr = c.aImgLeft === false ? ' style="direction:ltr"' : '';
+  lines.push('  <div class="container"><div class="about-grid"' + aboutRtl + '>');
+  lines.push('    <div class="about-img-wrap"' + aboutLtr + '>' + (c.aImg ? '<img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div class="img-ph"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>About Photo</span></div>') + '</div>');
+  lines.push('    <div' + aboutLtr + '>'); 
   lines.push('      <div class="sec-label">' + e(c.aLabel || 'Our Story') + '</div>');
   lines.push('      <h2 class="sec-title">' + e(c.aTitle || 'About Us') + '</h2>');
   lines.push('      <div style="width:48px;height:3px;background:' + a + ';border-radius:2px;margin-bottom:28px"></div>');
@@ -2149,6 +2318,64 @@ if(secVisible('contactform')) {
   lines.push('</section>');
   } // end contactform
   }
+
+// ── HEADER TOGGLES ───────────────────────────────────────────────────────────
+function syncHeaderToggles() {
+  // Top bar: if off, disable and dim sub-toggles
+  var topBarOn = document.getElementById('hdr-topbar-on');
+  var topbarFields = document.getElementById('topbar-fields');
+  if(topbarFields) {
+    var isOn = topBarOn && topBarOn.checked;
+    topbarFields.style.opacity = isOn ? '1' : '0.35';
+    topbarFields.style.pointerEvents = isOn ? '' : 'none';
+    // When top bar turns OFF: uncheck all sub-toggles
+    if(!isOn) {
+      ['hdr-topbar-phone','hdr-topbar-address','hdr-topbar-custom','hdr-topbar-socials'].forEach(function(sid){
+        var sel = document.getElementById(sid);
+        if(sel) sel.checked = false;
+      });
+    }
+  }
+  // Address sub-fields
+  var addrOn = document.getElementById('hdr-topbar-address');
+  var addrFields = document.getElementById('topbar-address-fields');
+  if(addrFields) addrFields.style.display = (addrOn && addrOn.checked) ? 'block' : 'none';
+  // Custom sub-fields
+  var custOn = document.getElementById('hdr-topbar-custom');
+  var custFields = document.getElementById('topbar-custom-fields');
+  if(custFields) custFields.style.display = (custOn && custOn.checked) ? 'block' : 'none';
+  // Ticker sub-fields
+  var tickerOn = document.getElementById('ticker-on');
+  var tickerFields = document.getElementById('ticker-fields');
+  if(tickerFields) {
+    tickerFields.style.display = (tickerOn && tickerOn.checked) ? 'block' : 'none';
+  }
+}
+
+// Wire toggle listeners
+['hdr-topbar-on','hdr-topbar-address','hdr-topbar-custom','ticker-on'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('change', syncHeaderToggles);
+});
+
+// Color sync for ticker
+(function(){
+  var cp = document.getElementById('ticker-color');
+  var hp = document.getElementById('ticker-color-hex');
+  if(cp && hp) {
+    cp.addEventListener('input', function(){ hp.value = cp.value; });
+    hp.addEventListener('input', function(){ if(/^#[0-9a-fA-F]{6}$/.test(hp.value)) cp.value = hp.value; });
+  }
+  var cbp = document.getElementById('ticker-bg');
+  var hbp = document.getElementById('ticker-bg-hex');
+  if(cbp && hbp) {
+    cbp.addEventListener('input', function(){ hbp.value = cbp.value; });
+    hbp.addEventListener('input', function(){ if(/^#[0-9a-fA-F]{6}$/.test(hbp.value)) cbp.value = hbp.value; });
+  }
+})();
+
+// Run once on load
+syncHeaderToggles();
 
 // ── FOOTER NAV ──────────────────────────────────────────────────────────────
 function toggleFooterCustomNav() {
