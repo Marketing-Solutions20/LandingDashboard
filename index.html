@@ -957,26 +957,35 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 
   <section class="section" id="section-export">
     <div class="section-inner">
-    <div class="section-title">Export</div>
-    <div class="section-sub">Generate the final HTML ready for your project</div>
+    <div class="section-title">Export & Publish</div>
+    <div class="section-sub">Preview, download, or publish directly to the client's cPanel</div>
+
     <div class="export-card">
-      <h3>📁 Before Exporting</h3>
-      <p>Make sure all your images are in the <code>imagenes/</code> folder with the names you set in the dashboard.</p>
-    </div>
-    <div class="export-card">
-      <h3>⚙️ Process</h3>
+      <h3>📋 Before Publishing</h3>
       <div class="export-steps">
-        <div class="step"><div class="step-num">1</div><span>Click "Generate &amp; Download HTML" — downloads <code>index_stripped.html</code></span></div>
-        <div class="step"><div class="step-num">2</div><span>Move it to your project folder</span></div>
-        <div class="step"><div class="step-num">3</div><span>Run: <code>python3 strip_base64.py index_stripped.html --restore --backup index_base64_backup.json -o index_final.html</code></span></div>
-        <div class="step"><div class="step-num">4</div><span>Test with <code>python3 -m http.server 8000</code></span></div>
+        <div class="step"><div class="step-num">1</div><span>Make sure all images are uploaded via the drag &amp; drop fields</span></div>
+        <div class="step"><div class="step-num">2</div><span>Set the <strong>cPanel Username</strong> in the client's Edit window (✏️ in Clients section)</span></div>
+        <div class="step"><div class="step-num">3</div><span>Click <strong>🚀 Publish to Client</strong> — uploads <code>index.html</code> directly to the client's <code>public_html/</code></span></div>
       </div>
     </div>
-    <div style="display:flex;gap:12px;margin-bottom:0">
-      <button class="btn-big" id="btn-preview" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);flex:1">👁️ Preview</button>
-      <button class="btn-big" id="btn-export" style="flex:2">⬇️ Generate & Download HTML</button>
+
+    <div class="export-card" style="background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)">
+      <h3>📡 Publish Status</h3>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:13px;color:var(--muted)">cPanel User:</span>
+        <span id="publish-cpanel-display" style="font-size:13px;font-weight:600;color:var(--text)">—</span>
+        <span style="font-size:13px;color:var(--muted)">Domain:</span>
+        <span id="publish-domain-display" style="font-size:13px;font-weight:600;color:var(--accent)">—</span>
+      </div>
+      <div id="publish-status" style="font-size:12px;color:var(--muted);min-height:18px;margin-bottom:12px"></div>
+      <button class="btn-big" id="btn-publish" style="background:var(--green)">🚀 Publish to Client cPanel</button>
     </div>
-    <div id="export-status" style="text-align:center;margin-top:12px;font-size:13px;color:var(--green);height:20px"></div>
+
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button class="btn-big" id="btn-preview" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);flex:1;font-size:13px;padding:10px">👁️ Preview</button>
+      <button class="btn-big" id="btn-export" style="flex:2;font-size:13px;padding:10px">⬇️ Download HTML</button>
+    </div>
+    <div id="export-status" style="text-align:center;margin-top:10px;font-size:13px;color:var(--green);height:18px"></div>
     </div>
   </section>
 
@@ -1053,6 +1062,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           <input type="url" id="ec-domain" placeholder="https://rancherosmagnolia.com"/>
         </div>
         <div class="field span2">
+          <label>cPanel Username</label>
+          <input type="text" id="ec-cpanel-user" placeholder="rancheros" autocomplete="off"/>
+        </div>
+        <div class="field span2">
           <label>Upload URL</label>
           <input type="url" id="ec-uploadurl" placeholder="https://mkthelp.net/upload.php"/>
         </div>
@@ -1098,6 +1111,11 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
           <div id="nc-slug-preview" style="font-size:11px;color:var(--accent);margin-top:4px;display:none">
             📁 Folder: <code id="nc-slug-text"></code>
           </div>
+        </div>
+        <div class="field span2">
+          <label>cPanel Username</label>
+          <input type="text" id="nc-cpanel-user" placeholder="rancheros" autocomplete="off"/>
+          <span class="hint">WHM/cPanel username for publishing — e.g. rancheros</span>
         </div>
         <div class="field span2">
           <label>Upload URL</label>
@@ -1202,7 +1220,7 @@ var cfg = {
   contactEmail:'', dropdownOptions:'Reservation\nCatering\nGeneral Info\nOther',
   hours:{ mon:['',''], tue:['',''], wed:['',''], thu:['',''], fri:['',''], sat:['',''], sun:['',''] },
   fb:'', ig:'', gm:'', order:'#menu', orderText:'Order Online', orderOn:true,
-  fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right',
+  fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right', cpanelUser:'',
   slides:[ {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b2:'View Menu',b2l:'#menu'},
             {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b2:'Learn More',b2l:'#about'},
             {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
@@ -1587,7 +1605,7 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     contactEmail:'', dropdownOptions:'Reservation\nCatering\nGeneral Info\nOther',
     hours:{mon:['',''],tue:['',''],wed:['',''],thu:['',''],fri:['',''],sat:['',''],sun:['','']},
     fb:'', ig:'', gm:'', order:'#menu', orderText:'Order Online', orderOn:true,
-    fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right',
+    fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right', cpanelUser:'',
     menuCats:'appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids',
     slides:[
       {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b1on:true,b1icon:'none',b2:'View Menu',b2l:'#menu',b2on:true,b2icon:'none'},
@@ -1831,6 +1849,75 @@ document.getElementById('btn-preview-sidebar').addEventListener('click', functio
   var win  = window.open(url, '_blank');
   if(win) setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
   else alert('Pop-up blocked — please allow pop-ups for this site.');
+});
+
+// ── PUBLISH TO CLIENT CPANEL ─────────────────────────────────────────────────
+function updatePublishDisplay() {
+  var cpuEl  = document.getElementById('publish-cpanel-display');
+  var domEl  = document.getElementById('publish-domain-display');
+  if(cpuEl) cpuEl.textContent = cfg.cpanelUser || '— set in client ✏️';
+  if(domEl) domEl.textContent = cfg.clientDomain || cfg.siteUrl || '—';
+}
+
+document.getElementById('btn-publish').addEventListener('click', function() {
+  var cpanelUser = cfg.cpanelUser || '';
+  if(!cpanelUser) {
+    alert('No cPanel username set for this client.\nEdit the client (✏️ in Clients section) and add the cPanel Username.');
+    return;
+  }
+
+  var status = document.getElementById('publish-status');
+  var btn    = document.getElementById('btn-publish');
+  btn.disabled = true;
+  btn.textContent = '⏳ Publishing...';
+  status.style.color = 'var(--muted)';
+  status.textContent = 'Generating HTML...';
+
+  read();
+  var html = buildHTML();
+
+  status.textContent = 'Uploading to ' + cpanelUser + '...';
+
+  var uploadUrl = cfg.uploadUrl || 'https://mkthelp.net/upload.php';
+  var publishUrl = uploadUrl.replace('upload.php', 'publish.php');
+
+  var formData = new FormData();
+  formData.append('action', 'publish');
+  formData.append('cpanel_user', cpanelUser);
+  formData.append('html', html);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', publishUrl);
+  xhr.onload = function() {
+    btn.disabled = false;
+    btn.textContent = '🚀 Publish to Client cPanel';
+    try {
+      var res = JSON.parse(xhr.responseText);
+      if(res.success) {
+        status.style.color = 'var(--green)';
+        var domain = cfg.clientDomain || cfg.siteUrl || '';
+        status.textContent = '✓ Published! ' + (domain ? 'Live at: ' + domain : 'Upload complete');
+      } else {
+        status.style.color = '#f87171';
+        status.textContent = '✗ ' + (res.error || 'Publish failed');
+      }
+    } catch(e) {
+      status.style.color = '#f87171';
+      status.textContent = '✗ Server error';
+    }
+  };
+  xhr.onerror = function() {
+    btn.disabled = false;
+    btn.textContent = '🚀 Publish to Client cPanel';
+    status.style.color = '#f87171';
+    status.textContent = '✗ Network error — check publish.php is on server';
+  };
+  xhr.send(formData);
+});
+
+// Update publish display when navigating to Export section
+document.querySelectorAll('.nav-item[data-section="export"]').forEach(function(btn) {
+  btn.addEventListener('click', function() { setTimeout(updatePublishDisplay, 50); });
 });
 
 document.getElementById('btn-preview').addEventListener('click', function() {
@@ -2957,7 +3044,7 @@ window._db = {
     renderNavItems();
     setUnsaved(true);
   },
-  createClient: function(name, clientName, phone, email, domain, uploadUrl) {
+  createClient: function(name, clientName, phone, email, domain, uploadUrl, cpanelUser) {
     // Auto-generate slug and siteUrl from business name if domain not provided
     var slug     = nameToSlug(name);
     var siteUrl  = domain || ('https://mkthelp.net/clientes/' + slug);
@@ -2996,7 +3083,7 @@ window._db = {
       }
     );
   },
-  saveEditClient: function(clientName, name, phone, email, domain, uploadUrl) {
+  saveEditClient: function(clientName, name, phone, email, domain, uploadUrl, cpanelUser) {
     // replicate ec-modal-save logic
     var existingData = {};
     try { existingData = JSON.parse(localStorage.getItem(clientKey(editingClientId)) || '{}'); } catch(e) {}
@@ -3007,6 +3094,7 @@ window._db = {
     existingData.clientDomain = domain;
     existingData.siteUrl = domain;
     if(uploadUrl) existingData.uploadUrl = uploadUrl;
+    existingData.cpanelUser = cpanelUser || '';
     try { localStorage.setItem(clientKey(editingClientId), JSON.stringify(existingData)); } catch(e) {}
     var clients = getAllClients();
     var idx = clients.findIndex(function(c){ return c.id === editingClientId; });
@@ -3418,6 +3506,7 @@ function openEditClientModal(id) {
   document.getElementById('ec-email').value = clientData.clientEmail || '';
   document.getElementById('ec-domain').value = clientData.clientDomain || clientData.siteUrl || '';
   document.getElementById('ec-uploadurl').value = clientData.uploadUrl || 'https://mkthelp.net/upload.php';
+  document.getElementById('ec-cpanel-user').value = clientData.cpanelUser || '';
   document.getElementById('edit-client-modal').classList.add('open');
   setTimeout(function(){ document.getElementById('ec-clientname').focus(); }, 50);
 }
@@ -3549,12 +3638,13 @@ function saveNewClient() {
   if(!name) { document.getElementById('nc-name').style.borderColor='var(--red)'; ok=false; }
   else document.getElementById('nc-name').style.borderColor='';
   if(!ok) return;
-  var phone     = document.getElementById('nc-phone').value.trim();
-  var email     = document.getElementById('nc-email').value.trim();
-  var domain    = document.getElementById('nc-domain').value.trim();
-  var uploadUrl = document.getElementById('nc-uploadurl').value.trim();
+  var phone      = document.getElementById('nc-phone').value.trim();
+  var email      = document.getElementById('nc-email').value.trim();
+  var domain     = document.getElementById('nc-domain').value.trim();
+  var uploadUrl  = document.getElementById('nc-uploadurl').value.trim();
+  var cpanelUser = document.getElementById('nc-cpanel-user').value.trim();
   closeModalById('new-client-modal');
-  if(window._db) window._db.createClient(name, clientName, phone, email, domain, uploadUrl);
+  if(window._db) window._db.createClient(name, clientName, phone, email, domain, uploadUrl, cpanelUser);
 }
 
 function saveEditClient() {
@@ -3568,7 +3658,8 @@ function saveEditClient() {
     document.getElementById('ec-phone').value.trim(),
     document.getElementById('ec-email').value.trim(),
     document.getElementById('ec-domain').value.trim(),
-    document.getElementById('ec-uploadurl').value.trim()
+    document.getElementById('ec-uploadurl').value.trim(),
+    document.getElementById('ec-cpanel-user').value.trim()
   );
 }
 
