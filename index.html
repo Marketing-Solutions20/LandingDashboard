@@ -8,7 +8,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px}
+html,body{height:100%;overflow:hidden}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px}
 .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0}
@@ -241,8 +241,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-sub">Restaurant name, logo and color palette</div>
     <div class="form-grid">
       <div class="field span2"><label>Restaurant Name</label><input type="text" id="b-name" placeholder="Rancheros Mexican Grill"/></div>
-      <div class="field"><label>Tagline</label><input type="text" id="b-tagline" placeholder="Mexican Grill & Cantina"/></div>
-      <div class="field"><label>Hero Slogan</label><input type="text" id="b-slogan" placeholder="Authentic Mexican Flavors"/></div>
+      <div class="field"><label>Footer Title</label><input type="text" id="b-tagline" placeholder="Mexican Grill &amp; Cantina"/><span class="hint">Shown in footer below logo</span></div>
+      <div class="field"><label>Footer Paragraph</label><input type="text" id="b-slogan" placeholder="Authentic flavors since 1998."/><span class="hint">Short text below footer title</span></div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Logo</div>
@@ -919,6 +919,14 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="group-title">Show / Hide Columns</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
         <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="footer-show-tagline" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Footer Title</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="footer-show-slogan" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Footer Paragraph</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
           <label class="toggle-switch"><input type="checkbox" id="footer-show-menu" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
           <span style="font-size:13px;color:var(--muted)">Navigation Menu</span>
         </div>
@@ -961,11 +969,13 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-sub">Preview, download, or publish directly to the client's cPanel</div>
 
     <div class="export-card">
-      <h3>📋 Before Publishing</h3>
+      <h3>📋 How to Publish</h3>
       <div class="export-steps">
-        <div class="step"><div class="step-num">1</div><span>Make sure all images are uploaded via the drag &amp; drop fields</span></div>
-        <div class="step"><div class="step-num">2</div><span>Set the <strong>cPanel Username</strong> in the client's Edit window (✏️ in Clients section)</span></div>
-        <div class="step"><div class="step-num">3</div><span>Click <strong>🚀 Publish to Client</strong> — uploads <code>index.html</code> directly to the client's <code>public_html/</code></span></div>
+        <div class="step"><div class="step-num">1</div><span>Upload all images using the drag &amp; drop fields in each section</span></div>
+        <div class="step"><div class="step-num">2</div><span>In <strong>Clients</strong>, edit the client (✏️) and set the <strong>cPanel Username</strong> — find it in WHM → List Accounts</span></div>
+        <div class="step"><div class="step-num">3</div><span><strong>Option A — Client's own domain:</strong> Click 🚀 Publish → uploads <code>index.html</code> to the client's <code>public_html/</code> via WHM API</span></div>
+        <div class="step"><div class="step-num">4</div><span><strong>Option B — Demo subdomain:</strong> Enter a subdomain (e.g. <code>rancheros</code>) → Click 🌐 Create &amp; Publish → creates <code>rancheros.mkthelp.net</code> pointing to your server</span></div>
+        <div class="step"><div class="step-num">5</div><span>To make it live on the client's final domain: in Reseller Club, point the domain's nameservers to your server, then use Option A</span></div>
       </div>
     </div>
 
@@ -1245,7 +1255,7 @@ var cfg = {
   tickerFont:'', tickerColor:'#ffffff', tickerBg:'#B91C1C',
   tickerSpeed:'normal', tickerDir:'left',
   headerSticky:true,
-  footerMenuSameAsHeader:true, footerNavItems:[],
+  footerMenuSameAsHeader:true, footerNavItems:[], footerShowTagline:true, footerShowSlogan:true,
   footerShowMenu:true, footerShowHours:true, footerShowContact:true,
   sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' },
   sectionVisible:{ hero:true, introcards:true, welcome:true, about:true, menu:true, cta:true, testimonials:true, contactform:true, footer:true },
@@ -1360,6 +1370,8 @@ function read() {
   cfg.tickerBg        = v('ticker-bg-hex')||'#B91C1C';
   cfg.tickerFont      = (document.getElementById('ticker-font')||{value:''}).value;
   // Footer toggles
+  cfg.footerShowTagline = getChk('footer-show-tagline', true);
+  cfg.footerShowSlogan  = getChk('footer-show-slogan', true);
   cfg.footerShowMenu    = getChk('footer-show-menu', true);
   cfg.footerShowHours   = getChk('footer-show-hours', true);
   cfg.footerShowContact = getChk('footer-show-contact', true);
@@ -1487,6 +1499,8 @@ function write() {
   sv('ticker-bg-hex', cfg.tickerBg||'#B91C1C');
   var _tft=document.getElementById('ticker-font');    if(_tft) _tft.value=cfg.tickerFont||'';
   syncHeaderToggles();
+  setChk('footer-show-tagline', cfg.footerShowTagline, true);
+  setChk('footer-show-slogan',  cfg.footerShowSlogan,  true);
   setChk('footer-show-menu',    cfg.footerShowMenu,    true);
   setChk('footer-show-hours',   cfg.footerShowHours,   true);
   setChk('footer-show-contact', cfg.footerShowContact, true);
@@ -1631,7 +1645,7 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     tickerFont:'', tickerColor:'#ffffff', tickerBg:'#B91C1C',
     tickerSpeed:'normal', tickerDir:'left',
     headerSticky:true,
-    footerMenuSameAsHeader:true, footerNavItems:[],
+    footerMenuSameAsHeader:true, footerNavItems:[], footerShowTagline:true, footerShowSlogan:true,
     footerShowMenu:true, footerShowHours:true, footerShowContact:true,
     sectionBg:{hero:'',introcards:'',welcome:'',about:'',menu:'',cta:'',testimonials:'',contactform:'',footer:''},
     sectionOrder:['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'],
@@ -2512,7 +2526,10 @@ if(secVisible('footer')) {
   lines.push('<footer>');
   lines.push('  <div class="container">');
   lines.push('    <div class="footer-grid">');
-  lines.push('      <div><img src="' + e(c.logoF) + '" alt="' + e(name) + '" style="height:52px;margin-bottom:16px"/><p class="footer-desc">' + e(c.tagline) + '</p>');
+  var footerLogoContent = '<img src="' + e(c.logoF||c.logo) + '" alt="' + e(name) + '" style="height:52px;margin-bottom:12px;display:block"/>';
+  if(c.footerShowTagline !== false && c.tagline) footerLogoContent += '<div style="font-family:\'' + fh + '\',' + fhType + ';font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">' + e(c.tagline) + '</div>';
+  if(c.footerShowSlogan !== false && c.slogan)   footerLogoContent += '<p class="footer-desc">' + e(c.slogan) + '</p>';
+  lines.push('      <div>' + footerLogoContent);
   lines.push('        <div class="footer-social"><a href="' + e(c.fb) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a><a href="' + e(c.ig) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></div>');
   lines.push('      </div>');
   // Footer nav: use header nav or custom
