@@ -80,6 +80,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .clients-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .btn-new-sm{display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;transition:opacity .2s}
 .btn-new-sm:hover{opacity:.85}
+.drop-zone{position:relative;border:2px dashed var(--border);border-radius:10px;background:var(--surface2);transition:all .2s;cursor:pointer;overflow:hidden}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:rgba(217,119,6,.06)}
+.drop-zone-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 12px;text-align:center;pointer-events:none}
+.drop-zone-icon{font-size:22px;opacity:.5}
+.drop-zone-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.drop-zone-hint{font-size:10px;color:var(--muted);opacity:.7}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-zone-preview{width:100%;max-height:80px;object-fit:cover;border-radius:8px;display:none;margin-top:6px}
+.drop-zone-preview.show{display:block}
+.drop-zone-uploading{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;border-radius:8px}
+.drop-zone-uploading.show{display:flex}
+.drop-zone-progress{width:60%;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+.drop-zone-progress-bar{height:100%;background:var(--accent);width:0%;transition:width .3s}
+.drop-zone-status{font-size:11px;color:#fff;font-weight:600}
+.dz-field{display:flex;flex-direction:column;gap:6px}
+.dz-field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.dz-path{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 10px;width:100%;outline:none}
 .anchor-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);border-radius:20px;font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .anchor-chip:hover{background:rgba(217,119,6,.25)}
 .anchor-chip.inactive{opacity:.35;background:var(--surface2);border-color:var(--border);color:var(--muted);cursor:default}
@@ -224,8 +241,40 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="divider"></div>
     <div class="group-title">Logo</div>
     <div class="form-grid">
-      <div class="field span2"><label>Header Logo (path)</label><input type="text" id="b-logo" placeholder="imagenes/img_000.png"/></div>
-      <div class="field span2"><label>Footer Logo (path)</label><input type="text" id="b-logo-footer" placeholder="imagenes/img_019.png"/></div>
+      <div class="dz-field span2" id="dz-wrap-b-logo">
+        <label>Header Logo</label>
+        <div class="drop-zone" id="dz-b-logo">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">PNG or SVG · transparent bg</span>
+          </div>
+          <input type="file" id="dz-file-b-logo" accept="image/png,image/svg+xml"/>
+          <div class="drop-zone-uploading" id="dz-uploading-b-logo">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-b-logo"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-b-logo" src="" alt=""/>
+        <input type="text" class="dz-path" id="b-logo" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
+      <div class="dz-field span2" id="dz-wrap-b-logo-footer">
+        <label>Footer Logo</label>
+        <div class="drop-zone" id="dz-b-logo-footer">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">PNG or SVG · transparent bg</span>
+          </div>
+          <input type="file" id="dz-file-b-logo-footer" accept="image/png,image/svg+xml"/>
+          <div class="drop-zone-uploading" id="dz-uploading-b-logo-footer">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-b-logo-footer"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-b-logo-footer" src="" alt=""/>
+        <input type="text" class="dz-path" id="b-logo-footer" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Theme</div>
@@ -297,7 +346,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field span2">
         <label>Site URL (base URL on your server)</label>
         <input type="url" id="c-siteurl" placeholder="https://yourdomain.com/clientes/restaurant-name"/>
-        <span class="hint">Used to preview images from your server in the dashboard</span>
+        <span class="hint">Used to preview images — e.g. https://mkthelp.net/clientes/rancheros</span>
+      </div>
+      <div class="field span2">
+        <label>Upload URL</label>
+        <input type="url" id="c-uploadurl" placeholder="https://mkthelp.net/upload.php"/>
+        <span class="hint">PHP upload script on your server</span>
       </div>
     </div>
     <div class="divider"></div>
@@ -361,7 +415,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-sub">Hero slider images and text</div>
     <div class="slide-card"><div class="slide-num">Slide 1</div>
       <div class="form-grid">
-        <div class="field span2"><label>Image</label><input type="text" id="s1-img" placeholder="imagenes/hero1.jpg"/></div>
+        <div class="dz-field span2" id="dz-wrap-s1-img">
+        <label>Image</label>
+        <div class="drop-zone" id="dz-s1-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+          </div>
+          <input type="file" id="dz-file-s1-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-s1-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-s1-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-s1-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="s1-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
         <div class="field"><label>Title</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
         <div class="field"><label>Button 1 Text</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
@@ -372,7 +442,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="slide-card"><div class="slide-num">Slide 2</div>
       <div class="form-grid">
-        <div class="field span2"><label>Image</label><input type="text" id="s2-img" placeholder="imagenes/hero2.jpg"/></div>
+        <div class="dz-field span2" id="dz-wrap-s2-img">
+        <label>Image</label>
+        <div class="drop-zone" id="dz-s2-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+          </div>
+          <input type="file" id="dz-file-s2-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-s2-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-s2-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-s2-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="s2-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
         <div class="field"><label>Title</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
         <div class="field"><label>Button 1 Text</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
@@ -383,7 +469,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="slide-card"><div class="slide-num">Slide 3</div>
       <div class="form-grid">
-        <div class="field span2"><label>Image</label><input type="text" id="s3-img" placeholder="imagenes/hero3.jpg"/></div>
+        <div class="dz-field span2" id="dz-wrap-s3-img">
+        <label>Image</label>
+        <div class="drop-zone" id="dz-s3-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">1920×1080px · JPG or WEBP</span>
+          </div>
+          <input type="file" id="dz-file-s3-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-s3-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-s3-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-s3-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="s3-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
         <div class="field"><label>Title</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
         <div class="field"><label>Button 1 Text</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
@@ -421,7 +523,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Title</label><input type="text" id="a-title" placeholder="A Family Tradition Since 1998"/></div>
       <div class="field"><label>Paragraph 1</label><textarea id="a-p1" placeholder="Enter text here..."></textarea></div>
       <div class="field"><label>Paragraph 2</label><textarea id="a-p2" placeholder="Enter text here..."></textarea></div>
-      <div class="field"><label>Image (path)</label><input type="text" id="a-img" placeholder="imagenes/about.jpg"/></div>
+      <div class="dz-field " id="dz-wrap-a-img">
+        <label>Image</label>
+        <div class="drop-zone" id="dz-a-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">800×1000px · portrait</span>
+          </div>
+          <input type="file" id="dz-file-a-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-a-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-a-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-a-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="a-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Quick Links (Pills)</div>
@@ -460,7 +578,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Title</label><input type="text" id="wl-title" placeholder="A Taste of Authentic Mexico"/></div>
       <div class="field span2"><label>Paragraph 1</label><textarea id="wl-p1" placeholder="First welcome paragraph..."></textarea></div>
       <div class="field span2"><label>Paragraph 2 (optional)</label><textarea id="wl-p2" placeholder="Second paragraph..."></textarea></div>
-      <div class="field span2"><label>Image (path)</label><input type="text" id="wl-img" placeholder="imagenes/welcome.jpg"/></div>
+      <div class="dz-field span2" id="dz-wrap-wl-img">
+        <label>Image</label>
+        <div class="drop-zone" id="dz-wl-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">800×1000px · portrait</span>
+          </div>
+          <input type="file" id="dz-file-wl-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-wl-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-wl-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-wl-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="wl-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="group-title">Stats / Highlights (optional)</div>
@@ -572,7 +706,23 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <div class="field span2"><label>Name *</label><input type="text" id="m-name" placeholder="Chunky Guacamole"/></div>
         <div class="field"><label>Price</label><input type="text" id="m-price" placeholder="Full $12.99 | Half $11.99"/></div>
         <div class="field"><label>Category</label><select id="m-cat"></select></div>
-        <div class="field span2"><label>Image (path)</label><input type="text" id="m-img" placeholder="imagenes/Chunky Guacamole.jpg"/></div>
+        <div class="dz-field span2" id="dz-wrap-m-img">
+        <label>Item Image</label>
+        <div class="drop-zone" id="dz-m-img">
+          <div class="drop-zone-inner">
+            <span class="drop-zone-icon">🖼️</span>
+            <span class="drop-zone-label">Drop image or click to browse</span>
+            <span class="drop-zone-hint">600×400px · landscape</span>
+          </div>
+          <input type="file" id="dz-file-m-img" accept="image/jpeg,image/webp,image/png"/>
+          <div class="drop-zone-uploading" id="dz-uploading-m-img">
+            <div class="drop-zone-progress"><div class="drop-zone-progress-bar" id="dz-bar-m-img"></div></div>
+            <span class="drop-zone-status">Uploading...</span>
+          </div>
+        </div>
+        <img class="drop-zone-preview" id="dz-preview-m-img" src="" alt=""/>
+        <input type="text" class="dz-path" id="m-img" placeholder="imagenes/filename.jpg" autocomplete="off"/>
+      </div>
         <div class="field span2"><label>Item Link (optional)</label><input type="text" id="m-link" placeholder="https://... o #menu"/><span class="hint">If set, the item name becomes a clickable link</span></div>
         <div class="field span2"><label>Description</label><textarea id="m-desc" placeholder="Diced avocado, tomatoes, cilantro..."></textarea></div>
       </div>
@@ -835,7 +985,7 @@ function read() {
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
-  cfg.siteUrl=v('c-siteurl');
+  cfg.siteUrl=v('c-siteurl'); cfg.uploadUrl=v('c-uploadurl');
   // navItems managed separately via renderNavItems
   if(!cfg.sectionBg) cfg.sectionBg={};
   if(!cfg.sectionVisible) cfg.sectionVisible={};
@@ -906,7 +1056,7 @@ function write() {
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
-  sv('c-siteurl',cfg.siteUrl);
+  sv('c-siteurl',cfg.siteUrl); sv('c-uploadurl',cfg.uploadUrl);
   renderNavItems();
   renderAnchorChips();
   if(cfg.sectionVisible){
@@ -1044,7 +1194,7 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
   cfg.clientPhone = clientPhone || '';
   cfg.clientEmail = clientEmail || '';
   cfg.clientDomain = clientDomain || '';
-  cfg.siteUrl = siteUrl || '';
+  cfg.siteUrl = siteUrl || ''; cfg.uploadUrl = 'https://mkthelp.net/upload.php';
   currentClientId = null;
   write();
   // Set the name field directly
@@ -1224,6 +1374,12 @@ function openModal(idx) {
 function closeModal() { document.getElementById('item-modal').classList.remove('open'); }
 
 document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+// Re-init m-img drop zone each time item modal opens
+var _origOpenModal = openModal;
+openModal = function(idx) {
+  _origOpenModal(idx);
+  setTimeout(function(){ initDropZone('m-img'); }, 50);
+};
 document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
 document.getElementById('modal-save-btn').addEventListener('click', function() {
   var item = { name:v('m-name'), price:v('m-price'), cat:document.getElementById('m-cat').value, img:v('m-img'), desc:v('m-desc'), link:v('m-link') };
@@ -1924,6 +2080,154 @@ document.getElementById('btn-add-testimonial').addEventListener('click', functio
 
 function esc(s){ return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// ── DROP ZONE UPLOADER ────────────────────────────────────────────────────────
+var DZ_FIELDS = ['b-logo','b-logo-footer','s1-img','s2-img','s3-img','a-img','wl-img','m-img'];
+
+function getUploadUrl() {
+  return cfg.uploadUrl || v('c-uploadurl') || '';
+}
+
+function getDestPath() {
+  var siteUrl = cfg.siteUrl || v('c-siteurl') || '';
+  // Extract path from URL: https://mkthelp.net/clientes/rancheros → clientes/rancheros/imagenes
+  try {
+    var url = new URL(siteUrl);
+    var path = url.pathname.replace(/^\/|\/$/g, '');
+    return path ? path + '/imagenes' : '';
+  } catch(e) {
+    return '';
+  }
+}
+
+function uploadFile(file, fieldId, onSuccess, onError) {
+  var uploadUrl = getUploadUrl();
+  var destPath  = getDestPath();
+
+  if(!uploadUrl) {
+    onError('Upload URL not set. Add it in Business Info.');
+    return;
+  }
+  if(!destPath) {
+    onError('Site URL not set. Add it in Business Info first.');
+    return;
+  }
+
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('path', destPath);
+  formData.append('filename', file.name);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', uploadUrl);
+
+  // Progress
+  var bar = document.getElementById('dz-bar-' + fieldId);
+  xhr.upload.onprogress = function(e) {
+    if(e.lengthComputable && bar) {
+      bar.style.width = Math.round((e.loaded / e.total) * 100) + '%';
+    }
+  };
+
+  xhr.onload = function() {
+    try {
+      var res = JSON.parse(xhr.responseText);
+      if(res.success) {
+        onSuccess(res);
+      } else {
+        onError(res.error || 'Upload failed');
+      }
+    } catch(e) {
+      onError('Server error: ' + xhr.responseText.slice(0, 100));
+    }
+  };
+
+  xhr.onerror = function() {
+    onError('Network error — check Upload URL and CORS settings');
+  };
+
+  xhr.send(formData);
+}
+
+function initDropZone(fieldId) {
+  var zone     = document.getElementById('dz-' + fieldId);
+  var fileInput = document.getElementById('dz-file-' + fieldId);
+  var pathInput = document.getElementById(fieldId);
+  var preview  = document.getElementById('dz-preview-' + fieldId);
+  var uploading = document.getElementById('dz-uploading-' + fieldId);
+
+  if(!zone || !fileInput || !pathInput) return;
+
+  function showPreview(src) {
+    if(!preview) return;
+    if(src) { preview.src = src; preview.classList.add('show'); }
+    else { preview.classList.remove('show'); }
+  }
+
+  function handleFile(file) {
+    // Show local preview immediately
+    var reader = new FileReader();
+    reader.onload = function(e) { showPreview(e.target.result); };
+    reader.readAsDataURL(file);
+
+    // Show uploading overlay
+    if(uploading) uploading.classList.add('show');
+    var bar = document.getElementById('dz-bar-' + fieldId);
+    if(bar) bar.style.width = '0%';
+
+    uploadFile(file, fieldId,
+      function(res) {
+        // Success
+        if(uploading) uploading.classList.remove('show');
+        pathInput.value = res.path;
+        pathInput.dispatchEvent(new Event('input'));
+        // Show real URL preview
+        showPreview(res.url);
+        setUnsaved(true);
+      },
+      function(err) {
+        // Error
+        if(uploading) uploading.classList.remove('show');
+        alert('Upload error: ' + err);
+        showPreview('');
+      }
+    );
+  }
+
+  // File input change
+  fileInput.addEventListener('change', function(e) {
+    if(e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  // Drag and drop
+  zone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    zone.classList.add('drag-over');
+  });
+  zone.addEventListener('dragleave', function() {
+    zone.classList.remove('drag-over');
+  });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    var file = e.dataTransfer.files[0];
+    if(file) handleFile(file);
+  });
+
+  // If path already set, show preview
+  if(pathInput.value) {
+    var url = getImgPreviewUrl(pathInput.value);
+    if(url) showPreview(url);
+  }
+  pathInput.addEventListener('input', function() {
+    var url = getImgPreviewUrl(pathInput.value);
+    showPreview(url);
+  });
+}
+
+function initAllDropZones() {
+  DZ_FIELDS.forEach(initDropZone);
+}
+
 // ── IMAGE PREVIEW ─────────────────────────────────────────────────────────────
 function getImgPreviewUrl(path) {
   if(!path) return '';
@@ -1962,6 +2266,9 @@ if(_initStyle) _initStyle.textContent = '';
 
 // Expose internal functions for global onclick handlers
 window._db = {
+  initDropZone: function(fieldId) {
+    if(typeof initDropZone === 'function') initDropZone(fieldId);
+  },
   saveNavItem: function(lbl, lnk) {
     if(!cfg.navItems) cfg.navItems = [];
     if(navEditIdx !== null) cfg.navItems[navEditIdx] = {label:lbl, link:lnk};
@@ -1975,6 +2282,7 @@ window._db = {
 
 loadSaved();
 initImgPreviews();
+initAllDropZones();
 
 // ── NAVIGATION EDITOR ────────────────────────────────
 var navEditIdx = null;
