@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
 html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;max-height:100vh;overflow:hidden;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;max-height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0}
 .client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
@@ -62,13 +62,13 @@ html{height:100%}body{font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .section-inner.sec-hidden{opacity:.35;pointer-events:none;filter:grayscale(.5)}
 .clients-table{width:100%;border-collapse:collapse;font-size:13px}
 .clients-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
-.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:#f0f0f0}
+.clients-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:#f0f0f0!important}
 .clients-table tr:last-child td{border-bottom:none}
 .clients-table tr.client-row{cursor:pointer;transition:background .15s}
 .clients-table tr.client-row:hover td{background:rgba(255,255,255,.03)}
 .clients-table tr.client-row.client-active td{background:rgba(217,119,6,.07)}
 .client-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green);background:rgba(22,163,74,.12);padding:2px 7px;border-radius:20px;white-space:nowrap}
-.client-cell-name{font-weight:600;color:#f0f0f0!important;white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.client-cell-name{font-weight:600;color:#f0f0f0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .client-cell-biz{color:var(--muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-domain{color:var(--muted);font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .client-cell-date{color:var(--muted);font-size:11px;white-space:nowrap}
@@ -225,11 +225,9 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="saved-badge" id="saved-badge">✓ Saved</div>
     <div style="display:flex;gap:6px;margin-top:8px">
       <button class="btn-json" id="btn-preview-sidebar" title="Preview landing in new tab" style="flex:1;color:var(--text)">👁️ Preview</button>
-      <button class="btn-json" id="btn-export-json" title="Export config as JSON">⬇️ JSON</button>
-      <button class="btn-json" id="btn-import-json" title="Import config from JSON">📂 JSON</button>
+      <button class="btn-json" id="btn-goto-export" title="Go to Export & Publish" style="flex:1;color:var(--text)" onclick="document.querySelector('.nav-item[data-section=\'export\']').click()">⬇️ Export</button>
     </div>
     <input type="file" id="json-file-input" accept=".json" style="display:none"/>
-    <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.4">Save & load client configs</div>
   </div>
 </aside>
 
@@ -383,7 +381,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   </section>
 
   <section class="section" id="section-clients">
-    <div class="section-inner">
+    <div class="section-inner" style="background:var(--bg)">
       <div class="clients-header">
         <div>
           <div class="section-title">Clients</div>
@@ -1890,24 +1888,7 @@ document.getElementById('btn-preview-sidebar').addEventListener('click', functio
   else alert('Pop-up blocked — please allow pop-ups for this site.');
 });
 
-// ── PUBLISH TABS ─────────────────────────────────────────────────────────────
-function switchPubTab(tab) {
-  var ownPanel  = document.getElementById('pub-panel-own');
-  var demoPanel = document.getElementById('pub-panel-demo');
-  var ownTab    = document.getElementById('pub-tab-own');
-  var demoTab   = document.getElementById('pub-tab-demo');
-  if(tab === 'own') {
-    ownPanel.style.display  = 'block';
-    demoPanel.style.display = 'none';
-    ownTab.style.background  = 'var(--accent)'; ownTab.style.color  = '#fff';
-    demoTab.style.background = 'var(--surface2)'; demoTab.style.color = 'var(--muted)';
-  } else {
-    ownPanel.style.display  = 'none';
-    demoPanel.style.display = 'block';
-    demoTab.style.background  = 'var(--accent)'; demoTab.style.color  = '#fff';
-    ownTab.style.background   = 'var(--surface2)'; ownTab.style.color = 'var(--muted)';
-  }
-}
+// switchPubTab moved to global scope
 
 // ── PUBLISH TO CLIENT CPANEL ─────────────────────────────────────────────────
 function updatePublishDisplay() {
@@ -3473,10 +3454,7 @@ function openNavModal(idx) {
   document.getElementById('nav-m-label').focus();
 }
 
-document.getElementById('btn-add-nav').addEventListener('click', function(e) {
-  e.preventDefault();
-  openNavModal();
-});
+// btn-add-nav handled by onclick attribute
 
 // nav-modal-save handled by onclick->saveNavItem()
 
@@ -3640,37 +3618,7 @@ document.addEventListener('keydown', function(e){
 
 // tm-modal-save handled by onclick->saveTmItem()
 
-// ── EXPORT / IMPORT JSON ──────────────────────────────
-document.getElementById('btn-export-json').addEventListener('click', async function() {
-  read();
-  var name = (cfg.name || 'cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  var json = JSON.stringify(cfg, null, 2);
-  var blob = new Blob([json], {type: 'application/json'});
-  if(window.showSaveFilePicker) {
-    try {
-      var fh = await window.showSaveFilePicker({
-        suggestedName: name + '_config.json',
-        types: [{ description: 'JSON Config', accept: {'application/json': ['.json']} }]
-      });
-      var writable = await fh.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      var b = document.getElementById('saved-badge');
-      b.textContent = '✓ File saved'; b.classList.add('show');
-      setTimeout(function(){ b.textContent = '✓ Saved'; b.classList.remove('show'); }, 2500);
-      return;
-    } catch(e) { if(e.name === 'AbortError') return; }
-  }
-  // Fallback
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name + '_config.json';
-  a.click();
-});
-
-document.getElementById('btn-import-json').addEventListener('click', function() {
-  document.getElementById('json-file-input').click();
-});
+// JSON export/import buttons removed (using API workflow)
 
 document.getElementById('json-file-input').addEventListener('change', function(e) {
   var file = e.target.files[0];
@@ -3698,6 +3646,25 @@ document.getElementById('json-file-input').addEventListener('change', function(e
 });
 
 })();
+
+
+// ── PUBLISH TAB SWITCHER ────────────────────────────────────────────────────
+function switchPubTab(tab) {
+  var own  = document.getElementById('pub-panel-own');
+  var demo = document.getElementById('pub-panel-demo');
+  var tOwn  = document.getElementById('pub-tab-own');
+  var tDemo = document.getElementById('pub-tab-demo');
+  if(!own || !demo) return;
+  if(tab === 'own') {
+    own.style.display='block'; demo.style.display='none';
+    if(tOwn)  { tOwn.style.background='#D97706';  tOwn.style.color='#fff'; }
+    if(tDemo) { tDemo.style.background='#1c1c1f'; tDemo.style.color='#888'; }
+  } else {
+    own.style.display='none'; demo.style.display='block';
+    if(tDemo) { tDemo.style.background='#D97706';  tDemo.style.color='#fff'; }
+    if(tOwn)  { tOwn.style.background='#1c1c1f';  tOwn.style.color='#888'; }
+  }
+}
 
 // ── GLOBAL HANDLERS (outside IIFE, always available) ─────────────────────────
 
