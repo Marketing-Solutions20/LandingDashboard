@@ -576,11 +576,11 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 
 </main>
 
-<div class="modal-backdrop" id="item-modal">
+<div class="modal-backdrop" id="item-modal" onclick="if(event.target===this)closeModalById('item-modal')">
   <div class="modal">
     <div class="modal-header">
       <h3 id="modal-title">Add Item</h3>
-      <button class="modal-close" id="modal-close-btn">×</button>
+      <button class="modal-close" id="modal-close-btn" onclick="closeModalById('item-modal')">×</button>
     </div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
@@ -593,18 +593,18 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+      <button class="btn-cancel" id="modal-cancel-btn" onclick="closeModalById('item-modal')">Cancel</button>
       <button class="btn-save" id="modal-save-btn">Save</button>
     </div>
   </div>
 </div>
 
 <!-- EDIT CLIENT MODAL -->
-<div class="modal-overlay" id="edit-client-modal">
+<div class="modal-overlay" id="edit-client-modal" onclick="if(event.target===this)closeModalById('edit-client-modal')">
   <div class="modal-box" style="max-width:460px">
     <div class="modal-head">
       <h3>Edit Client Info</h3>
-      <button class="modal-close" id="ec-modal-close">×</button>
+      <button class="modal-close" id="ec-modal-close" onclick="closeModalById('edit-client-modal')">×</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
@@ -631,18 +631,18 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="ec-modal-cancel">Cancel</button>
+      <button class="btn-secondary" id="ec-modal-cancel" onclick="closeModalById('edit-client-modal')">Cancel</button>
       <button class="btn-primary" id="ec-modal-save">Save Changes</button>
     </div>
   </div>
 </div>
 
 <!-- NEW CLIENT MODAL -->
-<div class="modal-overlay" id="new-client-modal">
+<div class="modal-overlay" id="new-client-modal" onclick="if(event.target===this)closeModalById('new-client-modal')">
   <div class="modal-box" style="max-width:460px">
     <div class="modal-head">
       <h3>New Client</h3>
-      <button class="modal-close" id="nc-modal-close">×</button>
+      <button class="modal-close" id="nc-modal-close" onclick="closeModalById('new-client-modal')">×</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
@@ -671,16 +671,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="nc-modal-cancel">Cancel</button>
+      <button class="btn-secondary" id="nc-modal-cancel" onclick="closeModalById('new-client-modal')">Cancel</button>
       <button class="btn-primary" id="nc-modal-create">Save Client</button>
     </div>
   </div>
 </div>
 
 <!-- NAV ITEM MODAL -->
-<div class="modal-overlay" id="nav-modal">
+<div class="modal-overlay" id="nav-modal" onclick="if(event.target===this)closeModalById('nav-modal')">
   <div class="modal-box" style="max-width:420px">
-    <div class="modal-head"><h3 id="nav-modal-title">Add Link</h3><button class="modal-close" id="nav-modal-close">×</button></div>
+    <div class="modal-head"><h3 id="nav-modal-title">Add Link</h3><button class="modal-close" id="nav-modal-close" onclick="closeModalById('nav-modal')">×</button></div>
     <div class="modal-body">
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="field"><label>Label *</label><input type="text" id="nav-m-label" placeholder="About"/></div>
@@ -696,16 +696,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="nav-modal-cancel">Cancel</button>
+      <button class="btn-secondary" id="nav-modal-cancel" onclick="closeModalById('nav-modal')">Cancel</button>
       <button class="btn-primary" id="nav-modal-save">Save</button>
     </div>
   </div>
 </div>
 
 <!-- INTRO CARD MODAL -->
-<div class="modal-overlay" id="ic-modal">
+<div class="modal-overlay" id="ic-modal" onclick="if(event.target===this)closeModalById('ic-modal')">
   <div class="modal-box">
-    <div class="modal-head"><h3 id="ic-modal-title">Card</h3><button class="modal-close" id="ic-modal-close">×</button></div>
+    <div class="modal-head"><h3 id="ic-modal-title">Card</h3><button class="modal-close" id="ic-modal-close" onclick="closeModalById('ic-modal')">×</button></div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
         <div class="field span2"><label>Title *</label><input type="text" id="ic-m-title" placeholder="Dinner Menu"/></div>
@@ -728,16 +728,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="ic-modal-cancel">Cancel</button>
+      <button class="btn-secondary" id="ic-modal-cancel" onclick="closeModalById('ic-modal')">Cancel</button>
       <button class="btn-primary" id="ic-modal-save">Save</button>
     </div>
   </div>
 </div>
 
 <!-- TESTIMONIAL MODAL -->
-<div class="modal-overlay" id="tm-modal">
+<div class="modal-overlay" id="tm-modal" onclick="if(event.target===this)closeModalById('tm-modal')">
   <div class="modal-box">
-    <div class="modal-head"><h3>Testimonial</h3><button class="modal-close" id="tm-modal-close">×</button></div>
+    <div class="modal-head"><h3>Testimonial</h3><button class="modal-close" id="tm-modal-close" onclick="closeModalById('tm-modal')">×</button></div>
     <div class="modal-body">
       <div class="form-grid" style="gap:14px">
         <div class="field"><label>Name *</label><input type="text" id="tm-m-name" placeholder="Maria G."/></div>
@@ -747,7 +747,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="tm-modal-cancel">Cancel</button>
+      <button class="btn-secondary" id="tm-modal-cancel" onclick="closeModalById('tm-modal')">Cancel</button>
       <button class="btn-primary" id="tm-modal-save">Save</button>
     </div>
   </div>
@@ -1933,9 +1933,7 @@ function openIcModal(idx) {
 }
 
 document.getElementById('btn-add-ic').addEventListener('click', function(){ openIcModal(); });
-document.getElementById('ic-modal-close').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('ic-modal').classList.remove('open'); });
-document.getElementById('ic-modal-cancel').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('ic-modal').classList.remove('open'); });
-document.getElementById('ic-modal').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+
 document.getElementById('ic-modal-save').addEventListener('click', function(){
   var t = v('ic-m-title');
   if(!t){ alert('Title is required'); return; }
@@ -2149,9 +2147,7 @@ document.getElementById('btn-add-nav').addEventListener('click', function(e) {
   e.preventDefault();
   openNavModal();
 });
-document.getElementById('nav-modal-close').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('nav-modal').classList.remove('open'); });
-document.getElementById('nav-modal-cancel').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('nav-modal').classList.remove('open'); });
-document.getElementById('nav-modal').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+
 document.getElementById('nav-modal-save').addEventListener('click', function() {
   var lbl = v('nav-m-label'), lnk = v('nav-m-link');
   if(!lbl || !lnk) { alert('Label and link are required'); return; }
@@ -2292,17 +2288,7 @@ function openEditClientModal(id) {
   setTimeout(function(){ document.getElementById('ec-clientname').focus(); }, 50);
 }
 
-document.getElementById('ec-modal-close').addEventListener('click', function(e){
-  e.stopPropagation();
-  document.getElementById('edit-client-modal').classList.remove('open');
-});
-document.getElementById('ec-modal-cancel').addEventListener('click', function(e){
-  e.stopPropagation();
-  document.getElementById('edit-client-modal').classList.remove('open');
-});
-document.getElementById('edit-client-modal').addEventListener('click', function(e){
-  if(e.target === this) this.classList.remove('open');
-});
+
 document.getElementById('ec-modal-save').addEventListener('click', function(e) {
   e.stopPropagation();
   var clientName = document.getElementById('ec-clientname').value.trim();
@@ -2363,17 +2349,7 @@ document.querySelectorAll('.nav-item[data-section]').forEach(function(btn) {
 });
 
 // ── NEW CLIENT MODAL ──────────────────────────────────
-document.getElementById('nc-modal-close').addEventListener('click', function(e){
-  e.stopPropagation();
-  document.getElementById('new-client-modal').classList.remove('open');
-});
-document.getElementById('nc-modal-cancel').addEventListener('click', function(e){
-  e.stopPropagation();
-  document.getElementById('new-client-modal').classList.remove('open');
-});
-document.getElementById('new-client-modal').addEventListener('click', function(e){
-  if(e.target === this) this.classList.remove('open');
-});
+
 document.getElementById('nc-modal-create').addEventListener('click', function(e){
   e.stopPropagation();
   var clientName = document.getElementById('nc-clientname').value.trim();
@@ -2394,17 +2370,10 @@ document.getElementById('nc-modal-create').addEventListener('click', function(e)
 // Close any open modal on Escape
 document.addEventListener('keydown', function(e){
   if(e.key !== 'Escape') return;
-  ['new-client-modal','edit-client-modal','tm-modal','ic-modal','nav-modal','item-modal'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.classList.remove('open');
-  });
-  var backdrop = document.getElementById('item-modal');
-  if(backdrop) backdrop.classList.remove('open');
+  ['new-client-modal','edit-client-modal','tm-modal','ic-modal','nav-modal','item-modal'].forEach(closeModalById);
 });
 
-document.getElementById('tm-modal-close').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('tm-modal').classList.remove('open'); });
-document.getElementById('tm-modal-cancel').addEventListener('click', function(e){ e.stopPropagation(); document.getElementById('tm-modal').classList.remove('open'); });
-document.getElementById('tm-modal').addEventListener('click', function(e){ if(e.target === this) this.classList.remove('open'); });
+
 document.getElementById('tm-modal-save').addEventListener('click', function(){
   var nm = v('tm-m-name'); var tx = v('tm-m-text');
   if(!nm || !tx){ alert('Name and review text are required'); return; }
@@ -2473,6 +2442,12 @@ document.getElementById('json-file-input').addEventListener('change', function(e
 });
 
 })();
+
+// Global modal close — called directly from onclick attributes
+function closeModalById(id) {
+  var el = document.getElementById(id);
+  if(el) el.classList.remove('open');
+}
 </script>
 </body>
 </html>
