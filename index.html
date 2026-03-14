@@ -206,22 +206,14 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   <nav class="sidebar-nav">
     <button class="nav-item" data-section="clients" style="background:rgba(217,119,6,.08);color:var(--accent);font-weight:700;margin-bottom:4px">👥 Clients</button>
     <div class="nav-group-label">Navigation</div>
-    <button class="nav-item" data-section="navigation">🔗 Main Menu</button>
+    <button class="nav-item" data-section="navigation">🔗 Header Navigation</button>
     <div class="nav-group-label">Preferences</div>
     <button class="nav-item active" data-section="brand">🎨 Appearance</button>
     <button class="nav-item" data-section="fonts">🔤 Fonts</button>
     <button class="nav-item" data-section="contact">🏢 Business Info</button>
     <button class="nav-item" data-section="social">🌐 Socials</button>
-    <div class="nav-group-label">Layout</div>
-    <button class="nav-item" data-section="hero">🖼️ Hero / Slider</button>
-    <button class="nav-item" data-section="introcards">🃏 Intro Cards</button>
-    <button class="nav-item" data-section="welcome">👋 Welcome</button>
-    <button class="nav-item" data-section="about">ℹ️ About</button>
-    <button class="nav-item" data-section="menu">🍽️ Menu</button>
-    <button class="nav-item" data-section="cta">📣 Call to Action</button>
-    <button class="nav-item" data-section="testimonials">⭐ Testimonials</button>
-    <button class="nav-item" data-section="contactform">📬 Contact Form</button>
-    <button class="nav-item" data-section="footer">🔗 Footer</button>
+    <div class="nav-group-label">Layout <span style="font-size:9px;opacity:.5;font-weight:400">drag to reorder</span></div>
+    <div id="layout-nav-list"><!-- rendered by renderLayoutNav() --></div>
     <button class="nav-item" data-section="export">📤 Export</button>
   </nav>
   <div class="sidebar-export">
@@ -382,7 +374,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       <div class="field"><label>Facebook URL</label><input type="url" id="s-fb" placeholder="https://facebook.com/..."/></div>
       <div class="field"><label>Instagram URL</label><input type="url" id="s-ig" placeholder="https://instagram.com/..."/></div>
       <div class="field"><label>Google Maps (footer)</label><input type="url" id="s-gm" placeholder="https://maps.app.goo.gl/..."/></div>
-      <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL</span></div>
+      <div class="field"><label>"Order Online" Link</label><input type="text" id="s-order" placeholder="#menu"/><span class="hint">Anchor like #menu or a delivery URL — also appears as sticky button on landing</span></div>
     </div>
     </div>
   </section>
@@ -404,11 +396,37 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
 
   <section class="section" id="section-navigation">
     <div class="section-inner">
-      <div class="section-title">Main Menu</div>
-      <div class="section-sub">Edit the header navigation links. Only add links to sections that are visible.</div>
-      <div class="group-title" style="margin-bottom:8px">Active Section Anchors</div>
-      <div id="anchor-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px"></div>
+      <div class="section-title">Header Navigation</div>
+      <div class="section-sub">Nav links shown in the header + "Order Online" button and floating action button</div>
+      <div class="group-title">Order Online — Header Button</div>
+      <div style="display:grid;grid-template-columns:auto 1fr 1fr;align-items:end;gap:8px;margin-bottom:16px">
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+          <span style="font-size:10px;color:var(--muted);text-transform:uppercase">On</span>
+          <label class="toggle-switch"><input type="checkbox" id="nav-order-on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        </div>
+        <div class="field" style="margin:0"><label>Text</label><input type="text" id="nav-order-text" placeholder="Order Online"/></div>
+        <div class="field" style="margin:0"><label>Link</label><input type="text" id="s-order" placeholder="#menu"/></div>
+      </div>
       <div class="divider"></div>
+      <div class="group-title">Floating Action Button (FAB)</div>
+      <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px;margin-bottom:8px">
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+          <span style="font-size:10px;color:var(--muted);text-transform:uppercase">On</span>
+          <label class="toggle-switch"><input type="checkbox" id="fab-on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        </div>
+        <div class="field" style="margin:0"><label>Icon</label><select id="fab-icon" style="font-size:12px"><option value="cart">🛒 Cart</option><option value="none">No icon</option><option value="arrow">→ Arrow</option><option value="phone">📞 Phone</option><option value="star">⭐ Star</option></select></div>
+        <div class="field" style="margin:0"><label>Text</label><input type="text" id="fab-text" placeholder="Order Online"/></div>
+        <div class="field" style="margin:0"><label>Link</label><input type="text" id="fab-link" placeholder="#menu"/></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <span style="font-size:12px;color:var(--muted);font-weight:600">Position:</span>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer"><input type="radio" name="fab-pos" id="fab-pos-right" value="right" checked/> Right</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer"><input type="radio" name="fab-pos" id="fab-pos-left" value="left"/> Left</label>
+      </div>
+      <div class="divider"></div>
+      <div class="group-title" style="margin-bottom:8px">Navigation Links</div>
+      <div class="group-title" style="font-size:10px;opacity:.6;margin-bottom:6px">Active sections — click to insert anchor</div>
+      <div id="anchor-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
       <div class="ilist" id="nav-items-list"></div>
       <button class="btn-add" id="btn-add-nav">＋ Add Link</button>
     </div>
@@ -442,10 +460,38 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
         <div class="field"><label>Title</label><input type="text" id="s1-title" placeholder="Authentic Mexican Flavors"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s1-sub" placeholder="Fresh, bold, and made with love"/></div>
-        <div class="field"><label>Button 1 Text</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
-        <div class="field"><label>Button 1 Link</label><input type="text" id="s1-b1l" placeholder="#menu"/></div>
-        <div class="field"><label>Button 2 Text</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
-        <div class="field"><label>Button 2 Link</label><input type="text" id="s1-b2l" placeholder="#menu"/></div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s1-b1on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s1-b1icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 1 Text</label><input type="text" id="s1-b1" placeholder="Order Online"/></div>
+            <div class="field" style="margin:0"><label>Button 1 Link</label><input type="text" id="s1-b1l" placeholder="#menu"/></div>
+          </div>
+        </div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s1-b2on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s1-b2icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 2 Text</label><input type="text" id="s1-b2" placeholder="View Menu"/></div>
+            <div class="field" style="margin:0"><label>Button 2 Link</label><input type="text" id="s1-b2l" placeholder="#menu"/></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 2</div>
@@ -471,10 +517,38 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
         <div class="field"><label>Title</label><input type="text" id="s2-title" placeholder="We Cater Every Occasion"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s2-sub" placeholder="From family gatherings to corporate events"/></div>
-        <div class="field"><label>Button 1 Text</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
-        <div class="field"><label>Button 1 Link</label><input type="text" id="s2-b1l" placeholder="#contact"/></div>
-        <div class="field"><label>Button 2 Text</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
-        <div class="field"><label>Button 2 Link</label><input type="text" id="s2-b2l" placeholder="#about"/></div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s2-b1on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s2-b1icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 1 Text</label><input type="text" id="s2-b1" placeholder="Get a Quote"/></div>
+            <div class="field" style="margin:0"><label>Button 1 Link</label><input type="text" id="s2-b1l" placeholder="#contact"/></div>
+          </div>
+        </div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s2-b2on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s2-b2icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 2 Text</label><input type="text" id="s2-b2" placeholder="Learn More"/></div>
+            <div class="field" style="margin:0"><label>Button 2 Link</label><input type="text" id="s2-b2l" placeholder="#about"/></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="slide-card"><div class="slide-num">Slide 3</div>
@@ -500,10 +574,38 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
         <div class="field"><label>Title</label><input type="text" id="s3-title" placeholder="Family Packs & To-Go"/></div>
         <div class="field"><label>Subtitle</label><input type="text" id="s3-sub" placeholder="Enjoy wherever you are"/></div>
-        <div class="field"><label>Button 1 Text</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
-        <div class="field"><label>Button 1 Link</label><input type="text" id="s3-b1l" placeholder="#menu"/></div>
-        <div class="field"><label>Button 2 Text</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
-        <div class="field"><label>Button 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s3-b1on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s3-b1icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 1 Text</label><input type="text" id="s3-b1" placeholder="Order Now"/></div>
+            <div class="field" style="margin:0"><label>Button 1 Link</label><input type="text" id="s3-b1l" placeholder="#menu"/></div>
+          </div>
+        </div>
+        <div class="field span2">
+          <div style="display:grid;grid-template-columns:auto auto 1fr 1fr;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+              <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">On</span>
+              <label class="toggle-switch"><input type="checkbox" id="s3-b2on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+            </div>
+            <div class="field" style="margin:0"><label>Icon</label><select id="s3-b2icon" style="font-size:12px"><option value="none">No icon</option>
+              <option value="cart">🛒 Cart</option>
+              <option value="arrow">→ Arrow</option>
+              <option value="phone">📞 Phone</option>
+              <option value="star">⭐ Star</option>
+              <option value="map">📍 Location</option></select></div>
+            <div class="field" style="margin:0"><label>Button 2 Text</label><input type="text" id="s3-b2" placeholder="See Menu"/></div>
+            <div class="field" style="margin:0"><label>Button 2 Link</label><input type="text" id="s3-b2l" placeholder="#menu"/></div>
+          </div>
+        </div>
       </div>
     </div>
     </div>
@@ -944,7 +1046,8 @@ var cfg = {
   phone:'', phoneD:'', email:'', address:'', maps:'',
   contactEmail:'', dropdownOptions:'Reservation\nCatering\nGeneral Info\nOther',
   hours:{ mon:['',''], tue:['',''], wed:['',''], thu:['',''], fri:['',''], sat:['',''], sun:['',''] },
-  fb:'', ig:'', gm:'', order:'#menu',
+  fb:'', ig:'', gm:'', order:'#menu', orderText:'Order Online', orderOn:true,
+  fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right',
   slides:[ {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b2:'View Menu',b2l:'#menu'},
             {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b2:'Learn More',b2l:'#about'},
             {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'} ],
@@ -1015,9 +1118,27 @@ function read() {
   ['mon','tue','wed','thu','fri','sat','sun'].forEach(function(d) {
     cfg.hours[d] = [v('h-'+d+'-o'), v('h-'+d+'-c')];
   });
-  cfg.fb=v('s-fb'); cfg.ig=v('s-ig'); cfg.gm=v('s-gm'); cfg.order=v('s-order')||'#menu';
+  cfg.fb=v('s-fb'); cfg.ig=v('s-ig'); cfg.gm=v('s-gm');
+  cfg.order=v('s-order')||'#menu'; cfg.orderText=v('nav-order-text')||'Order Online';
+  cfg.orderOn = document.getElementById('nav-order-on') ? document.getElementById('nav-order-on').checked : true;
+  cfg.fabOn   = document.getElementById('fab-on')  ? document.getElementById('fab-on').checked  : true;
+  cfg.fabText = v('fab-text')||'Order Online';
+  cfg.fabLink = v('fab-link')||'#menu';
+  cfg.fabIcon = document.getElementById('fab-icon') ? document.getElementById('fab-icon').value : 'cart';
+  var _fabPosEl = document.querySelector('input[name="fab-pos"]:checked');
+  cfg.fabPos  = _fabPosEl ? _fabPosEl.value : 'right';
   [1,2,3].forEach(function(i) {
-    cfg.slides[i-1] = {img:v('s'+i+'-img'),title:v('s'+i+'-title'),sub:v('s'+i+'-sub'),b1:v('s'+i+'-b1'),b1l:v('s'+i+'-b1l'),b2:v('s'+i+'-b2'),b2l:v('s'+i+'-b2l')};
+    var _b1on=document.getElementById('s'+i+'-b1on'), _b2on=document.getElementById('s'+i+'-b2on');
+    var _b1ic=document.getElementById('s'+i+'-b1icon'), _b2ic=document.getElementById('s'+i+'-b2icon');
+    cfg.slides[i-1] = {
+      img:v('s'+i+'-img'), title:v('s'+i+'-title'), sub:v('s'+i+'-sub'),
+      b1:v('s'+i+'-b1'), b1l:v('s'+i+'-b1l'),
+      b1on: _b1on ? _b1on.checked : true,
+      b1icon: _b1ic ? _b1ic.value : 'none',
+      b2:v('s'+i+'-b2'), b2l:v('s'+i+'-b2l'),
+      b2on: _b2on ? _b2on.checked : true,
+      b2icon: _b2ic ? _b2ic.value : 'none'
+    };
   });
   cfg.menuCats=v('menu-cats');
   cfg.aLabel=v('a-label'); cfg.aTitle=v('a-title'); cfg.aP1=v('a-p1'); cfg.aP2=v('a-p2'); cfg.aImg=v('a-img');
@@ -1033,6 +1154,9 @@ function read() {
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
   cfg.siteUrl=v('c-siteurl'); cfg.uploadUrl=v('c-uploadurl');
   // navItems managed separately via renderNavItems
+  // Capture current section order from drag & drop
+  var _layoutList = document.getElementById('layout-nav-list');
+  if(_layoutList) cfg.sectionOrder = Array.from(_layoutList.querySelectorAll('.nav-item-layout')).map(function(el){ return el.dataset.key; });
   if(!cfg.sectionBg) cfg.sectionBg={};
   if(!cfg.sectionVisible) cfg.sectionVisible={};
   cfg.sectionVisible['hero'] = document.getElementById('stog-hero') ? document.getElementById('stog-hero').checked : true;
@@ -1084,11 +1208,21 @@ function write() {
     sv('h-'+d+'-o', cfg.hours[d] ? cfg.hours[d][0] : '');
     sv('h-'+d+'-c', cfg.hours[d] ? cfg.hours[d][1] : '');
   });
-  sv('s-fb',cfg.fb); sv('s-ig',cfg.ig); sv('s-gm',cfg.gm); sv('s-order',cfg.order);
+  sv('s-fb',cfg.fb); sv('s-ig',cfg.ig); sv('s-gm',cfg.gm);
+  sv('s-order',cfg.order); sv('nav-order-text',cfg.orderText||'Order Online');
+  var _oon=document.getElementById('nav-order-on'); if(_oon) _oon.checked=cfg.orderOn!==false;
+  var _fon=document.getElementById('fab-on'); if(_fon) _fon.checked=cfg.fabOn!==false;
+  sv('fab-text',cfg.fabText||'Order Online'); sv('fab-link',cfg.fabLink||'#menu');
+  var _fic=document.getElementById('fab-icon'); if(_fic) _fic.value=cfg.fabIcon||'cart';
+  var _fpr=document.getElementById('fab-pos-'+(cfg.fabPos||'right')); if(_fpr) _fpr.checked=true;
   [1,2,3].forEach(function(i) {
     var s = cfg.slides[i-1] || {};
-    sv('s'+i+'-img',s.img); sv('s'+i+'-title',s.title); sv('s'+i+'-sub',s.sub);
-    sv('s'+i+'-b1',s.b1); sv('s'+i+'-b1l',s.b1l); sv('s'+i+'-b2',s.b2); sv('s'+i+'-b2l',s.b2l);
+    sv('s'+i+'-img',s.img||''); sv('s'+i+'-title',s.title||''); sv('s'+i+'-sub',s.sub||'');
+    sv('s'+i+'-b1',s.b1||''); sv('s'+i+'-b1l',s.b1l||''); sv('s'+i+'-b2',s.b2||''); sv('s'+i+'-b2l',s.b2l||'');
+    var _wb1on=document.getElementById('s'+i+'-b1on'); if(_wb1on) _wb1on.checked=s.b1on!==false;
+    var _wb2on=document.getElementById('s'+i+'-b2on'); if(_wb2on) _wb2on.checked=s.b2on!==false;
+    var _wb1ic=document.getElementById('s'+i+'-b1icon'); if(_wb1ic) _wb1ic.value=s.b1icon||'none';
+    var _wb2ic=document.getElementById('s'+i+'-b2icon'); if(_wb2ic) _wb2ic.value=s.b2icon||'none';
   });
   sv('menu-cats',cfg.menuCats);
   populateCatSelect();
@@ -1110,6 +1244,11 @@ function write() {
   sv('c-siteurl',cfg.siteUrl); sv('c-uploadurl',cfg.uploadUrl);
   renderNavItems();
   renderAnchorChips();
+  // Restore section order from saved config
+  if(cfg.sectionOrder && cfg.sectionOrder.length) {
+    renderLayoutNav();
+  }
+
   if(cfg.sectionVisible){
     var sv2 = cfg.sectionVisible;
     var _thero=document.getElementById('stog-hero'); if(_thero) { _thero.checked = sv2['hero']!==false; applySectionToggle('hero', sv2['hero']!==false); }
@@ -1136,6 +1275,7 @@ function write() {
 
   if(cfg.cp) setTimeout(function(){ syncActiveTheme(cfg.cp); }, 0);
   renderItems();
+  renderLayoutNav();
   } catch(eWrite) { console.warn("write() error:", eWrite); }
 }
 
@@ -1213,12 +1353,13 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     phone:'', phoneD:'', email:'', address:'', maps:'',
     contactEmail:'', dropdownOptions:'Reservation\nCatering\nGeneral Info\nOther',
     hours:{mon:['',''],tue:['',''],wed:['',''],thu:['',''],fri:['',''],sat:['',''],sun:['','']},
-    fb:'', ig:'', gm:'', order:'#menu',
+    fb:'', ig:'', gm:'', order:'#menu', orderText:'Order Online', orderOn:true,
+    fabOn:true, fabText:'Order Online', fabLink:'#menu', fabIcon:'cart', fabPos:'right',
     menuCats:'appetizers:Appetizers\nplates:Plates\nfamily:Family Packs\nkids:Kids',
     slides:[
-      {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b2:'View Menu',b2l:'#menu'},
-      {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b2:'Learn More',b2l:'#about'},
-      {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b2:'See Menu',b2l:'#menu'}
+      {img:'',title:'',sub:'',b1:'Order Online',b1l:'#menu',b1on:true,b1icon:'none',b2:'View Menu',b2l:'#menu',b2on:true,b2icon:'none'},
+      {img:'',title:'',sub:'',b1:'Get a Quote',b1l:'#contact',b1on:true,b1icon:'none',b2:'Learn More',b2l:'#about',b2on:true,b2icon:'none'},
+      {img:'',title:'',sub:'',b1:'Order Now',b1l:'#menu',b1on:true,b1icon:'none',b2:'See Menu',b2l:'#menu',b2on:true,b2icon:'none'}
     ],
     menu:[], icLabel:'', icTitle:'',
     icCards:[
@@ -1233,7 +1374,9 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
     copy:'', footerLinkText:'', footerLinkUrl:'', siteUrl:'',
     sectionBg:{hero:'',introcards:'',welcome:'',about:'',menu:'',cta:'',testimonials:'',contactform:'',footer:''},
-    sectionVisible:{hero:true,introcards:true,welcome:true,about:true,menu:true,cta:true,testimonials:true,contactform:true,footer:true},
+    sectionOrder:['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'],
+  sectionOrder:['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'],
+  sectionVisible:{hero:true,introcards:true,welcome:true,about:true,menu:true,cta:true,testimonials:true,contactform:true,footer:true},
     navItems:[
       {label:'Home',link:'#hero'},
       {label:'Menu',link:'#services'},
@@ -1480,6 +1623,21 @@ function buildHTML() {
   var sbg = c.sectionBg || {};
   var svis = c.sectionVisible || {};
   function secVisible(key) { return svis[key] !== false; }
+
+  // Button icon SVGs (for slides + FAB)
+  var BTN_ICONS = {
+    cart:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>',
+    arrow: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+    phone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.8a2 2 0 012-2.18h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.91 14.14a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>',
+    star:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:middle"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    map:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    none:  ''
+  };
+  function btnIcon(icon, color) {
+    var svg = BTN_ICONS[icon||'none'] || '';
+    if(!svg) return '';
+    return color ? svg.replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"') : svg;
+  }
   var fh = c.fontHead || 'Playfair Display';
   var fb = c.fontBody || 'DM Sans';
   var serifFonts = ['Playfair Display','Cormorant Garamond','Libre Baskerville','Merriweather'];
@@ -1675,7 +1833,7 @@ function buildHTML() {
   lines.push('      ' + navLinks.map(function(n){ return '<a href="' + e(n.link) + '">' + e(n.label) + '</a>'; }).join(''));
   lines.push('    </nav>');
   lines.push('    <div style="display:flex;align-items:center;gap:10px;margin-left:auto">');
-  lines.push('      <a href="' + e(order) + '" class="btn" style="flex-shrink:0">Order Online</a>');
+  if(c.orderOn !== false) lines.push('      <a href="' + e(order) + '" class="btn" style="flex-shrink:0">' + e(c.orderText||'Order Online') + '</a>');
   lines.push('      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">');
   lines.push('        <svg id="icon-open" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>');
   lines.push('        <svg id="icon-close" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>');
@@ -1686,24 +1844,24 @@ function buildHTML() {
   lines.push('    ' + navLinks.map(function(n){ return '<a href="' + e(n.link) + '">' + e(n.label) + '</a>'; }).join(''));
   lines.push('  </div>');
   lines.push('</header>');
-  lines.push('<section class="hero" id="hero">');
+    function buildSec_hero() {
+lines.push('<section class="hero" id="hero">');
   lines.push('  <div class="hero-slider" id="hero-slider">' + heroSlides + '</div>');
   lines.push('  <div class="hero-slide-content">');
   lines.push('    <span class="hero-label">' + e(c.tagline) + '</span>');
   lines.push('    <h1 class="hero-title">' + e(slide1.title || name) + '</h1>');
   lines.push('    <p class="hero-desc">' + e(slide1.sub || '') + '</p>');
   lines.push('    <div class="hero-ctas">');
-  lines.push('      <a href="' + e(slide1.b1l || order) + '" class="btn">' + e(slide1.b1 || 'Order Online') + '</a>');
-  lines.push('      <a href="' + e(slide1.b2l || '#menu') + '" class="btn btn-outline">' + e(slide1.b2 || 'View Menu') + '</a>');
+  if(slide1.b1on !== false && slide1.b1) lines.push('      <a href="' + e(slide1.b1l||order) + '" class="btn">' + btnIcon(slide1.b1icon,'#fff') + e(slide1.b1) + '</a>');
+  if(slide1.b2on !== false && slide1.b2) lines.push('      <a href="' + e(slide1.b2l||'#menu') + '" class="btn btn-outline">' + btnIcon(slide1.b2icon,'currentColor') + e(slide1.b2) + '</a>');
   lines.push('    </div>');
   lines.push('  </div>');
   lines.push('  <div class="hero-dots" id="hero-dots"></div>');
   lines.push('</section>');
-  lines.push('<section class="section" id="menu" style="background:' + (sbg.menu||bg) + '">');
-  lines.push('  <div class="container"><div class="t-center"><div class="sec-label">Our Menus</div><h2 class="sec-title" style="color:' + tx + '">What We Offer</h2><div class="sec-divider"></div></div></div>');
-  lines.push('</section>');
-  // ── INTRO CARDS SECTION ──
-  if(secVisible('introcards') && c.icCards && c.icCards.length) {
+  }
+
+  function buildSec_introcards() {
+if(secVisible('introcards') && c.icCards && c.icCards.length) {
     var icIconMap = {
       menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
       togo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
@@ -1738,8 +1896,10 @@ function buildHTML() {
     lines.push('  </div>');
     lines.push('</section>');
   }
+  }
 
-  if(secVisible('about')) {
+  function buildSec_about() {
+if(secVisible('about')) {
   lines.push('<section class="section" id="about" style="background:'+(sbg.about||'#ffffff')+'">');
   lines.push('  <div class="container"><div class="about-grid">');
   lines.push('    <div class="about-img-wrap">' + (c.aImg ? '<img src="' + e(c.aImg) + '" alt="' + e(c.aTitle) + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div class="img-ph"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>About Photo</span></div>') + '</div>');
@@ -1758,7 +1918,10 @@ function buildHTML() {
   } // end about
 
   // ── WELCOME SECTION ──
-  if(secVisible('welcome') && c.wlTitle || c.wlP1) {
+  }
+
+  function buildSec_welcome() {
+if(secVisible('welcome') && c.wlTitle || c.wlP1) {
     lines.push('<section class="section" id="welcome" style="background:'+(sbg.welcome||'#ffffff')+'">');
     lines.push('  <div class="container">');
     lines.push('    <div class="about-grid">');
@@ -1784,7 +1947,10 @@ function buildHTML() {
   }
 
   // ── TESTIMONIALS SECTION ──
-  if(secVisible('testimonials') && c.testimonials && c.testimonials.length) {
+  }
+
+  function buildSec_testimonials() {
+if(secVisible('testimonials') && c.testimonials && c.testimonials.length) {
     lines.push('<section class="section" style="background:' + (sbg.testimonials||bg) + '">');
     lines.push('  <div class="container">');
     lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">' + e(c.tmLabel || 'What Our Guests Say') + '</div>');
@@ -1804,8 +1970,10 @@ function buildHTML() {
     lines.push('  </div>');
     lines.push('</section>');
   }
+  }
 
-  if(secVisible('menu')) {
+  function buildSec_menu() {
+if(secVisible('menu')) {
   lines.push('<section class="section" id="services" style="background:'+(sbg.menu||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label" style="color:' + a + '">Our Flavors ToGo</div><h2 class="sec-title" style="color:' + tx + '">Online Menu</h2><div class="sec-divider"></div></div>');
@@ -1826,7 +1994,10 @@ function buildHTML() {
   lines.push('  </div>');
   lines.push('</section>');
   } // end menu
-  if(secVisible('cta')) {
+  }
+
+  function buildSec_cta() {
+if(secVisible('cta')) {
   lines.push('<section class="section" style="background:#fff">');
   lines.push('  <div class="container"><div class="cta-banner">');
   lines.push('    <div class="cta-text"><h2>' + e(c.ctaTitle || 'We Cater Every Occasion') + '</h2><p>' + e(c.ctaSub) + '</p></div>');
@@ -1836,7 +2007,10 @@ function buildHTML() {
   lines.push('    </div></div></div>');
   lines.push('</section>');
   } // end cta
-  if(secVisible('contactform')) {
+  }
+
+  function buildSec_contactform() {
+if(secVisible('contactform')) {
   lines.push('<section class="section" id="contact" style="background:'+(sbg.contactform||bg)+'">');
   lines.push('  <div class="container">');
   lines.push('    <div class="t-center"><div class="sec-label">Get In Touch</div><h2 class="sec-title">Contact Us</h2><div class="sec-divider"></div></div>');
@@ -1868,7 +2042,10 @@ function buildHTML() {
   lines.push('    </div></div>');
   lines.push('</section>');
   } // end contactform
-  if(secVisible('footer')) {
+  }
+
+  function buildSec_footer() {
+if(secVisible('footer')) {
   lines.push('<footer>');
   lines.push('  <div class="container">');
   lines.push('    <div class="footer-grid">');
@@ -1891,7 +2068,30 @@ function buildHTML() {
   lines.push('  </div>');
   lines.push('</footer>');
   } // end footer
-  lines.push('<a href="' + e(order) + '" class="fab-order"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Order Online</a>');
+  }
+
+  // Render sections in user-defined order
+  var sectionOrder = (c.sectionOrder && c.sectionOrder.length)
+    ? c.sectionOrder
+    : ['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'];
+
+  sectionOrder.forEach(function(key) {
+    if     (key === 'hero')         buildSec_hero();
+    else if(key === 'introcards')   buildSec_introcards();
+    else if(key === 'welcome')      buildSec_welcome();
+    else if(key === 'about')        buildSec_about();
+    else if(key === 'menu')         buildSec_menu();
+    else if(key === 'cta')          buildSec_cta();
+    else if(key === 'testimonials') buildSec_testimonials();
+    else if(key === 'contactform')  buildSec_contactform();
+    else if(key === 'footer')       buildSec_footer();
+  });
+
+if(c.fabOn !== false) {
+  var fabLeft = c.fabPos === 'left' ? 'left:28px;right:auto' : 'right:28px';
+  var fabIconHtml = btnIcon(c.fabIcon||'cart', 'white');
+  lines.push('<a href="' + e(c.fabLink||order) + '" class="fab-order" style="' + fabLeft + '">' + fabIconHtml + ' ' + e(c.fabText||'Order Online') + '</a>');
+}
   lines.push('<dialog id="photo-dialog">');
   lines.push('  <div id="pd-wrap">');
   lines.push('    <button id="pd-close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round"><line x1="2" y1="2" x2="22" y2="22"/><line x1="22" y1="2" x2="2" y2="22"/></svg></button>');
@@ -2472,6 +2672,7 @@ window._db = {
 };
 
 loadSaved();
+renderLayoutNav();
 try{ initImgPreviews(); }catch(e){ console.warn("initImgPreviews error:",e); }
 try{ initAllDropZones(); }catch(e){ console.warn("initAllDropZones error:",e); }
 
@@ -2518,6 +2719,111 @@ function renderAnchorChips(targetContainerId) {
         });
       }
       container.appendChild(chip);
+    });
+  });
+}
+
+// ── LAYOUT NAV DRAG & DROP ────────────────────────────────────────────────────
+var LAYOUT_META = {
+  hero:         {icon:'🖼️', label:'Hero / Slider'},
+  introcards:   {icon:'🃏', label:'Intro Cards'},
+  welcome:      {icon:'👋', label:'Welcome'},
+  about:        {icon:'ℹ️',  label:'About'},
+  menu:         {icon:'🍽️', label:'Menu'},
+  cta:          {icon:'📣', label:'Call to Action'},
+  testimonials: {icon:'⭐', label:'Testimonials'},
+  contactform:  {icon:'📬', label:'Contact Form'},
+  footer:       {icon:'🔗', label:'Footer'},
+};
+
+function getOrder() {
+  var def = ['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'];
+  return (cfg.sectionOrder && cfg.sectionOrder.length === def.length) ? cfg.sectionOrder : def;
+}
+
+function renderLayoutNav() {
+  var container = document.getElementById('layout-nav-list');
+  if(!container) return;
+  var order = getOrder();
+  container.innerHTML = '';
+
+  order.forEach(function(key) {
+    var meta = LAYOUT_META[key];
+    if(!meta) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'nav-item-layout';
+    wrap.setAttribute('draggable', 'true');
+    wrap.dataset.key = key;
+
+    var btn = document.createElement('button');
+    btn.className = 'nav-item';
+    btn.dataset.section = key;
+    btn.style.paddingLeft = '24px';
+    btn.innerHTML = '<span class="drag-handle">⠿</span>' + meta.icon + ' ' + meta.label;
+    wrap.appendChild(btn);
+    container.appendChild(wrap);
+
+    // Nav click
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nav-item').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+      btn.classList.add('active');
+      var sec = document.getElementById('section-' + key);
+      if(sec) sec.classList.add('active');
+    });
+  });
+
+  initLayoutDrag();
+}
+
+var _dragSrc = null;
+
+function initLayoutDrag() {
+  var container = document.getElementById('layout-nav-list');
+  if(!container) return;
+  var items = container.querySelectorAll('.nav-item-layout');
+
+  items.forEach(function(item) {
+    item.addEventListener('dragstart', function(e) {
+      _dragSrc = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', item.dataset.key);
+    });
+    item.addEventListener('dragend', function() {
+      item.classList.remove('dragging');
+      container.querySelectorAll('.nav-item-layout').forEach(function(i){ i.classList.remove('drag-over'); });
+    });
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if(item !== _dragSrc) {
+        container.querySelectorAll('.nav-item-layout').forEach(function(i){ i.classList.remove('drag-over'); });
+        item.classList.add('drag-over');
+      }
+    });
+    item.addEventListener('dragleave', function() {
+      item.classList.remove('drag-over');
+    });
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      if(!_dragSrc || _dragSrc === item) return;
+
+      // Reorder DOM
+      var allItems = Array.from(container.querySelectorAll('.nav-item-layout'));
+      var srcIdx  = allItems.indexOf(_dragSrc);
+      var destIdx = allItems.indexOf(item);
+      if(srcIdx < destIdx) {
+        container.insertBefore(_dragSrc, item.nextSibling);
+      } else {
+        container.insertBefore(_dragSrc, item);
+      }
+
+      // Update cfg.sectionOrder
+      cfg.sectionOrder = Array.from(container.querySelectorAll('.nav-item-layout'))
+        .map(function(el){ return el.dataset.key; });
+      setUnsaved(true);
     });
   });
 }
