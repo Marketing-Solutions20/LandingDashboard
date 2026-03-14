@@ -729,7 +729,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" id="modal-cancel-btn" onclick="closeModalById('item-modal')">Cancel</button>
-      <button class="btn-save" id="modal-save-btn">Save</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveMenuItem()">Save</button>
     </div>
   </div>
 </div>
@@ -767,7 +767,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-foot">
       <button class="btn-secondary" id="ec-modal-cancel" onclick="closeModalById('edit-client-modal')">Cancel</button>
-      <button class="btn-primary" id="ec-modal-save">Save Changes</button>
+      <button class="btn-primary" id="ec-modal-save" onclick="saveEditClient()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -807,7 +807,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-foot">
       <button class="btn-secondary" id="nc-modal-cancel" onclick="closeModalById('new-client-modal')">Cancel</button>
-      <button class="btn-primary" id="nc-modal-create">Save Client</button>
+      <button class="btn-primary" id="nc-modal-create" onclick="saveNewClient()">Save Client</button>
     </div>
   </div>
 </div>
@@ -864,7 +864,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-foot">
       <button class="btn-secondary" id="ic-modal-cancel" onclick="closeModalById('ic-modal')">Cancel</button>
-      <button class="btn-primary" id="ic-modal-save">Save</button>
+      <button class="btn-primary" id="ic-modal-save" onclick="saveIcItem()">Save</button>
     </div>
   </div>
 </div>
@@ -883,7 +883,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     </div>
     <div class="modal-foot">
       <button class="btn-secondary" id="tm-modal-cancel" onclick="closeModalById('tm-modal')">Cancel</button>
-      <button class="btn-primary" id="tm-modal-save">Save</button>
+      <button class="btn-primary" id="tm-modal-save" onclick="saveTmItem()">Save</button>
     </div>
   </div>
 </div>
@@ -1381,15 +1381,7 @@ openModal = function(idx) {
   setTimeout(function(){ initDropZone('m-img'); }, 50);
 };
 document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
-document.getElementById('modal-save-btn').addEventListener('click', function() {
-  var item = { name:v('m-name'), price:v('m-price'), cat:document.getElementById('m-cat').value, img:v('m-img'), desc:v('m-desc'), link:v('m-link') };
-  if (!item.name) { alert('Name is required'); return; }
-  if (editIdx !== null) cfg.menu[editIdx] = item;
-  else cfg.menu.push(item);
-  closeModal();
-  renderItems();
-  read(); setUnsaved(true);
-});
+// modal-save-btn handled by onclick->saveMenuItem()
 
 // ── EXPORT ────────────────────────────────────────────
 document.getElementById('btn-export').addEventListener('click', function() {
@@ -2030,15 +2022,7 @@ function openIcModal(idx) {
 
 document.getElementById('btn-add-ic').addEventListener('click', function(){ openIcModal(); });
 
-document.getElementById('ic-modal-save').addEventListener('click', function(){
-  var t = v('ic-m-title');
-  if(!t){ alert('Title is required'); return; }
-  var item = {title:t, text:v('ic-m-text'), icon:document.getElementById('ic-m-icon').value, link:v('ic-m-link'), linktxt:v('ic-m-linktxt')};
-  if(!cfg.icCards) cfg.icCards = [];
-  if(icEditIdx !== null) cfg.icCards[icEditIdx] = item; else cfg.icCards.push(item);
-  document.getElementById('ic-modal').classList.remove('open');
-  renderIcCards();
-});
+// ic-modal-save handled by onclick->saveIcItem()
 
 // ── TESTIMONIALS ──────────────────────────────────────
 var tmModal = null; var tmEditIdx = null;
@@ -2274,8 +2258,66 @@ window._db = {
     if(navEditIdx !== null) cfg.navItems[navEditIdx] = {label:lbl, link:lnk};
     else cfg.navItems.push({label:lbl, link:lnk});
     navEditIdx = null;
-    closeModalById('nav-modal');
     renderNavItems();
+    setUnsaved(true);
+  },
+  createClient: function(name, clientName, phone, email, domain) {
+    createClientFromModal(name, clientName, phone, email, domain, domain);
+  },
+  saveEditClient: function(clientName, name, phone, email, domain) {
+    // replicate ec-modal-save logic
+    var existingData = {};
+    try { existingData = JSON.parse(localStorage.getItem(clientKey(editingClientId)) || '{}'); } catch(e) {}
+    existingData.clientName = clientName;
+    existingData.name = name;
+    existingData.clientPhone = phone;
+    existingData.clientEmail = email;
+    existingData.clientDomain = domain;
+    existingData.siteUrl = domain;
+    try { localStorage.setItem(clientKey(editingClientId), JSON.stringify(existingData)); } catch(e) {}
+    var clients = getAllClients();
+    var idx = clients.findIndex(function(c){ return c.id === editingClientId; });
+    if(idx >= 0) { clients[idx].name = name; clients[idx].updatedAt = new Date().toISOString(); }
+    saveIndex(clients);
+    if(editingClientId === currentClientId) {
+      cfg.clientName = clientName; cfg.name = name;
+      cfg.clientPhone = phone; cfg.clientEmail = email;
+      cfg.clientDomain = domain; cfg.siteUrl = domain;
+      document.getElementById('client-name-display').textContent = name;
+      var nameEl = document.getElementById('b-name'); if(nameEl) nameEl.value = name;
+    }
+    closeModalById('edit-client-modal');
+    renderClientsTable();
+  },
+  saveMenuItem: function() {
+    var nm = v('m-name');
+    if(!nm) { alert('Name is required'); return; }
+    var item = { name:nm, price:v('m-price'), cat:document.getElementById('m-cat').value,
+                 img:v('m-img'), desc:v('m-desc'), link:v('m-link') };
+    if(editIdx !== null) cfg.menu[editIdx] = item; else cfg.menu.push(item);
+    closeModal();
+    renderItems();
+    setUnsaved(true);
+  },
+  saveTmItem: function() {
+    var nm = v('tm-m-name'), tx = v('tm-m-text');
+    if(!nm || !tx) { alert('Name and review text are required'); return; }
+    var item = {name:nm, stars:v('tm-m-stars')||'5', text:tx, title:v('tm-m-title')};
+    if(!cfg.testimonials) cfg.testimonials = [];
+    if(tmEditIdx !== null) cfg.testimonials[tmEditIdx] = item; else cfg.testimonials.push(item);
+    closeModalById('tm-modal');
+    renderTestimonials();
+    setUnsaved(true);
+  },
+  saveIcItem: function() {
+    var t = v('ic-m-title');
+    if(!t) { alert('Title is required'); return; }
+    var item = {title:t, text:v('ic-m-text'), icon:document.getElementById('ic-m-icon').value,
+                link:v('ic-m-link'), linktxt:v('ic-m-linktxt')};
+    if(!cfg.icCards) cfg.icCards = [];
+    if(icEditIdx !== null) cfg.icCards[icEditIdx] = item; else cfg.icCards.push(item);
+    closeModalById('ic-modal');
+    renderIcCards();
     setUnsaved(true);
   }
 };
@@ -2409,16 +2451,7 @@ document.getElementById('btn-add-nav').addEventListener('click', function(e) {
   openNavModal();
 });
 
-document.getElementById('nav-modal-save').addEventListener('click', function() {
-  var lbl = v('nav-m-label'), lnk = v('nav-m-link');
-  if(!lbl || !lnk) { alert('Label and link are required'); return; }
-  var item = {label:lbl, link:lnk};
-  if(!cfg.navItems) cfg.navItems = [];
-  if(navEditIdx !== null) cfg.navItems[navEditIdx] = item;
-  else cfg.navItems.push(item);
-  document.getElementById('nav-modal').classList.remove('open');
-  renderNavItems();
-});
+// nav-modal-save handled by onclick->saveNavItem()
 
 // Anchor chips refresh is called directly from toggle listener
 
@@ -2550,51 +2583,7 @@ function openEditClientModal(id) {
 }
 
 
-document.getElementById('ec-modal-save').addEventListener('click', function(e) {
-  e.stopPropagation();
-  var clientName = document.getElementById('ec-clientname').value.trim();
-  var name = document.getElementById('ec-name').value.trim();
-  if(!clientName || !name) {
-    if(!clientName) document.getElementById('ec-clientname').style.borderColor='var(--red)';
-    if(!name) document.getElementById('ec-name').style.borderColor='var(--red)';
-    return;
-  }
-  document.getElementById('ec-clientname').style.borderColor='';
-  document.getElementById('ec-name').style.borderColor='';
-
-  // Load existing config, update fields, save back
-  var existingData = {};
-  try { existingData = JSON.parse(localStorage.getItem(clientKey(editingClientId)) || '{}'); } catch(e) {}
-  existingData.clientName = clientName;
-  existingData.name = name;
-  existingData.clientPhone = document.getElementById('ec-phone').value.trim();
-  existingData.clientEmail = document.getElementById('ec-email').value.trim();
-  existingData.clientDomain = document.getElementById('ec-domain').value.trim();
-  existingData.siteUrl = existingData.clientDomain;
-  try { localStorage.setItem(clientKey(editingClientId), JSON.stringify(existingData)); } catch(e) {}
-
-  // Update index
-  var clients = getAllClients();
-  var idx = clients.findIndex(function(c){ return c.id === editingClientId; });
-  if(idx >= 0) { clients[idx].name = name; clients[idx].updatedAt = new Date().toISOString(); }
-  saveIndex(clients);
-
-  // If editing the active client, refresh current cfg display
-  if(editingClientId === currentClientId) {
-    cfg.clientName = clientName;
-    cfg.name = name;
-    cfg.clientPhone = existingData.clientPhone;
-    cfg.clientEmail = existingData.clientEmail;
-    cfg.clientDomain = existingData.clientDomain;
-    cfg.siteUrl = existingData.siteUrl;
-    document.getElementById('client-name-display').textContent = name;
-    var nameEl = document.getElementById('b-name');
-    if(nameEl) nameEl.value = name;
-  }
-
-  document.getElementById('edit-client-modal').classList.remove('open');
-  renderClientsTable();
-});
+// ec-modal-save handled by onclick->saveEditClient()
 
 // Wire New Client button in clients section
 document.getElementById('btn-clients-new').addEventListener('click', function(e) {
@@ -2611,22 +2600,7 @@ document.querySelectorAll('.nav-item[data-section]').forEach(function(btn) {
 
 // ── NEW CLIENT MODAL ──────────────────────────────────
 
-document.getElementById('nc-modal-create').addEventListener('click', function(e){
-  e.stopPropagation();
-  var clientName = document.getElementById('nc-clientname').value.trim();
-  var name = document.getElementById('nc-name').value.trim();
-  var ok = true;
-  if(!clientName){ document.getElementById('nc-clientname').style.borderColor='var(--red)'; ok=false; }
-  else document.getElementById('nc-clientname').style.borderColor='';
-  if(!name){ document.getElementById('nc-name').style.borderColor='var(--red)'; ok=false; }
-  else document.getElementById('nc-name').style.borderColor='';
-  if(!ok){ if(!clientName) document.getElementById('nc-clientname').focus(); else document.getElementById('nc-name').focus(); return; }
-  var clientPhone = document.getElementById('nc-phone').value.trim();
-  var clientEmail = document.getElementById('nc-email').value.trim();
-  var clientDomain = document.getElementById('nc-domain').value.trim();
-  document.getElementById('new-client-modal').classList.remove('open');
-  createClientFromModal(name, clientName, clientPhone, clientEmail, clientDomain, clientDomain);
-});
+// nc-modal-create handled by onclick->saveNewClient()
 
 // Close any open modal on Escape
 document.addEventListener('keydown', function(e){
@@ -2635,15 +2609,7 @@ document.addEventListener('keydown', function(e){
 });
 
 
-document.getElementById('tm-modal-save').addEventListener('click', function(){
-  var nm = v('tm-m-name'); var tx = v('tm-m-text');
-  if(!nm || !tx){ alert('Name and review text are required'); return; }
-  var item = {name:nm, stars:v('tm-m-stars')||'5', text:tx, title:v('tm-m-title')};
-  if(!cfg.testimonials) cfg.testimonials = [];
-  if(tmEditIdx !== null) cfg.testimonials[tmEditIdx] = item; else cfg.testimonials.push(item);
-  document.getElementById('tm-modal').classList.remove('open');
-  renderTestimonials();
-});
+// tm-modal-save handled by onclick->saveTmItem()
 
 // ── EXPORT / IMPORT JSON ──────────────────────────────
 document.getElementById('btn-export-json').addEventListener('click', async function() {
@@ -2704,10 +2670,65 @@ document.getElementById('json-file-input').addEventListener('change', function(e
 
 })();
 
-// Global modal close — called directly from onclick attributes
+// ── GLOBAL HANDLERS (outside IIFE, always available) ─────────────────────────
+
 function closeModalById(id) {
   var el = document.getElementById(id);
   if(el) el.classList.remove('open');
+}
+
+function saveNavItem() {
+  var lbl = document.getElementById('nav-m-label').value.trim();
+  var lnk = document.getElementById('nav-m-link').value.trim();
+  if(!lbl) { document.getElementById('nav-m-label').style.borderColor='var(--red)'; return; }
+  if(!lnk) { document.getElementById('nav-m-link').style.borderColor='var(--red)'; return; }
+  document.getElementById('nav-m-label').style.borderColor='';
+  document.getElementById('nav-m-link').style.borderColor='';
+  if(window._db) window._db.saveNavItem(lbl, lnk);
+}
+
+function saveNewClient() {
+  var clientName = document.getElementById('nc-clientname').value.trim();
+  var name       = document.getElementById('nc-name').value.trim();
+  var ok = true;
+  if(!clientName) { document.getElementById('nc-clientname').style.borderColor='var(--red)'; ok=false; }
+  else document.getElementById('nc-clientname').style.borderColor='';
+  if(!name) { document.getElementById('nc-name').style.borderColor='var(--red)'; ok=false; }
+  else document.getElementById('nc-name').style.borderColor='';
+  if(!ok) return;
+  var phone  = document.getElementById('nc-phone').value.trim();
+  var email  = document.getElementById('nc-email').value.trim();
+  var domain = document.getElementById('nc-domain').value.trim();
+  closeModalById('new-client-modal');
+  if(window._db) window._db.createClient(name, clientName, phone, email, domain);
+}
+
+function saveEditClient() {
+  var clientName = document.getElementById('ec-clientname').value.trim();
+  var name       = document.getElementById('ec-name').value.trim();
+  if(!clientName) { document.getElementById('ec-clientname').style.borderColor='var(--red)'; return; }
+  if(!name)       { document.getElementById('ec-name').style.borderColor='var(--red)'; return; }
+  document.getElementById('ec-clientname').style.borderColor='';
+  document.getElementById('ec-name').style.borderColor='';
+  if(window._db) window._db.saveEditClient(clientName, name,
+    document.getElementById('ec-phone').value.trim(),
+    document.getElementById('ec-email').value.trim(),
+    document.getElementById('ec-domain').value.trim()
+  );
+}
+
+function saveMenuItem() {
+  var nm = document.getElementById('m-name').value.trim();
+  if(!nm) { alert('Name is required'); return; }
+  if(window._db) window._db.saveMenuItem();
+}
+
+function saveTmItem() {
+  if(window._db) window._db.saveTmItem();
+}
+
+function saveIcItem() {
+  if(window._db) window._db.saveIcItem();
 }
 
 // Save nav item — delegates to window._db exposed by IIFE
