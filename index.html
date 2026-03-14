@@ -8,7 +8,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px}
 .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0}
@@ -42,7 +42,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .theme-swatch span{font-size:9px;color:var(--muted);text-align:center;font-weight:500}
 .saved-badge{width:100%;text-align:center;font-size:11px;color:var(--green);margin-top:8px;height:16px;transition:opacity .3s;opacity:0}
 .saved-badge.show{opacity:1}
-.main{flex:1;overflow-y:auto}
+.main{flex:1;overflow-y:auto;min-height:0}
 .section{display:none;padding:0;max-width:820px}
 .section-inner{padding:36px 40px}
 .section-bg-bar{display:flex;align-items:center;gap:10px;padding:8px 24px;margin:16px 24px 0;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(28,28,31,.35)}
