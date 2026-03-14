@@ -543,12 +543,12 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <div class="section-sub">Generate the final HTML ready for your project</div>
     <div class="export-card">
       <h3>📁 Before Exporting</h3>
-      <p>Asegúrate de tener todas las imágenes en la carpeta <code>imagenes/</code> folder with the names you set in the dashboard.</p>
+      <p>Make sure all your images are in the <code>imagenes/</code> folder with the names you set in the dashboard.</p>
     </div>
     <div class="export-card">
-      <h3>⚙️ Proceso</h3>
+      <h3>⚙️ Process</h3>
       <div class="export-steps">
-        <div class="step"><div class="step-num">1</div><span>Click en "Generar HTML" — — downloads <code>index_stripped.html</code></span></div>
+        <div class="step"><div class="step-num">1</div><span>Click "Generate &amp; Download HTML" — downloads <code>index_stripped.html</code></span></div>
         <div class="step"><div class="step-num">2</div><span>Move it to your project folder</span></div>
         <div class="step"><div class="step-num">3</div><span>Run: <code>python3 strip_base64.py index_stripped.html --restore --backup index_base64_backup.json -o index_final.html</code></span></div>
         <div class="step"><div class="step-num">4</div><span>Test with <code>python3 -m http.server 8000</code></span></div>
@@ -858,6 +858,11 @@ function read() {
   cfg.sectionBg['contactform']=v('sbg-contactform-hex')||'';
   cfg.sectionBg['footer']=v('sbg-footer-hex')||'';
 
+}
+
+function applySectionBg(secId, color) {
+  var sec = document.getElementById('section-' + secId);
+  if(sec) sec.style.background = color || '';
 }
 
 function applySectionToggle(secId, visible) {
