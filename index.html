@@ -11,21 +11,11 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
 .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
-.client-switcher{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--surface)}
-.client-current{display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 10px;border-radius:8px;transition:background .2s;border:1px solid var(--border);background:var(--surface2)}
-.client-current:hover{background:rgba(255,255,255,.05)}
-.client-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
-.client-name{flex:1;font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.client-arrow{color:var(--muted);font-size:10px;flex-shrink:0}
-.client-dropdown{display:none;margin-top:6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.client-dropdown.open{display:block}
-.client-dropdown-item{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;font-size:13px;color:var(--text);transition:background .2s;border:none;background:none;width:100%;text-align:left;font-family:"DM Sans",sans-serif}
-.client-dropdown-item:hover{background:rgba(255,255,255,.07)}
-.client-dropdown-item.active{color:var(--accent);font-weight:600}
-.client-dropdown-item .ci-del{margin-left:auto;color:var(--muted);font-size:11px;padding:2px 6px;border-radius:4px;border:none;background:none;cursor:pointer;font-family:"DM Sans",sans-serif}
-.client-dropdown-item .ci-del:hover{background:rgba(185,28,28,.2);color:#f87171}
-.client-dropdown-divider{height:1px;background:var(--border);margin:4px 0}
-.client-dropdown-new{color:var(--accent)!important;font-weight:600!important}
+.client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface)}
+.client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.client-indicator-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.client-indicator-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);opacity:.7}
+.client-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .client-unsaved{width:7px;height:7px;border-radius:50%;background:#f59e0b;flex-shrink:0;display:none}
 .client-unsaved.show{display:block}
 .sidebar-logo h1{font-family:'Playfair Display',serif;font-size:16px;color:var(--accent);line-height:1.2}
@@ -179,18 +169,13 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
     <h1>Landing Builder</h1>
     <p>Restaurant Template</p>
   </div>
-  <div class="client-switcher">
-    <div class="client-current" id="client-current" title="Switch client">
-      <div class="client-dot"></div>
-      <span class="client-name" id="client-name-display">New Client</span>
-      <div class="client-unsaved" id="client-unsaved" title="Unsaved changes"></div>
-      <span class="client-arrow">▾</span>
+  <div class="client-indicator">
+    <div class="client-dot"></div>
+    <div class="client-indicator-text">
+      <span class="client-indicator-label">Active Client</span>
+      <span class="client-name" id="client-name-display">—</span>
     </div>
-    <div class="client-dropdown" id="client-dropdown">
-      <div id="client-list"></div>
-      <div class="client-dropdown-divider"></div>
-      <button class="client-dropdown-item client-dropdown-new" id="btn-new-client">＋ New Client</button>
-    </div>
+    <div class="client-unsaved" id="client-unsaved" title="Unsaved changes"></div>
   </div>
   <nav class="sidebar-nav">
     <button class="nav-item" data-section="clients" style="background:rgba(217,119,6,.08);color:var(--accent);font-weight:700;margin-bottom:4px">👥 Clients</button>
@@ -352,7 +337,7 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
         <button class="btn-new-sm" id="btn-clients-new">＋ New Client</button>
       </div>
       <div id="clients-table-wrap">
-        <div class="clients-empty">No clients yet. Click + New Client to get started.</div>
+        <div class="clients-empty">No clients yet. Click ＋ New Client above to get started.</div>
       </div>
     </div>
   </section>
@@ -988,7 +973,7 @@ function saveCurrentClient() {
   // Update UI
   document.getElementById('client-name-display').textContent = name;
   setUnsaved(false);
-  renderClientList();
+  renderClientsTable();
 
   var b = document.getElementById('saved-badge');
   b.classList.add('show');
@@ -1006,9 +991,8 @@ function loadClient(id) {
       var client = clients.find(function(c){ return c.id === id; });
       document.getElementById('client-name-display').textContent = client ? client.name : cfg.name || 'Client';
       setUnsaved(false);
-      renderClientList();
-      document.getElementById('client-dropdown').classList.remove('open');
-    }
+      renderClientsTable();
+        }
   } catch(e) {}
 }
 
@@ -1065,7 +1049,6 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
   if(suEl && siteUrl) { suEl.value = siteUrl; }
   document.getElementById('client-name-display').textContent = name || 'New Client';
   setUnsaved(true);
-  document.getElementById('client-dropdown').classList.remove('open');
   // Don't navigate — just show the dashboard with no active section
   document.querySelectorAll('.nav-item').forEach(function(b){ b.classList.remove('active'); });
   document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
@@ -1081,7 +1064,6 @@ function newClient() {
   document.getElementById('nc-email').value = '';
   document.getElementById('nc-domain').value = '';
   document.getElementById('new-client-modal').classList.add('open');
-  document.getElementById('client-dropdown').classList.remove('open');
   setTimeout(function(){ document.getElementById('nc-name').focus(); }, 50);
 }
 
@@ -1094,7 +1076,7 @@ function deleteClient(id) {
   saveIndex(clients);
   try { localStorage.removeItem(clientKey(id)); } catch(e) {}
   if(currentClientId === id) newClient();
-  else { renderClientList(); renderClientsTable(); }
+  else { renderClientsTable(); }
 }
 
 function setUnsaved(val) {
@@ -1102,39 +1084,7 @@ function setUnsaved(val) {
   document.getElementById('client-unsaved').classList.toggle('show', val);
 }
 
-function renderClientList() {
-  var list = document.getElementById('client-list');
-  var clients = getAllClients();
-  if(!clients.length) {
-    list.innerHTML = '<div style="padding:8px 14px;font-size:12px;color:var(--muted)">No saved clients yet</div>';
-    return;
-  }
-  list.innerHTML = '';
-  clients.sort(function(a,b){ return new Date(b.updatedAt) - new Date(a.updatedAt); });
-  clients.forEach(function(client) {
-    var row = document.createElement('div');
-    row.className = 'client-dropdown-item' + (client.id === currentClientId ? ' active' : '');
-    row.innerHTML =
-      '<span style="font-size:14px">' + (client.id === currentClientId ? '✓ ' : '') + '</span>' +
-      '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(client.name) + '</span>' +
-      '<span style="font-size:10px;color:var(--muted);flex-shrink:0;margin-right:6px">' + formatDate(client.updatedAt) + '</span>' +
-      '<button class="ci-del" data-del="' + client.id + '" title="Delete">✕</button>';
-    row.addEventListener('click', function(e){
-      if(e.target.dataset.del) return; // handled below
-      if(client.id !== currentClientId) {
-        if(hasUnsavedChanges && !confirm('You have unsaved changes. Switch client anyway?')) return;
-        loadClient(client.id);
-      } else {
-        document.getElementById('client-dropdown').classList.remove('open');
-      }
-    });
-    row.querySelector('.ci-del').addEventListener('click', function(e){
-      e.stopPropagation();
-      deleteClient(e.target.dataset.del);
-    });
-    list.appendChild(row);
-  });
-}
+
 
 function formatDate(iso) {
   if(!iso) return '';
@@ -1142,23 +1092,9 @@ function formatDate(iso) {
   return (d.getMonth()+1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(2);
 }
 
-// Toggle dropdown
-document.getElementById('client-current').addEventListener('click', function() {
-  renderClientList();
-  document.getElementById('client-dropdown').classList.toggle('open');
-});
+// Client indicator (no dropdown)
 
-// Close dropdown on outside click
-document.addEventListener('click', function(e) {
-  if(!e.target.closest('.client-switcher')) {
-    document.getElementById('client-dropdown').classList.remove('open');
-  }
-});
 
-document.getElementById('btn-new-client').addEventListener('click', function(e) {
-  e.stopPropagation();
-  newClient();
-});
 
 // Unsaved changes are only marked explicitly (not on every keystroke)
 
@@ -1185,7 +1121,6 @@ function loadSaved() {
     }
   } catch(e) {}
   write();
-  renderClientList();
   renderClientsTable();
 }
 
@@ -2201,7 +2136,7 @@ function renderClientsTable() {
   clients.sort(function(a,b){ return new Date(b.updatedAt)-new Date(a.updatedAt); });
 
   if(!clients.length) {
-    wrap.innerHTML = '<div class="clients-empty">No clients yet. Click + New Client to get started.</div>';
+    wrap.innerHTML = '<div class="clients-empty">No clients yet. Click ＋ New Client above to get started.</div>';
     return;
   }
 
@@ -2427,7 +2362,7 @@ document.getElementById('json-file-input').addEventListener('change', function(e
       currentClientId = null;
       write();
       document.getElementById('client-name-display').textContent = cfg.name || 'Imported Client';
-      renderClientList();
+      renderClientsTable();
       setUnsaved(true);
       var b = document.getElementById('saved-badge');
       b.textContent = '✓ Config loaded — click Save';
