@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0c0c0e;--surface:#141416;--surface2:#1c1c1f;--border:#2a2a2e;--text:#f0f0f0;--muted:#888;--accent:#D97706;--red:#B91C1C;--green:#16a34a;--radius:10px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
 .client-indicator{padding:10px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface)}
 .client-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
@@ -20,7 +20,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .client-unsaved.show{display:block}
 .sidebar-logo h1{font-family:'Playfair Display',serif;font-size:16px;color:var(--accent);line-height:1.2}
 .sidebar-logo p{font-size:11px;color:var(--muted);margin-top:2px}
-.sidebar-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.sidebar-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;min-height:0}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .2s;font-size:13px;font-weight:500;border:none;background:none;text-align:left;width:100%}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:rgba(217,119,6,.12);color:var(--accent)}
@@ -206,7 +206,8 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   <nav class="sidebar-nav">
     <button class="nav-item" data-section="clients" style="background:rgba(217,119,6,.08);color:var(--accent);font-weight:700;margin-bottom:4px">👥 Clients</button>
     <div class="nav-group-label">Navigation</div>
-    <button class="nav-item" data-section="navigation">🔗 Header Navigation</button>
+    <button class="nav-item" data-section="header-config">🔝 Header</button>
+    <button class="nav-item" data-section="navigation">🔗 Main Menu</button>
     <div class="nav-group-label">Preferences</div>
     <button class="nav-item active" data-section="brand">🎨 Appearance</button>
     <button class="nav-item" data-section="fonts">🔤 Fonts</button>
@@ -390,6 +391,38 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
       </div>
       <div id="clients-table-wrap">
         <div class="clients-empty">No clients yet. Click ＋ New Client above to get started.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="section-header-config">
+    <div class="section-inner">
+      <div class="section-title">Header</div>
+      <div class="section-sub">Top bar and main header controls</div>
+
+      <div class="group-title">Top Bar</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-on" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Show Top Bar</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding-left:8px">
+          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-phone" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Show Phone Number</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding-left:8px">
+          <label class="toggle-switch"><input type="checkbox" id="hdr-topbar-socials" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Show Social Icons</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="group-title">Main Header</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="hdr-sticky" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Sticky (stays at top while scrolling)</span>
+        </div>
       </div>
     </div>
   </section>
@@ -788,15 +821,45 @@ code{background:var(--surface);padding:2px 6px;border-radius:4px;font-size:12px;
   <section class="section" id="section-footer">
     <div class="section-bg-bar"><label>Background</label><input type="color" id="sbg-footer" value="#ffffff"><input type="text" id="sbg-footer-hex" placeholder="#ffffff"><button class="bg-reset" data-sec="footer">Reset</button><div class="sec-toggle"><label for="stog-footer">Visible</label><label class="toggle-switch"><input type="checkbox" id="stog-footer" data-sec="footer" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label></div></div>
     <div class="section-inner">
-    <div class="section-title">Footer</div>
-    <div class="section-sub">Copyright text and optional footer link</div>
-    <div class="form-grid one">
-      <div class="field"><label>Copyright</label><input type="text" id="f-copy" placeholder="© 2025 Restaurant Name. All rights reserved."/></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Footer Link Text</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
-      <div class="field"><label>Footer Link URL</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
-    </div>
+      <div class="section-title">Footer</div>
+      <div class="section-sub">Copyright, menu, hours and contact in footer</div>
+
+      <div class="group-title">Show / Hide Columns</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="footer-show-menu" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Navigation Menu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="footer-show-hours" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Hours</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle-switch"><input type="checkbox" id="footer-show-contact" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+          <span style="font-size:13px;color:var(--muted)">Contact Info</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="group-title">Footer Navigation Menu</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <label class="toggle-switch"><input type="checkbox" id="footer-menu-same" checked><div class="toggle-track"></div><div class="toggle-knob"></div></label>
+        <span style="font-size:13px;color:var(--muted)">Use same links as Header Navigation</span>
+      </div>
+      <div id="footer-custom-nav-wrap" style="display:none">
+        <div class="ilist" id="footer-nav-list"></div>
+        <button class="btn-add" id="btn-add-footer-nav">＋ Add Footer Link</button>
+      </div>
+
+      <div class="divider"></div>
+      <div class="group-title">Copyright</div>
+      <div class="form-grid one">
+        <div class="field"><label>Copyright Text</label><input type="text" id="f-copy" placeholder="© 2025 Restaurant Name. All rights reserved."/></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Footer Link Text</label><input type="text" id="f-link-text" placeholder="Privacy Policy"/></div>
+        <div class="field"><label>Footer Link URL</label><input type="url" id="f-link-url" placeholder="https://..."/></div>
+      </div>
     </div>
   </section>
 
@@ -1065,6 +1128,10 @@ var cfg = {
   tmLabel:'', tmTitle:'', testimonials:[],
   ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
   copy:'', footerLinkText:'', footerLinkUrl:'', siteUrl:'',
+  topBarOn:true, topBarPhone:true, topBarSocials:true,
+  headerSticky:true,
+  footerMenuSameAsHeader:true, footerNavItems:[],
+  footerShowMenu:true, footerShowHours:true, footerShowContact:true,
   sectionBg:{ hero:'', introcards:'', welcome:'', about:'', menu:'', cta:'', testimonials:'', contactform:'', footer:'' },
   sectionVisible:{ hero:true, introcards:true, welcome:true, about:true, menu:true, cta:true, testimonials:true, contactform:true, footer:true },
   navItems:[
@@ -1152,7 +1219,26 @@ function read() {
   cfg.ctaTitle=v('cta-title'); cfg.ctaSub=v('cta-sub');
   cfg.ctaB1t=v('cta-b1t'); cfg.ctaB1l=v('cta-b1l'); cfg.ctaB2t=v('cta-b2t'); cfg.ctaB2l=v('cta-b2l');
   cfg.copy=v('f-copy'); cfg.footerLinkText=v('f-link-text'); cfg.footerLinkUrl=v('f-link-url');
-  cfg.siteUrl=v('c-siteurl'); cfg.uploadUrl=v('c-uploadurl');
+  cfg.siteUrl=v('c-siteurl');
+  // Header toggles
+  function getChk(id, def) { var el=document.getElementById(id); return el ? el.checked : def; }
+  cfg.topBarOn      = getChk('hdr-topbar-on', true);
+  cfg.topBarPhone   = getChk('hdr-topbar-phone', true);
+  cfg.topBarSocials = getChk('hdr-topbar-socials', true);
+  cfg.headerSticky  = getChk('hdr-sticky', true);
+  // Footer toggles
+  cfg.footerShowMenu    = getChk('footer-show-menu', true);
+  cfg.footerShowHours   = getChk('footer-show-hours', true);
+  cfg.footerShowContact = getChk('footer-show-contact', true);
+  cfg.footerMenuSameAsHeader = getChk('footer-menu-same', true);
+  // Footer custom nav
+  if(!cfg.footerMenuSameAsHeader) {
+    cfg.footerNavItems = [];
+    document.querySelectorAll('#footer-nav-list .fnav-row').forEach(function(row){
+      var lbl = row.querySelector('.fnav-label'); var lnk = row.querySelector('.fnav-link');
+      if(lbl && lnk && lbl.value.trim()) cfg.footerNavItems.push({label:lbl.value.trim(), link:lnk.value.trim()});
+    });
+  } cfg.uploadUrl=v('c-uploadurl');
   // navItems managed separately via renderNavItems
   // Capture current section order from drag & drop
   var _layoutList = document.getElementById('layout-nav-list');
@@ -1241,7 +1327,18 @@ function write() {
   sv('cta-title',cfg.ctaTitle); sv('cta-sub',cfg.ctaSub);
   sv('cta-b1t',cfg.ctaB1t); sv('cta-b1l',cfg.ctaB1l); sv('cta-b2t',cfg.ctaB2t); sv('cta-b2l',cfg.ctaB2l);
   sv('f-copy',cfg.copy); sv('f-link-text',cfg.footerLinkText); sv('f-link-url',cfg.footerLinkUrl);
-  sv('c-siteurl',cfg.siteUrl); sv('c-uploadurl',cfg.uploadUrl);
+  sv('c-siteurl',cfg.siteUrl);
+  function setChk(id, val, def) { var el=document.getElementById(id); if(el) el.checked = val===undefined ? def : val; }
+  setChk('hdr-topbar-on',   cfg.topBarOn,      true);
+  setChk('hdr-topbar-phone', cfg.topBarPhone,   true);
+  setChk('hdr-topbar-socials', cfg.topBarSocials, true);
+  setChk('hdr-sticky',      cfg.headerSticky,  true);
+  setChk('footer-show-menu',    cfg.footerShowMenu,    true);
+  setChk('footer-show-hours',   cfg.footerShowHours,   true);
+  setChk('footer-show-contact', cfg.footerShowContact, true);
+  setChk('footer-menu-same',    cfg.footerMenuSameAsHeader, true);
+  renderFooterNav();
+  toggleFooterCustomNav(); sv('c-uploadurl',cfg.uploadUrl);
   renderNavItems();
   renderAnchorChips();
   // Restore section order from saved config
@@ -1373,6 +1470,10 @@ function createClientFromModal(name, clientName, clientPhone, clientEmail, clien
     aLabel:'', aTitle:'', aP1:'', aP2:'', aImg:'', ap1t:'', ap1l:'', ap1on:true, ap2t:'', ap2l:'', ap2on:true, ap3t:'', ap3l:'', ap3on:false,
     ctaTitle:'', ctaSub:'', ctaB1t:'', ctaB1l:'', ctaB2t:'', ctaB2l:'',
     copy:'', footerLinkText:'', footerLinkUrl:'', siteUrl:'',
+    topBarOn:true, topBarPhone:true, topBarSocials:true,
+    headerSticky:true,
+    footerMenuSameAsHeader:true, footerNavItems:[],
+    footerShowMenu:true, footerShowHours:true, footerShowContact:true,
     sectionBg:{hero:'',introcards:'',welcome:'',about:'',menu:'',cta:'',testimonials:'',contactform:'',footer:''},
     sectionOrder:['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'],
   sectionOrder:['hero','introcards','welcome','about','menu','cta','testimonials','contactform','footer'],
@@ -1815,17 +1916,22 @@ function buildHTML() {
   lines.push('</style>');
   lines.push('</head>');
   lines.push('<body>');
-  lines.push('<div class="topbar">');
+  if(c.topBarOn !== false) {
+lines.push('<div class="topbar">');
   lines.push('  <div class="topbar-left">');
-  lines.push('    <a href="tel:' + e(c.phone) + '"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg> ' + e(c.phoneD) + '</a>');
+  if(c.topBarPhone !== false) lines.push('    <a href="tel:' + e(c.phone) + '"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg> ' + e(c.phoneD) + '</a>');
   lines.push('  </div>');
-  lines.push('  <div class="social-row">');
+  if(c.topBarSocials !== false) {
+    lines.push('  <div class="social-row">');
   lines.push('    <a href="' + e(c.fb) + '" target="_blank" rel="noopener"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>');
   lines.push('    <a href="' + e(c.ig) + '" target="_blank" rel="noopener"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>');
   lines.push('    <a href="' + e(c.gm) + '" target="_blank" rel="noopener"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></a>');
-  lines.push('  </div>');
+    lines.push('  </div>');
+  }
   lines.push('</div>');
-  lines.push('<header id="site-header">');
+}
+
+  lines.push('<header id="site-header"' + (c.headerSticky!==false ? '' : ' style="position:relative"') + '>');
   lines.push('  <div class="header-inner">');
   lines.push('    <a href="#" class="logo">' + (c.logo ? '<img src="' + e(c.logo) + '" alt="' + e(name) + '" style="height:48px;width:auto;display:block"/>' : '<div style="height:48px;display:flex;align-items:center;gap:8px;font-family:\'' + fh + '\',' + fhType + ';font-size:18px;font-weight:700;color:' + p + '">' + e(name) + '</div>') + '</a>');
   var navLinks = (c.navItems && c.navItems.length ? c.navItems : [{label:'Home',link:'#hero'},{label:'Menu',link:'#services'},{label:'About',link:'#about'},{label:'Contact',link:'#contact'}]);
@@ -2044,6 +2150,49 @@ if(secVisible('contactform')) {
   } // end contactform
   }
 
+// ── FOOTER NAV ──────────────────────────────────────────────────────────────
+function toggleFooterCustomNav() {
+  var same = document.getElementById('footer-menu-same');
+  var wrap = document.getElementById('footer-custom-nav-wrap');
+  if(wrap) wrap.style.display = (same && same.checked) ? 'none' : 'block';
+  if(!same || same.checked) return;
+  renderFooterNav();
+}
+
+function renderFooterNav() {
+  var list = document.getElementById('footer-nav-list');
+  if(!list) return;
+  var same = document.getElementById('footer-menu-same');
+  if(same && same.checked) return;
+  list.innerHTML = '';
+  var items = cfg.footerNavItems || [];
+  if(!items.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px 0">No footer links yet.</div>';
+  }
+  items.forEach(function(item, i) {
+    var row = document.createElement('div');
+    row.className = 'icard fnav-row';
+    row.innerHTML = '<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px">'
+      + '<input class="dz-path fnav-label" value="' + esc(item.label) + '" placeholder="Label"/>'
+      + '<input class="dz-path fnav-link" value="' + esc(item.link) + '" placeholder="#section or URL"/>'
+      + '</div>'
+      + '<button class="client-action-btn del" data-fi="' + i + '" title="Delete">🗑️</button>';
+    row.querySelector('.del').addEventListener('click', function() {
+      cfg.footerNavItems.splice(i, 1);
+      renderFooterNav();
+    });
+    list.appendChild(row);
+  });
+}
+
+document.getElementById('footer-menu-same').addEventListener('change', toggleFooterCustomNav);
+document.getElementById('btn-add-footer-nav').addEventListener('click', function() {
+  if(!cfg.footerNavItems) cfg.footerNavItems = [];
+  cfg.footerNavItems.push({label:'', link:''});
+  toggleFooterCustomNav();
+  renderFooterNav();
+});
+
   function buildSec_footer() {
 if(secVisible('footer')) {
   lines.push('<footer>');
@@ -2052,16 +2201,24 @@ if(secVisible('footer')) {
   lines.push('      <div><img src="' + e(c.logoF) + '" alt="' + e(name) + '" style="height:52px;margin-bottom:16px"/><p class="footer-desc">' + e(c.tagline) + '</p>');
   lines.push('        <div class="footer-social"><a href="' + e(c.fb) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a><a href="' + e(c.ig) + '" target="_blank" class="fsi"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></div>');
   lines.push('      </div>');
-  var footerNavLinks = navLinks.map(function(n){ return '<li><a href="' + e(n.link) + '">' + e(n.label) + '</a></li>'; }).join('');
-  lines.push('      <div><div class="footer-heading">Navigate</div><ul class="footer-links">' + footerNavLinks + '</ul></div>');
-  lines.push('      <div><div class="footer-heading">Contact</div><a href="tel:' + e(c.phone) + '" class="fci">📞 ' + e(c.phoneD) + '</a><a href="' + e(c.maps) + '" target="_blank" class="fci">📍 ' + e(c.address) + '</a>' + (c.email ? '<a href="mailto:' + e(c.email) + '" class="fci">✉ ' + e(c.email) + '</a>' : '') + '</div>');
-  lines.push('      <div><div class="footer-heading">Hours</div>');
-  var dayAbbr = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun'};
-  Object.keys(dayAbbr).forEach(function(d) {
-    var h = c.hours[d] || ['', ''];
-    lines.push('        <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(254,243,199,.55);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span>' + dayAbbr[d] + '</span><span>' + (h[0] ? h[0] + ' – ' + h[1] : 'Closed') + '</span></div>');
-  });
-  lines.push('      </div>');
+  // Footer nav: use header nav or custom
+  var footerItems = (c.footerMenuSameAsHeader !== false) ? navLinks : (c.footerNavItems || []);
+  var footerNavLinks = footerItems.map(function(n){ return '<li><a href="' + e(n.link) + '">' + e(n.label) + '</a></li>'; }).join('');
+  if(c.footerShowMenu !== false && footerNavLinks) {
+    lines.push('      <div><div class="footer-heading">Navigate</div><ul class="footer-links">' + footerNavLinks + '</ul></div>');
+  }
+  if(c.footerShowContact !== false) {
+    lines.push('      <div><div class="footer-heading">Contact</div><a href="tel:' + e(c.phone) + '" class="fci">📞 ' + e(c.phoneD) + '</a><a href="' + e(c.maps) + '" target="_blank" class="fci">📍 ' + e(c.address) + '</a>' + (c.email ? '<a href="mailto:' + e(c.email) + '" class="fci">✉ ' + e(c.email) + '</a>' : '') + '</div>');
+  }
+  if(c.footerShowHours !== false) {
+    lines.push('      <div><div class="footer-heading">Hours</div>');
+    var dayAbbr = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun'};
+    Object.keys(dayAbbr).forEach(function(d) {
+      var h = c.hours[d] || ['', ''];
+      lines.push('        <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(254,243,199,.55);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span>' + dayAbbr[d] + '</span><span>' + (h[0] ? h[0] + ' – ' + h[1] : 'Closed') + '</span></div>');
+    });
+    lines.push('      </div>');
+  }
   lines.push('    </div>');
   var footerLink = (c.footerLinkText && c.footerLinkUrl) ? ' · <a href="' + e(c.footerLinkUrl) + '" style="color:rgba(254,243,199,.45);text-decoration:underline;font-size:12px" target="_blank">' + e(c.footerLinkText) + '</a>' : '';
   lines.push('    <div class="footer-bottom"><span class="footer-copy">' + e(c.copy || '© 2025 ' + name + '. All rights reserved.') + footerLink + '</span></div>');
