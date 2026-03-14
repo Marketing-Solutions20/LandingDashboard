@@ -1023,6 +1023,7 @@ function applySectionToggle(secId, visible) {
 }
 
 function write() {
+  try {
   sv('b-name',cfg.name); sv('b-tagline',cfg.tagline); sv('b-slogan',cfg.slogan);
   sv('b-logo',cfg.logo); sv('b-logo-footer',cfg.logoF);
   sv('b-cp',cfg.cp); sv('b-cp-hex',cfg.cp); sv('b-ca',cfg.ca); sv('b-ca-hex',cfg.ca);
@@ -1085,6 +1086,7 @@ function write() {
 
   if(cfg.cp) setTimeout(function(){ syncActiveTheme(cfg.cp); }, 0);
   renderItems();
+  } catch(eWrite) { console.warn("write() error:", eWrite); }
 }
 
 // ── SAVE / LOAD ───────────────────────────────────────
@@ -1340,17 +1342,19 @@ function parseCats() {
 }
 
 function populateCatSelect() {
-  var sel = document.getElementById('m-cat');
-  if(!sel) return;
-  var cats = parseCats();
-  var prev = sel.value;
-  sel.innerHTML = '';
-  Object.keys(cats).forEach(function(k){
-    var opt = document.createElement('option');
-    opt.value = k; opt.textContent = cats[k];
-    sel.appendChild(opt);
-  });
-  if(prev) sel.value = prev;
+  try {
+    var sel = document.getElementById('m-cat');
+    if(!sel) return;
+    var cats = parseCats();
+    var prev = sel.value;
+    sel.innerHTML = '';
+    Object.keys(cats).forEach(function(k){
+      var opt = document.createElement('option');
+      opt.value = k; opt.textContent = cats[k];
+      if(sel.appendChild) sel.appendChild(opt);
+    });
+    if(prev) sel.value = prev;
+  } catch(e) {}
 }
 
 // Rebuild cat select when cats textarea changes
@@ -2323,8 +2327,8 @@ window._db = {
 };
 
 loadSaved();
-initImgPreviews();
-initAllDropZones();
+try{ initImgPreviews(); }catch(e){ console.warn("initImgPreviews error:",e); }
+try{ initAllDropZones(); }catch(e){ console.warn("initAllDropZones error:",e); }
 
 // ── NAVIGATION EDITOR ────────────────────────────────
 var navEditIdx = null;
